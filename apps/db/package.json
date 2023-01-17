@@ -1,0 +1,12 @@
+{
+  "name": "db",
+  "dependencies": {
+    "graphile-migrate": "^1.4.1"
+  },
+  "scripts": {
+    "gm": "../../scripts/with-env.sh pnpm graphile-migrate",
+    "reset": "pnpm gm reset --erase",
+    "migrate": "pnpm gm migrate",
+    "watch": "pnpm gm watch"
+  }
+}

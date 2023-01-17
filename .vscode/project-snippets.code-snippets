@@ -1,0 +1,69 @@
+{
+  // doc: https://code.visualstudio.com/docs/editor/userdefinedsnippets
+
+  "create table": {
+    "prefix": "table2",
+    "scope": "sql",
+    "body": [
+      "drop table if exists $1 cascade;",
+      "create table $1 (",
+      "\tid uuid not null default uuid_generate_v4() primary key unique, ",
+      "\t$2",
+      "\tcreated_at timestamptz not null default now(),",
+      "\tupdated_at timestamptz not null default now()",
+      ");",
+      "alter table $1 enable row level security;",
+      "grant $3 on $1 to $4;",
+      "create trigger _100_timestamps",
+      "",
+      "\tbefore insert or update on $1",
+      "\tfor each row",
+      "\texecute procedure priv.tg__timestamps();"
+    ],
+    "description": "Creates a new table"
+  },
+
+  "create sql function": {
+    "prefix": "sqlfn",
+    "scope": "sql",
+    "body": [
+      "drop function if exists $1 cascade;",
+      "create function $1($2) returns $3 as $$",
+      "\t'$4'",
+      "$$ language sql $5;",
+      "grant execute on function $1 to $6;"
+    ]
+  },
+
+  "create plpgsql function": {
+    "prefix": "plpgsqlfn",
+    "scope": "sql",
+    "body": [
+      "drop function if exists $1 cascade;",
+      "create function $1($2) returns $3 as $$",
+      "declare",
+      "\t$4;",
+      "begin",
+      "\t$5",
+      "end;",
+      "$$ language plpgsql $6;",
+      "grant execute on function $1 to $7;"
+    ]
+  },
+
+  "create enum table": {
+    "prefix": "enum",
+    "scope": "sql",
+    "body": [
+      "drop table if exists publ.$1 cascade;",
+      "create table publ.$1 (",
+      "\ttype text primary key,",
+      "\tdescription text",
+      ");",
+      "comment on table publ.$1 is E'@enum';",
+      "",
+      "insert into publ.$1 values",
+      "\t('$2', '$3');"
+    ]
+  }
+}

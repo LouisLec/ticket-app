@@ -1,0 +1,94 @@
+{
+  // RECOMMENDATION: use `DATABASE_URL`
+  // "connectionString": "postgres://appuser:apppassword@host:5432/appdb",
+
+  // RECOMMENDATION: use `SHADOW_DATABASE_URL` envvar instead.
+  // "shadowConnectionString": "postgres://appuser:apppassword@host:5432/appdb_shadow",
+
+  // RECOMMENDATION: use `ROOT_DATABASE_URL` envvar instead.
+  // "rootConnectionString": "postgres://adminuser:adminpassword@host:5432/postgres",
+
+  /*
+   * pgSettings: key-value settings to be automatically loaded into PostgreSQL
+   * before running migrations, using an equivalent of `SET LOCAL <key> TO
+   * <value>`
+   */
+  "pgSettings": {
+    "search_path": "publ,priv,hidd,public"
+  },
+  "placeholders": {
+    ":DATABASE_VISITOR": "!ENV",
+    ":DATABASE_AUTHENTICATOR": "!ENV",
+    ":DATABASE_OWNER": "!ENV"
+  },
+
+  /*
+   * Actions allow you to run scripts or commands at certain points in the
+   * migration lifecycle. SQL files are ran against the database directly.
+   * "command" actions are ran with the following environmental variables set:
+   *
+   * - GM_DBURL: the PostgreSQL URL of the database being migrated
+   * - GM_DBNAME: the name of the database from GM_DBURL
+   * - GM_DBUSER: the user from GM_DBURL
+   * - GM_SHADOW: set to 1 if the shadow database is being migrated, left unset
+   *   otherwise
+   *
+   * If "shadow" is unspecified, the actions will run on events to both shadow
+   * and normal databases. If "shadow" is true the action will only run on
+   * actions to the shadow DB, and if false only on actions to the main DB.
+   */
+
+  "afterReset": [
+    "afterReset.sql"
+    // { "_": "command", "command": "graphile-worker --schema-only" },
+  ],
+
+  /*
+   * afterAllMigrations: actions executed once all migrations are complete.
+   */
+  "afterAllMigrations": [
+    // {
+    //   "_": "command",
+    //   "shadow": true,
+    //   "command": "if [ \"$IN_TESTS\" != \"1\" ]; then ./scripts/dump-db; fi",
+    // },
+  ],
+
+  /*
+   * afterCurrent: actions executed once the current migration has been
+   * evaluated (i.e. in watch mode).
+   */
+  "afterCurrent": [
+    // {
+    //   "_": "command",
+    //   "shadow": true,
+    //   "command": "if [ \"$IN_TESTS\" = \"1\" ]; then ./scripts/test-seed; fi",
+    // },
+  ],
+
+  /*
+   * blankMigrationContent: content to be written to the current migration
+   * after commit. NOTE: this should only contain comments.
+   */
+  // "blankMigrationContent": "-- Write your migration here\n",
+
+  /****************************************************************************\
+  ***                                                                        ***
+  ***         You probably don't want to edit anything below here.           ***
+  ***                                                                        ***
+  \****************************************************************************/
+
+  /*
+   * manageGraphileMigrateSchema: if you set this false, you must be sure to
+   * keep the graphile_migrate schema up to date yourself. We recommend you
+   * leave it at its default.
+   */
+  // "manageGraphileMigrateSchema": true,
+
+  /*
+   * migrationsFolder: path to the folder in which to store your migrations.
+   */
+  // migrationsFolder: "./migrations",
+
+  "//generatedWith": "1.4.1"
+}
