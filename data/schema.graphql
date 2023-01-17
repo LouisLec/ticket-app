@@ -1,0 +1,2657 @@
+"""The root query type which gives access points into the data universe."""
+type Query implements Node {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `Epic`."""
+  epics(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Epic`."""
+    orderBy: [EpicsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EpicCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EpicFilter
+  ): EpicsConnection
+
+  """Reads and enables pagination through a set of `Organization`."""
+  organizations(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Organization`."""
+    orderBy: [OrganizationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OrganizationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OrganizationFilter
+  ): OrganizationsConnection
+
+  """Reads and enables pagination through a set of `ProjectPersona`."""
+  projectPersonas(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ProjectPersona`."""
+    orderBy: [ProjectPersonasOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ProjectPersonaCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ProjectPersonaFilter
+  ): ProjectPersonasConnection
+
+  """Reads and enables pagination through a set of `Project`."""
+  projects(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Project`."""
+    orderBy: [ProjectsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ProjectCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ProjectFilter
+  ): ProjectsConnection
+
+  """Reads and enables pagination through a set of `Task`."""
+  tasks(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TaskCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TaskFilter
+  ): TasksConnection
+
+  """Reads and enables pagination through a set of `UserStory`."""
+  userStories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserStoryCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UserStoryFilter
+  ): UserStoriesConnection
+  epic(id: UUID!): Epic
+  organization(id: UUID!): Organization
+  projectPersona(id: UUID!): ProjectPersona
+  project(id: UUID!): Project
+  task(id: UUID!): Task
+  userStory(id: UUID!): UserStory
+
+  """Reads a single `Epic` using its globally unique `ID`."""
+  epicByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Epic`."""
+    nodeId: ID!
+  ): Epic
+
+  """Reads a single `Organization` using its globally unique `ID`."""
+  organizationByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Organization`.
+    """
+    nodeId: ID!
+  ): Organization
+
+  """Reads a single `ProjectPersona` using its globally unique `ID`."""
+  projectPersonaByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `ProjectPersona`.
+    """
+    nodeId: ID!
+  ): ProjectPersona
+
+  """Reads a single `Project` using its globally unique `ID`."""
+  projectByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Project`."""
+    nodeId: ID!
+  ): Project
+
+  """Reads a single `Task` using its globally unique `ID`."""
+  taskByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Task`."""
+    nodeId: ID!
+  ): Task
+
+  """Reads a single `UserStory` using its globally unique `ID`."""
+  userStoryByNodeId(
+    """The globally unique `ID` to be used in selecting a single `UserStory`."""
+    nodeId: ID!
+  ): UserStory
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+"""A connection to a list of `Epic` values."""
+type EpicsConnection {
+  """A list of `Epic` objects."""
+  nodes: [Epic!]!
+
+  """
+  A list of edges which contains the `Epic` and cursor to aid in pagination.
+  """
+  edges: [EpicsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Epic` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Epic implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  name: String!
+  description: String!
+  icon: String!
+  projectId: UUID!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """Reads a single `Project` that is related to this `Epic`."""
+  project: Project
+
+  """Reads and enables pagination through a set of `UserStory`."""
+  userStories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserStoryCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UserStoryFilter
+  ): UserStoriesConnection!
+}
+
+"""
+A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122).
+"""
+scalar UUID
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+type Project implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  name: String!
+  description: String!
+  organizationId: UUID!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """Reads a single `Organization` that is related to this `Project`."""
+  organization: Organization
+
+  """Reads and enables pagination through a set of `ProjectPersona`."""
+  projectPersonas(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ProjectPersona`."""
+    orderBy: [ProjectPersonasOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ProjectPersonaCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ProjectPersonaFilter
+  ): ProjectPersonasConnection!
+
+  """Reads and enables pagination through a set of `Epic`."""
+  epics(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Epic`."""
+    orderBy: [EpicsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EpicCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EpicFilter
+  ): EpicsConnection!
+}
+
+type Organization implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  name: String!
+  description: String!
+  logoUrl: String!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """Reads and enables pagination through a set of `Project`."""
+  projects(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Project`."""
+    orderBy: [ProjectsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ProjectCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ProjectFilter
+  ): ProjectsConnection!
+}
+
+"""A connection to a list of `Project` values."""
+type ProjectsConnection {
+  """A list of `Project` objects."""
+  nodes: [Project!]!
+
+  """
+  A list of edges which contains the `Project` and cursor to aid in pagination.
+  """
+  edges: [ProjectsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Project` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Project` edge in the connection."""
+type ProjectsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Project` at the end of the edge."""
+  node: Project!
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+"""Methods to use when ordering `Project`."""
+enum ProjectsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  ORGANIZATION_ID_ASC
+  ORGANIZATION_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Project` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ProjectCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `organizationId` field."""
+  organizationId: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""
+A filter to be used against `Project` object types. All fields are combined with a logical ‘and.’
+"""
+input ProjectFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `organizationId` field."""
+  organizationId: UUIDFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [ProjectFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ProjectFilter!]
+
+  """Negates the expression."""
+  not: ProjectFilter
+}
+
+"""
+A filter to be used against UUID fields. All fields are combined with a logical ‘and.’
+"""
+input UUIDFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: UUID
+
+  """Not equal to the specified value."""
+  notEqualTo: UUID
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: UUID
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: UUID
+
+  """Included in the specified list."""
+  in: [UUID!]
+
+  """Not included in the specified list."""
+  notIn: [UUID!]
+
+  """Less than the specified value."""
+  lessThan: UUID
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: UUID
+
+  """Greater than the specified value."""
+  greaterThan: UUID
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: UUID
+}
+
+"""
+A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’
+"""
+input DatetimeFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Datetime
+
+  """Not equal to the specified value."""
+  notEqualTo: Datetime
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Datetime
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Datetime
+
+  """Included in the specified list."""
+  in: [Datetime!]
+
+  """Not included in the specified list."""
+  notIn: [Datetime!]
+
+  """Less than the specified value."""
+  lessThan: Datetime
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Datetime
+
+  """Greater than the specified value."""
+  greaterThan: Datetime
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Datetime
+}
+
+"""A connection to a list of `ProjectPersona` values."""
+type ProjectPersonasConnection {
+  """A list of `ProjectPersona` objects."""
+  nodes: [ProjectPersona!]!
+
+  """
+  A list of edges which contains the `ProjectPersona` and cursor to aid in pagination.
+  """
+  edges: [ProjectPersonasEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `ProjectPersona` you could get from the connection."""
+  totalCount: Int!
+}
+
+type ProjectPersona implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  name: String!
+  description: String!
+  projectId: UUID!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """Reads a single `Project` that is related to this `ProjectPersona`."""
+  project: Project
+
+  """Reads and enables pagination through a set of `UserStory`."""
+  userStoriesByAsA(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserStoryCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UserStoryFilter
+  ): UserStoriesConnection!
+}
+
+"""A connection to a list of `UserStory` values."""
+type UserStoriesConnection {
+  """A list of `UserStory` objects."""
+  nodes: [UserStory!]!
+
+  """
+  A list of edges which contains the `UserStory` and cursor to aid in pagination.
+  """
+  edges: [UserStoriesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `UserStory` you could get from the connection."""
+  totalCount: Int!
+}
+
+type UserStory implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  name: String!
+  asA: UUID
+  iWant: String!
+  soThat: String
+  epicId: UUID
+  validationCriteria: String
+  comments: String
+  variables: String
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """Reads a single `ProjectPersona` that is related to this `UserStory`."""
+  projectPersonaByAsA: ProjectPersona
+
+  """Reads a single `Epic` that is related to this `UserStory`."""
+  epic: Epic
+
+  """Reads and enables pagination through a set of `Task`."""
+  tasksByStoryId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TaskCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TaskFilter
+  ): TasksConnection!
+}
+
+"""A connection to a list of `Task` values."""
+type TasksConnection {
+  """A list of `Task` objects."""
+  nodes: [Task!]!
+
+  """
+  A list of edges which contains the `Task` and cursor to aid in pagination.
+  """
+  edges: [TasksEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Task` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Task implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  name: String!
+  description: String!
+  storyId: UUID!
+  status: TaskStatus
+  estimate: Int!
+  uncertainty: Int!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """Reads a single `UserStory` that is related to this `Task`."""
+  story: UserStory
+}
+
+enum TaskStatus {
+  """The task is in the backlog and has not been started."""
+  BACKLOG
+
+  """The task is in progress."""
+  IN_PROGRESS
+
+  """The task is done."""
+  DONE
+
+  """The task is in review."""
+  REVIEW
+
+  """The task is blocked by something else."""
+  BLOCKED
+
+  """The task has been deleted."""
+  DELETED
+}
+
+"""A `Task` edge in the connection."""
+type TasksEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Task` at the end of the edge."""
+  node: Task!
+}
+
+"""Methods to use when ordering `Task`."""
+enum TasksOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  STORY_ID_ASC
+  STORY_ID_DESC
+  STATUS_ASC
+  STATUS_DESC
+  ESTIMATE_ASC
+  ESTIMATE_DESC
+  UNCERTAINTY_ASC
+  UNCERTAINTY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Task` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input TaskCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `storyId` field."""
+  storyId: UUID
+
+  """Checks for equality with the object’s `status` field."""
+  status: TaskStatus
+
+  """Checks for equality with the object’s `estimate` field."""
+  estimate: Int
+
+  """Checks for equality with the object’s `uncertainty` field."""
+  uncertainty: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""
+A filter to be used against `Task` object types. All fields are combined with a logical ‘and.’
+"""
+input TaskFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `storyId` field."""
+  storyId: UUIDFilter
+
+  """Filter by the object’s `status` field."""
+  status: TaskStatusFilter
+
+  """Filter by the object’s `estimate` field."""
+  estimate: IntFilter
+
+  """Filter by the object’s `uncertainty` field."""
+  uncertainty: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [TaskFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [TaskFilter!]
+
+  """Negates the expression."""
+  not: TaskFilter
+}
+
+"""
+A filter to be used against TaskStatus fields. All fields are combined with a logical ‘and.’
+"""
+input TaskStatusFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: TaskStatus
+
+  """Not equal to the specified value."""
+  notEqualTo: TaskStatus
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: TaskStatus
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: TaskStatus
+
+  """Included in the specified list."""
+  in: [TaskStatus!]
+
+  """Not included in the specified list."""
+  notIn: [TaskStatus!]
+
+  """Less than the specified value."""
+  lessThan: TaskStatus
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: TaskStatus
+
+  """Greater than the specified value."""
+  greaterThan: TaskStatus
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: TaskStatus
+}
+
+"""
+A filter to be used against Int fields. All fields are combined with a logical ‘and.’
+"""
+input IntFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Int
+
+  """Not equal to the specified value."""
+  notEqualTo: Int
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Int
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Int
+
+  """Included in the specified list."""
+  in: [Int!]
+
+  """Not included in the specified list."""
+  notIn: [Int!]
+
+  """Less than the specified value."""
+  lessThan: Int
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Int
+
+  """Greater than the specified value."""
+  greaterThan: Int
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Int
+}
+
+"""A `UserStory` edge in the connection."""
+type UserStoriesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `UserStory` at the end of the edge."""
+  node: UserStory!
+}
+
+"""Methods to use when ordering `UserStory`."""
+enum UserStoriesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  AS_A_ASC
+  AS_A_DESC
+  EPIC_ID_ASC
+  EPIC_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `UserStory` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input UserStoryCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `asA` field."""
+  asA: UUID
+
+  """Checks for equality with the object’s `epicId` field."""
+  epicId: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""
+A filter to be used against `UserStory` object types. All fields are combined with a logical ‘and.’
+"""
+input UserStoryFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `asA` field."""
+  asA: UUIDFilter
+
+  """Filter by the object’s `epicId` field."""
+  epicId: UUIDFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [UserStoryFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [UserStoryFilter!]
+
+  """Negates the expression."""
+  not: UserStoryFilter
+}
+
+"""A `ProjectPersona` edge in the connection."""
+type ProjectPersonasEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ProjectPersona` at the end of the edge."""
+  node: ProjectPersona!
+}
+
+"""Methods to use when ordering `ProjectPersona`."""
+enum ProjectPersonasOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  PROJECT_ID_ASC
+  PROJECT_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ProjectPersona` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input ProjectPersonaCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `projectId` field."""
+  projectId: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""
+A filter to be used against `ProjectPersona` object types. All fields are combined with a logical ‘and.’
+"""
+input ProjectPersonaFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `projectId` field."""
+  projectId: UUIDFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [ProjectPersonaFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ProjectPersonaFilter!]
+
+  """Negates the expression."""
+  not: ProjectPersonaFilter
+}
+
+"""Methods to use when ordering `Epic`."""
+enum EpicsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  PROJECT_ID_ASC
+  PROJECT_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Epic` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input EpicCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `projectId` field."""
+  projectId: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""
+A filter to be used against `Epic` object types. All fields are combined with a logical ‘and.’
+"""
+input EpicFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `projectId` field."""
+  projectId: UUIDFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [EpicFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [EpicFilter!]
+
+  """Negates the expression."""
+  not: EpicFilter
+}
+
+"""A `Epic` edge in the connection."""
+type EpicsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Epic` at the end of the edge."""
+  node: Epic!
+}
+
+"""A connection to a list of `Organization` values."""
+type OrganizationsConnection {
+  """A list of `Organization` objects."""
+  nodes: [Organization!]!
+
+  """
+  A list of edges which contains the `Organization` and cursor to aid in pagination.
+  """
+  edges: [OrganizationsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Organization` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Organization` edge in the connection."""
+type OrganizationsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Organization` at the end of the edge."""
+  node: Organization!
+}
+
+"""Methods to use when ordering `Organization`."""
+enum OrganizationsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Organization` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input OrganizationCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""
+A filter to be used against `Organization` object types. All fields are combined with a logical ‘and.’
+"""
+input OrganizationFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [OrganizationFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [OrganizationFilter!]
+
+  """Negates the expression."""
+  not: OrganizationFilter
+}
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `Epic`."""
+  createEpic(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateEpicInput!
+  ): CreateEpicPayload
+
+  """Creates a single `Organization`."""
+  createOrganization(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateOrganizationInput!
+  ): CreateOrganizationPayload
+
+  """Creates a single `ProjectPersona`."""
+  createProjectPersona(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateProjectPersonaInput!
+  ): CreateProjectPersonaPayload
+
+  """Creates a single `Project`."""
+  createProject(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateProjectInput!
+  ): CreateProjectPayload
+
+  """Creates a single `Task`."""
+  createTask(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateTaskInput!
+  ): CreateTaskPayload
+
+  """Creates a single `UserStory`."""
+  createUserStory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUserStoryInput!
+  ): CreateUserStoryPayload
+
+  """Updates a single `Epic` using its globally unique id and a patch."""
+  updateEpicByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateEpicByNodeIdInput!
+  ): UpdateEpicPayload
+
+  """Updates a single `Epic` using a unique key and a patch."""
+  updateEpic(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateEpicInput!
+  ): UpdateEpicPayload
+
+  """
+  Updates a single `Organization` using its globally unique id and a patch.
+  """
+  updateOrganizationByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateOrganizationByNodeIdInput!
+  ): UpdateOrganizationPayload
+
+  """Updates a single `Organization` using a unique key and a patch."""
+  updateOrganization(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateOrganizationInput!
+  ): UpdateOrganizationPayload
+
+  """
+  Updates a single `ProjectPersona` using its globally unique id and a patch.
+  """
+  updateProjectPersonaByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateProjectPersonaByNodeIdInput!
+  ): UpdateProjectPersonaPayload
+
+  """Updates a single `ProjectPersona` using a unique key and a patch."""
+  updateProjectPersona(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateProjectPersonaInput!
+  ): UpdateProjectPersonaPayload
+
+  """Updates a single `Project` using its globally unique id and a patch."""
+  updateProjectByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateProjectByNodeIdInput!
+  ): UpdateProjectPayload
+
+  """Updates a single `Project` using a unique key and a patch."""
+  updateProject(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateProjectInput!
+  ): UpdateProjectPayload
+
+  """Updates a single `Task` using its globally unique id and a patch."""
+  updateTaskByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateTaskByNodeIdInput!
+  ): UpdateTaskPayload
+
+  """Updates a single `Task` using a unique key and a patch."""
+  updateTask(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateTaskInput!
+  ): UpdateTaskPayload
+
+  """Updates a single `UserStory` using its globally unique id and a patch."""
+  updateUserStoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserStoryByNodeIdInput!
+  ): UpdateUserStoryPayload
+
+  """Updates a single `UserStory` using a unique key and a patch."""
+  updateUserStory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserStoryInput!
+  ): UpdateUserStoryPayload
+
+  """Deletes a single `Epic` using its globally unique id."""
+  deleteEpicByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteEpicByNodeIdInput!
+  ): DeleteEpicPayload
+
+  """Deletes a single `Epic` using a unique key."""
+  deleteEpic(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteEpicInput!
+  ): DeleteEpicPayload
+
+  """Deletes a single `Organization` using its globally unique id."""
+  deleteOrganizationByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteOrganizationByNodeIdInput!
+  ): DeleteOrganizationPayload
+
+  """Deletes a single `Organization` using a unique key."""
+  deleteOrganization(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteOrganizationInput!
+  ): DeleteOrganizationPayload
+
+  """Deletes a single `ProjectPersona` using its globally unique id."""
+  deleteProjectPersonaByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteProjectPersonaByNodeIdInput!
+  ): DeleteProjectPersonaPayload
+
+  """Deletes a single `ProjectPersona` using a unique key."""
+  deleteProjectPersona(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteProjectPersonaInput!
+  ): DeleteProjectPersonaPayload
+
+  """Deletes a single `Project` using its globally unique id."""
+  deleteProjectByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteProjectByNodeIdInput!
+  ): DeleteProjectPayload
+
+  """Deletes a single `Project` using a unique key."""
+  deleteProject(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteProjectInput!
+  ): DeleteProjectPayload
+
+  """Deletes a single `Task` using its globally unique id."""
+  deleteTaskByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteTaskByNodeIdInput!
+  ): DeleteTaskPayload
+
+  """Deletes a single `Task` using a unique key."""
+  deleteTask(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteTaskInput!
+  ): DeleteTaskPayload
+
+  """Deletes a single `UserStory` using its globally unique id."""
+  deleteUserStoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserStoryByNodeIdInput!
+  ): DeleteUserStoryPayload
+
+  """Deletes a single `UserStory` using a unique key."""
+  deleteUserStory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserStoryInput!
+  ): DeleteUserStoryPayload
+  generatePresignedPost(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: GeneratePresignedPostInput!
+  ): GeneratePresignedPostPayload
+  deleteFile(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteFileInput!
+  ): DeleteFilePayload
+}
+
+"""The output of our create `Epic` mutation."""
+type CreateEpicPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Epic` that was created by this mutation."""
+  epic: Epic
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Project` that is related to this `Epic`."""
+  project: Project
+
+  """An edge for our `Epic`. May be used by Relay 1."""
+  epicEdge(
+    """The method to use when ordering `Epic`."""
+    orderBy: [EpicsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): EpicsEdge
+}
+
+"""All input for the create `Epic` mutation."""
+input CreateEpicInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Epic` to be created by this mutation."""
+  epic: EpicInput!
+}
+
+"""An input for mutations affecting `Epic`"""
+input EpicInput {
+  id: UUID
+  name: String!
+  description: String!
+  icon: String!
+  projectId: UUID!
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""The output of our create `Organization` mutation."""
+type CreateOrganizationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Organization` that was created by this mutation."""
+  organization: Organization
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Organization`. May be used by Relay 1."""
+  organizationEdge(
+    """The method to use when ordering `Organization`."""
+    orderBy: [OrganizationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): OrganizationsEdge
+}
+
+"""All input for the create `Organization` mutation."""
+input CreateOrganizationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Organization` to be created by this mutation."""
+  organization: OrganizationInput!
+}
+
+"""An input for mutations affecting `Organization`"""
+input OrganizationInput {
+  id: UUID
+  name: String!
+  description: String!
+  logoUrl: String!
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""The output of our create `ProjectPersona` mutation."""
+type CreateProjectPersonaPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ProjectPersona` that was created by this mutation."""
+  projectPersona: ProjectPersona
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Project` that is related to this `ProjectPersona`."""
+  project: Project
+
+  """An edge for our `ProjectPersona`. May be used by Relay 1."""
+  projectPersonaEdge(
+    """The method to use when ordering `ProjectPersona`."""
+    orderBy: [ProjectPersonasOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ProjectPersonasEdge
+}
+
+"""All input for the create `ProjectPersona` mutation."""
+input CreateProjectPersonaInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ProjectPersona` to be created by this mutation."""
+  projectPersona: ProjectPersonaInput!
+}
+
+"""An input for mutations affecting `ProjectPersona`"""
+input ProjectPersonaInput {
+  id: UUID
+  name: String!
+  description: String!
+  projectId: UUID!
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""The output of our create `Project` mutation."""
+type CreateProjectPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Project` that was created by this mutation."""
+  project: Project
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Organization` that is related to this `Project`."""
+  organization: Organization
+
+  """An edge for our `Project`. May be used by Relay 1."""
+  projectEdge(
+    """The method to use when ordering `Project`."""
+    orderBy: [ProjectsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ProjectsEdge
+}
+
+"""All input for the create `Project` mutation."""
+input CreateProjectInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Project` to be created by this mutation."""
+  project: ProjectInput!
+}
+
+"""An input for mutations affecting `Project`"""
+input ProjectInput {
+  id: UUID
+  name: String!
+  description: String!
+  organizationId: UUID!
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""The output of our create `Task` mutation."""
+type CreateTaskPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Task` that was created by this mutation."""
+  task: Task
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `UserStory` that is related to this `Task`."""
+  story: UserStory
+
+  """An edge for our `Task`. May be used by Relay 1."""
+  taskEdge(
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TasksEdge
+}
+
+"""All input for the create `Task` mutation."""
+input CreateTaskInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Task` to be created by this mutation."""
+  task: TaskInput!
+}
+
+"""An input for mutations affecting `Task`"""
+input TaskInput {
+  id: UUID
+  name: String!
+  description: String!
+  storyId: UUID!
+  status: TaskStatus
+  estimate: Int!
+  uncertainty: Int!
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""The output of our create `UserStory` mutation."""
+type CreateUserStoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserStory` that was created by this mutation."""
+  userStory: UserStory
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `ProjectPersona` that is related to this `UserStory`."""
+  projectPersonaByAsA: ProjectPersona
+
+  """Reads a single `Epic` that is related to this `UserStory`."""
+  epic: Epic
+
+  """An edge for our `UserStory`. May be used by Relay 1."""
+  userStoryEdge(
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserStoriesEdge
+}
+
+"""All input for the create `UserStory` mutation."""
+input CreateUserStoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `UserStory` to be created by this mutation."""
+  userStory: UserStoryInput!
+}
+
+"""An input for mutations affecting `UserStory`"""
+input UserStoryInput {
+  id: UUID
+  name: String!
+  asA: UUID
+  iWant: String!
+  soThat: String
+  epicId: UUID
+  validationCriteria: String
+  comments: String
+  variables: String
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""The output of our update `Epic` mutation."""
+type UpdateEpicPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Epic` that was updated by this mutation."""
+  epic: Epic
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Project` that is related to this `Epic`."""
+  project: Project
+
+  """An edge for our `Epic`. May be used by Relay 1."""
+  epicEdge(
+    """The method to use when ordering `Epic`."""
+    orderBy: [EpicsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): EpicsEdge
+}
+
+"""All input for the `updateEpicByNodeId` mutation."""
+input UpdateEpicByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Epic` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Epic` being updated.
+  """
+  patch: EpicPatch!
+}
+
+"""Represents an update to a `Epic`. Fields that are set will be updated."""
+input EpicPatch {
+  id: UUID
+  name: String
+  description: String
+  icon: String
+  projectId: UUID
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""All input for the `updateEpic` mutation."""
+input UpdateEpicInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Epic` being updated.
+  """
+  patch: EpicPatch!
+  id: UUID!
+}
+
+"""The output of our update `Organization` mutation."""
+type UpdateOrganizationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Organization` that was updated by this mutation."""
+  organization: Organization
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Organization`. May be used by Relay 1."""
+  organizationEdge(
+    """The method to use when ordering `Organization`."""
+    orderBy: [OrganizationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): OrganizationsEdge
+}
+
+"""All input for the `updateOrganizationByNodeId` mutation."""
+input UpdateOrganizationByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Organization` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Organization` being updated.
+  """
+  patch: OrganizationPatch!
+}
+
+"""
+Represents an update to a `Organization`. Fields that are set will be updated.
+"""
+input OrganizationPatch {
+  id: UUID
+  name: String
+  description: String
+  logoUrl: String
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""All input for the `updateOrganization` mutation."""
+input UpdateOrganizationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Organization` being updated.
+  """
+  patch: OrganizationPatch!
+  id: UUID!
+}
+
+"""The output of our update `ProjectPersona` mutation."""
+type UpdateProjectPersonaPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ProjectPersona` that was updated by this mutation."""
+  projectPersona: ProjectPersona
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Project` that is related to this `ProjectPersona`."""
+  project: Project
+
+  """An edge for our `ProjectPersona`. May be used by Relay 1."""
+  projectPersonaEdge(
+    """The method to use when ordering `ProjectPersona`."""
+    orderBy: [ProjectPersonasOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ProjectPersonasEdge
+}
+
+"""All input for the `updateProjectPersonaByNodeId` mutation."""
+input UpdateProjectPersonaByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ProjectPersona` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `ProjectPersona` being updated.
+  """
+  patch: ProjectPersonaPatch!
+}
+
+"""
+Represents an update to a `ProjectPersona`. Fields that are set will be updated.
+"""
+input ProjectPersonaPatch {
+  id: UUID
+  name: String
+  description: String
+  projectId: UUID
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""All input for the `updateProjectPersona` mutation."""
+input UpdateProjectPersonaInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ProjectPersona` being updated.
+  """
+  patch: ProjectPersonaPatch!
+  id: UUID!
+}
+
+"""The output of our update `Project` mutation."""
+type UpdateProjectPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Project` that was updated by this mutation."""
+  project: Project
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Organization` that is related to this `Project`."""
+  organization: Organization
+
+  """An edge for our `Project`. May be used by Relay 1."""
+  projectEdge(
+    """The method to use when ordering `Project`."""
+    orderBy: [ProjectsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ProjectsEdge
+}
+
+"""All input for the `updateProjectByNodeId` mutation."""
+input UpdateProjectByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Project` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Project` being updated.
+  """
+  patch: ProjectPatch!
+}
+
+"""
+Represents an update to a `Project`. Fields that are set will be updated.
+"""
+input ProjectPatch {
+  id: UUID
+  name: String
+  description: String
+  organizationId: UUID
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""All input for the `updateProject` mutation."""
+input UpdateProjectInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Project` being updated.
+  """
+  patch: ProjectPatch!
+  id: UUID!
+}
+
+"""The output of our update `Task` mutation."""
+type UpdateTaskPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Task` that was updated by this mutation."""
+  task: Task
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `UserStory` that is related to this `Task`."""
+  story: UserStory
+
+  """An edge for our `Task`. May be used by Relay 1."""
+  taskEdge(
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TasksEdge
+}
+
+"""All input for the `updateTaskByNodeId` mutation."""
+input UpdateTaskByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Task` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Task` being updated.
+  """
+  patch: TaskPatch!
+}
+
+"""Represents an update to a `Task`. Fields that are set will be updated."""
+input TaskPatch {
+  id: UUID
+  name: String
+  description: String
+  storyId: UUID
+  status: TaskStatus
+  estimate: Int
+  uncertainty: Int
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""All input for the `updateTask` mutation."""
+input UpdateTaskInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Task` being updated.
+  """
+  patch: TaskPatch!
+  id: UUID!
+}
+
+"""The output of our update `UserStory` mutation."""
+type UpdateUserStoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserStory` that was updated by this mutation."""
+  userStory: UserStory
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `ProjectPersona` that is related to this `UserStory`."""
+  projectPersonaByAsA: ProjectPersona
+
+  """Reads a single `Epic` that is related to this `UserStory`."""
+  epic: Epic
+
+  """An edge for our `UserStory`. May be used by Relay 1."""
+  userStoryEdge(
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserStoriesEdge
+}
+
+"""All input for the `updateUserStoryByNodeId` mutation."""
+input UpdateUserStoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `UserStory` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `UserStory` being updated.
+  """
+  patch: UserStoryPatch!
+}
+
+"""
+Represents an update to a `UserStory`. Fields that are set will be updated.
+"""
+input UserStoryPatch {
+  id: UUID
+  name: String
+  asA: UUID
+  iWant: String
+  soThat: String
+  epicId: UUID
+  validationCriteria: String
+  comments: String
+  variables: String
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""All input for the `updateUserStory` mutation."""
+input UpdateUserStoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `UserStory` being updated.
+  """
+  patch: UserStoryPatch!
+  id: UUID!
+}
+
+"""The output of our delete `Epic` mutation."""
+type DeleteEpicPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Epic` that was deleted by this mutation."""
+  epic: Epic
+  deletedEpicNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Project` that is related to this `Epic`."""
+  project: Project
+
+  """An edge for our `Epic`. May be used by Relay 1."""
+  epicEdge(
+    """The method to use when ordering `Epic`."""
+    orderBy: [EpicsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): EpicsEdge
+}
+
+"""All input for the `deleteEpicByNodeId` mutation."""
+input DeleteEpicByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Epic` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteEpic` mutation."""
+input DeleteEpicInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""The output of our delete `Organization` mutation."""
+type DeleteOrganizationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Organization` that was deleted by this mutation."""
+  organization: Organization
+  deletedOrganizationNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Organization`. May be used by Relay 1."""
+  organizationEdge(
+    """The method to use when ordering `Organization`."""
+    orderBy: [OrganizationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): OrganizationsEdge
+}
+
+"""All input for the `deleteOrganizationByNodeId` mutation."""
+input DeleteOrganizationByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Organization` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteOrganization` mutation."""
+input DeleteOrganizationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""The output of our delete `ProjectPersona` mutation."""
+type DeleteProjectPersonaPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ProjectPersona` that was deleted by this mutation."""
+  projectPersona: ProjectPersona
+  deletedProjectPersonaNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Project` that is related to this `ProjectPersona`."""
+  project: Project
+
+  """An edge for our `ProjectPersona`. May be used by Relay 1."""
+  projectPersonaEdge(
+    """The method to use when ordering `ProjectPersona`."""
+    orderBy: [ProjectPersonasOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ProjectPersonasEdge
+}
+
+"""All input for the `deleteProjectPersonaByNodeId` mutation."""
+input DeleteProjectPersonaByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ProjectPersona` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteProjectPersona` mutation."""
+input DeleteProjectPersonaInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""The output of our delete `Project` mutation."""
+type DeleteProjectPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Project` that was deleted by this mutation."""
+  project: Project
+  deletedProjectNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Organization` that is related to this `Project`."""
+  organization: Organization
+
+  """An edge for our `Project`. May be used by Relay 1."""
+  projectEdge(
+    """The method to use when ordering `Project`."""
+    orderBy: [ProjectsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ProjectsEdge
+}
+
+"""All input for the `deleteProjectByNodeId` mutation."""
+input DeleteProjectByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Project` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteProject` mutation."""
+input DeleteProjectInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""The output of our delete `Task` mutation."""
+type DeleteTaskPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Task` that was deleted by this mutation."""
+  task: Task
+  deletedTaskNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `UserStory` that is related to this `Task`."""
+  story: UserStory
+
+  """An edge for our `Task`. May be used by Relay 1."""
+  taskEdge(
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): TasksEdge
+}
+
+"""All input for the `deleteTaskByNodeId` mutation."""
+input DeleteTaskByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Task` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteTask` mutation."""
+input DeleteTaskInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""The output of our delete `UserStory` mutation."""
+type DeleteUserStoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserStory` that was deleted by this mutation."""
+  userStory: UserStory
+  deletedUserStoryNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `ProjectPersona` that is related to this `UserStory`."""
+  projectPersonaByAsA: ProjectPersona
+
+  """Reads a single `Epic` that is related to this `UserStory`."""
+  epic: Epic
+
+  """An edge for our `UserStory`. May be used by Relay 1."""
+  userStoryEdge(
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserStoriesEdge
+}
+
+"""All input for the `deleteUserStoryByNodeId` mutation."""
+input DeleteUserStoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `UserStory` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteUserStory` mutation."""
+input DeleteUserStoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+type GeneratePresignedPostPayload {
+  url: String
+  fields: JSON
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+input GeneratePresignedPostInput {
+  key: String!
+}
+
+type DeleteFilePayload {
+  success: Boolean
+}
+
+input DeleteFileInput {
+  key: String!
+}

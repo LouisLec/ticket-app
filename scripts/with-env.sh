@@ -27,7 +27,7 @@ fi
 # check for missing base environment variables
 
 # List of required environment variables
-required_vars=(DATABASE_NAME DATABASE_OWNER_PASSWORD DATABASE_HOST)
+required_vars=(DATABASE_NAME DATABASE_OWNER_PASSWORD DATABASE_HOST JWT_SECRET)
 
 # Check if required environment variables are set
 for var in "${required_vars[@]}"
