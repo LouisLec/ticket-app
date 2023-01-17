@@ -4,9 +4,10 @@
     "graphile-migrate": "^1.4.1"
   },
   "scripts": {
-    "gm": "../../scripts/with-env.sh pnpm graphile-migrate",
+    "gm": "pnpm graphile-migrate",
     "reset": "pnpm gm reset --erase",
     "migrate": "pnpm gm migrate",
-    "watch": "pnpm gm watch"
+    "watch": "pnpm gm watch",
+    "dev": "pnpm gm watch"
   }
 }
