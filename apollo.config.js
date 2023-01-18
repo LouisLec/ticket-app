@@ -1,9 +1,9 @@
 module.exports = {
   client: {
     service: {
-      name: 'Izicrédit',
-      localSchemaFile: './data/schema.graphql',
+      name: "ticketApp",
+      localSchemaFile: "./data/schema.graphql",
     },
-    includes: ['./**/*.graphql'],
+    includes: ["./**/*.graphql"],
   },
 };
