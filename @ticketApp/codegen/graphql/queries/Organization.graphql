@@ -1,0 +1,22 @@
+query GetAllOrganization {
+  organizations {
+    nodes {
+      ...OrganizationFragment
+      projects {
+        totalCount
+      }
+    }
+  }
+}
+
+query GetOrganizationById($id: UUID!) {
+  organization(id: $id) {
+    ...OrganizationFragment
+    projects {
+      totalCount
+      nodes {
+        ...ProjectFragment
+      }
+    }
+  }
+}

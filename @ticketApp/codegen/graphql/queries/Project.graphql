@@ -1,0 +1,7 @@
+query GetAllProjectsByOrganizationId($organizationId: UUID!) {
+  projects(condition: { organizationId: $organizationId }) {
+    nodes {
+      ...ProjectFragment
+    }
+  }
+}

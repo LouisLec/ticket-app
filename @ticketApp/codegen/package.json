@@ -1,0 +1,23 @@
+{
+  "name": "@ticketApp/codegen",
+  "version": "0.0.1",
+  "description": "Code generator for ticketApp",
+  "main": "dist/index.js",
+  "devDependencies": {
+    "@graphql-codegen/add": "^3.2.3",
+    "@graphql-codegen/cli": "^2.16.4",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.8",
+    "@graphql-codegen/typescript-operations": "^2.5.12",
+    "ts-node": "^10.9.1",
+    "tsup": "^6.5.0"
+  },
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.ts",
+    "build": "graphql-codegen --config codegen.ts && tsup src/index.ts --dts",
+    "dev": "pnpm codegen --watch"
+  },
+  "dependencies": {
+    "graphql-request": "^5.1.0",
+    "graphql-tag": "^2.12.6"
+  }
+}

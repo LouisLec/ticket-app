@@ -1,0 +1,12 @@
+fragment UserStoryFragment on UserStory {
+  id
+  name
+  asA
+  iWant
+  soThat
+  validationCriteria
+  variables
+  comments
+  createdAt
+  updatedAt
+}

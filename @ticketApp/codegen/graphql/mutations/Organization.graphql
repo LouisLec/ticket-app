@@ -1,0 +1,15 @@
+mutation CreateOrganization($input: CreateOrganizationInput!) {
+  createOrganization(input: $input) {
+    organization {
+      id
+    }
+  }
+}
+
+mutation UpdateOrganization($input: UpdateOrganizationInput!) {
+  updateOrganization(input: $input) {
+    organization {
+      id
+    }
+  }
+}

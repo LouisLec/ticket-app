@@ -1,0 +1,8 @@
+fragment EpicFragment on Epic {
+  id
+  name
+  icon
+  description
+  createdAt
+  updatedAt
+}
