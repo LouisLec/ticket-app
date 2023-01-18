@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+.form-grid {
+  @apply grid grid-cols-1 gap-4;
+}
+
+.form-grid label {
+  @apply block;
+}
+
+.form-grid input,
+.form-grid textarea {
+  @apply w-full py-2 px-3 border-2 border-gray-300 rounded-md;
+}
+
+.form-grid button[type="submit"] {
+  @apply mt-4 bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600;
+}
+
+.form-grid {
+  @apply grid grid-cols-1 gap-4;
+}
+
+.form-grid label {
+  @apply block;
+}
+
+.form-grid input,
+.form-grid textarea {
+  @apply w-full py-2 px-3 border-2 border-gray-300 rounded-md;
+}
