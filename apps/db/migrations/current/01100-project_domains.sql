@@ -1,42 +1,41 @@
 /*
-  TABLE: publ.epics
-  DESCRIPTION:  An epic is a group of stories that are related to each other. The epic is a building block of a project.
+  TABLE: publ.domains
+  DESCRIPTION: Domains represent the different areas of a project. For example, a project might have a "Frontend" domain and a "Backend" domain.
 */
-drop table if exists publ.epics cascade;
-create table publ.epics (
+drop table if exists publ.domains cascade;
+create table publ.domains (
     id uuid not null default uuid_generate_v4() primary key unique, 
-    name text not null,    
+    name text not null,
+    short_name text not null,
     "order" int,
-    description text not null,
-    icon text not null,
+    description text,
     project_id uuid not null references publ.projects(id) on delete cascade,
+    color text not null,
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now()
 );
 
 -- indexes
-  create index on publ.epics(project_id);
-  create index on publ.epics("order");
-  create index on publ.epics(name);
-  create index on publ.epics(created_at);
-  create index on publ.epics(updated_at);
+  create index on publ.domains(created_at);
+  create index on publ.domains(updated_at);
+    create index on publ.domains(project_id);
+    create index on publ.domains("order");
+    create index on publ.domains(name);
 
 -- RBAC
-  grant select on publ.epics to :DATABASE_VISITOR;
-  grant insert(name, description, "order", icon, project_id) on publ.epics to :DATABASE_VISITOR;
-  grant update(name, description, "order", icon) on publ.epics to :DATABASE_VISITOR;
+  grant select on publ.domains to :DATABASE_VISITOR;
 
 -- triggers
   create trigger _100_timestamps
-  before insert or update on publ.epics
+  before insert or update on publ.domains
   for each row
   execute procedure priv.tg__timestamps();
 
 -- RLS
-  alter table publ.epics enable row level security;
+  alter table publ.domains enable row level security;
 
  create policy no_limit /*TODO: update policy*/
-   on publ.epics
+   on publ.domains
    for all
    using (true)
    with check(true);
@@ -44,10 +43,10 @@ create table publ.epics (
 -- fixtures
   -- fixtures go here
 /*
-  END TABLE: publ.epics
+  END TABLE: publ.domains
 */
 
-create or replace function publ.update_epic_order() returns trigger as $$
+create or replace function publ.update_domain_order() returns trigger as $$
 declare
   max_order int;
 begin
@@ -55,7 +54,7 @@ begin
     if (NEW."order" is null) then
       -- Get the max "order" value for the organization
       select max("order") INTO max_order
-      from publ.epics
+      from publ.domains
       where project_id = NEW.project_id;
       if (max_order IS NOT NULL) then
         NEW."order" = max_order + 1;
@@ -64,7 +63,7 @@ begin
       END if;
     ELSE
       -- Shift existing projects with higher "order" value
-      update publ.epics
+      update publ.domains
       set "order" = "order" + 1
       where project_id = NEW.project_id
         and "order" >= NEW."order";
@@ -73,13 +72,13 @@ begin
     if (OLD."order" <> NEW."order") then
       -- Shift existing projects with higher "order" value
       if (OLD."order" < NEW."order") then
-        update publ.epics
+        update publ.domains
         set "order" = "order" - 1
         where project_id = NEW.project_id
           and "order" > OLD."order"
           and "order" <= NEW."order";
       else
-        update publ.epics
+        update publ.domains
         set "order" = "order" + 1
         where project_id = NEW.project_id
           and "order" >= NEW."order"
@@ -92,7 +91,7 @@ end;
 $$ language plpgsql volatile security definer;
 
 -- triggers
-  create trigger _100_update_epic_order
-  before insert or update on publ.epics
+  create trigger _100_update_domain_order
+  before insert or update on publ.domains
   for each row
-  execute procedure publ.update_epic_order();
+  execute procedure publ.update_domain_order();

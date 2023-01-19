@@ -17,6 +17,40 @@ type Query implements Node {
     nodeId: ID!
   ): Node
 
+  """Reads and enables pagination through a set of `Domain`."""
+  domains(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Domain`."""
+    orderBy: [DomainsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DomainCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: DomainFilter
+  ): DomainsConnection
+
   """Reads and enables pagination through a set of `Epic`."""
   epics(
     """Only read the first `n` values of the set."""
@@ -85,8 +119,8 @@ type Query implements Node {
     filter: OrganizationFilter
   ): OrganizationsConnection
 
-  """Reads and enables pagination through a set of `ProjectPersona`."""
-  projectPersonas(
+  """Reads and enables pagination through a set of `Persona`."""
+  personas(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -105,19 +139,19 @@ type Query implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ProjectPersona`."""
-    orderBy: [ProjectPersonasOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `Persona`."""
+    orderBy: [PersonasOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ProjectPersonaCondition
+    condition: PersonaCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ProjectPersonaFilter
-  ): ProjectPersonasConnection
+    filter: PersonaFilter
+  ): PersonasConnection
 
   """Reads and enables pagination through a set of `Project`."""
   projects(
@@ -220,12 +254,20 @@ type Query implements Node {
     """
     filter: UserStoryFilter
   ): UserStoriesConnection
+  domain(id: UUID!): Domain
   epic(id: UUID!): Epic
   organization(id: UUID!): Organization
-  projectPersona(id: UUID!): ProjectPersona
+  persona(id: UUID!): Persona
   project(id: UUID!): Project
+  projectByOrganizationIdAndName(organizationId: UUID!, name: String!): Project
   task(id: UUID!): Task
   userStory(id: UUID!): UserStory
+
+  """Reads a single `Domain` using its globally unique `ID`."""
+  domainByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Domain`."""
+    nodeId: ID!
+  ): Domain
 
   """Reads a single `Epic` using its globally unique `ID`."""
   epicByNodeId(
@@ -241,13 +283,11 @@ type Query implements Node {
     nodeId: ID!
   ): Organization
 
-  """Reads a single `ProjectPersona` using its globally unique `ID`."""
-  projectPersonaByNodeId(
-    """
-    The globally unique `ID` to be used in selecting a single `ProjectPersona`.
-    """
+  """Reads a single `Persona` using its globally unique `ID`."""
+  personaByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Persona`."""
     nodeId: ID!
-  ): ProjectPersona
+  ): Persona
 
   """Reads a single `Project` using its globally unique `ID`."""
   projectByNodeId(
@@ -276,72 +316,40 @@ interface Node {
   nodeId: ID!
 }
 
-"""A connection to a list of `Epic` values."""
-type EpicsConnection {
-  """A list of `Epic` objects."""
-  nodes: [Epic!]!
+"""A connection to a list of `Domain` values."""
+type DomainsConnection {
+  """A list of `Domain` objects."""
+  nodes: [Domain!]!
 
   """
-  A list of edges which contains the `Epic` and cursor to aid in pagination.
+  A list of edges which contains the `Domain` and cursor to aid in pagination.
   """
-  edges: [EpicsEdge!]!
+  edges: [DomainsEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  """The count of *all* `Epic` you could get from the connection."""
+  """The count of *all* `Domain` you could get from the connection."""
   totalCount: Int!
 }
 
-type Epic implements Node {
+type Domain implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
   id: UUID!
   name: String!
-  description: String!
-  icon: String!
+  shortName: String!
+  order: Int
+  description: String
   projectId: UUID!
+  color: String!
   createdAt: Datetime!
   updatedAt: Datetime!
 
-  """Reads a single `Project` that is related to this `Epic`."""
+  """Reads a single `Project` that is related to this `Domain`."""
   project: Project
-
-  """Reads and enables pagination through a set of `UserStory`."""
-  userStories(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `UserStory`."""
-    orderBy: [UserStoriesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: UserStoryCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: UserStoryFilter
-  ): UserStoriesConnection!
 }
 
 """
@@ -363,6 +371,7 @@ type Project implements Node {
   id: UUID!
   name: String!
   description: String!
+  order: Int
   organizationId: UUID!
   createdAt: Datetime!
   updatedAt: Datetime!
@@ -370,8 +379,8 @@ type Project implements Node {
   """Reads a single `Organization` that is related to this `Project`."""
   organization: Organization
 
-  """Reads and enables pagination through a set of `ProjectPersona`."""
-  projectPersonas(
+  """Reads and enables pagination through a set of `Persona`."""
+  personas(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -390,19 +399,53 @@ type Project implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ProjectPersona`."""
-    orderBy: [ProjectPersonasOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `Persona`."""
+    orderBy: [PersonasOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ProjectPersonaCondition
+    condition: PersonaCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ProjectPersonaFilter
-  ): ProjectPersonasConnection!
+    filter: PersonaFilter
+  ): PersonasConnection!
+
+  """Reads and enables pagination through a set of `Domain`."""
+  domains(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Domain`."""
+    orderBy: [DomainsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DomainCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: DomainFilter
+  ): DomainsConnection!
 
   """Reads and enables pagination through a set of `Epic`."""
   epics(
@@ -439,6 +482,7 @@ type Project implements Node {
   ): EpicsConnection!
 }
 
+"""A company, organization, or institution."""
 type Organization implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -447,6 +491,8 @@ type Organization implements Node {
   id: UUID!
   name: String!
   description: String!
+
+  """The URL of the organization's logo."""
   logoUrl: String!
   createdAt: Datetime!
   updatedAt: Datetime!
@@ -535,6 +581,8 @@ enum ProjectsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
+  ORDER_ASC
+  ORDER_DESC
   ORGANIZATION_ID_ASC
   ORGANIZATION_ID_DESC
   CREATED_AT_ASC
@@ -552,6 +600,9 @@ input ProjectCondition {
   """Checks for equality with the object’s `id` field."""
   id: UUID
 
+  """Checks for equality with the object’s `order` field."""
+  order: Int
+
   """Checks for equality with the object’s `organizationId` field."""
   organizationId: UUID
 
@@ -568,6 +619,9 @@ A filter to be used against `Project` object types. All fields are combined with
 input ProjectFilter {
   """Filter by the object’s `id` field."""
   id: UUIDFilter
+
+  """Filter by the object’s `order` field."""
+  order: IntFilter
 
   """Filter by the object’s `organizationId` field."""
   organizationId: UUIDFilter
@@ -631,6 +685,48 @@ input UUIDFilter {
 }
 
 """
+A filter to be used against Int fields. All fields are combined with a logical ‘and.’
+"""
+input IntFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Int
+
+  """Not equal to the specified value."""
+  notEqualTo: Int
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Int
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Int
+
+  """Included in the specified list."""
+  in: [Int!]
+
+  """Not included in the specified list."""
+  notIn: [Int!]
+
+  """Less than the specified value."""
+  lessThan: Int
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Int
+
+  """Greater than the specified value."""
+  greaterThan: Int
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Int
+}
+
+"""
 A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’
 """
 input DatetimeFilter {
@@ -672,36 +768,37 @@ input DatetimeFilter {
   greaterThanOrEqualTo: Datetime
 }
 
-"""A connection to a list of `ProjectPersona` values."""
-type ProjectPersonasConnection {
-  """A list of `ProjectPersona` objects."""
-  nodes: [ProjectPersona!]!
+"""A connection to a list of `Persona` values."""
+type PersonasConnection {
+  """A list of `Persona` objects."""
+  nodes: [Persona!]!
 
   """
-  A list of edges which contains the `ProjectPersona` and cursor to aid in pagination.
+  A list of edges which contains the `Persona` and cursor to aid in pagination.
   """
-  edges: [ProjectPersonasEdge!]!
+  edges: [PersonasEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  """The count of *all* `ProjectPersona` you could get from the connection."""
+  """The count of *all* `Persona` you could get from the connection."""
   totalCount: Int!
 }
 
-type ProjectPersona implements Node {
+type Persona implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   nodeId: ID!
   id: UUID!
   name: String!
+  shortName: String!
   description: String!
   projectId: UUID!
   createdAt: Datetime!
   updatedAt: Datetime!
 
-  """Reads a single `Project` that is related to this `ProjectPersona`."""
+  """Reads a single `Project` that is related to this `Persona`."""
   project: Project
 
   """Reads and enables pagination through a set of `UserStory`."""
@@ -762,7 +859,8 @@ type UserStory implements Node {
   """
   nodeId: ID!
   id: UUID!
-  name: String!
+  name: String
+  order: Int
   asA: UUID
   iWant: String!
   soThat: String
@@ -770,14 +868,52 @@ type UserStory implements Node {
   validationCriteria: String
   comments: String
   variables: String
+  parentId: UUID
   createdAt: Datetime!
   updatedAt: Datetime!
 
-  """Reads a single `ProjectPersona` that is related to this `UserStory`."""
-  projectPersonaByAsA: ProjectPersona
+  """Reads a single `Persona` that is related to this `UserStory`."""
+  personaByAsA: Persona
 
   """Reads a single `Epic` that is related to this `UserStory`."""
   epic: Epic
+
+  """Reads a single `UserStory` that is related to this `UserStory`."""
+  parent: UserStory
+
+  """Reads and enables pagination through a set of `UserStory`."""
+  childUserStories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserStoryCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UserStoryFilter
+  ): UserStoriesConnection!
 
   """Reads and enables pagination through a set of `Task`."""
   tasksByStoryId(
@@ -814,6 +950,141 @@ type UserStory implements Node {
   ): TasksConnection!
 }
 
+type Epic implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  name: String!
+  order: Int
+  description: String!
+  icon: String!
+  projectId: UUID!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """Reads a single `Project` that is related to this `Epic`."""
+  project: Project
+
+  """Reads and enables pagination through a set of `UserStory`."""
+  userStories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserStoryCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UserStoryFilter
+  ): UserStoriesConnection!
+}
+
+"""Methods to use when ordering `UserStory`."""
+enum UserStoriesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  ORDER_ASC
+  ORDER_DESC
+  AS_A_ASC
+  AS_A_DESC
+  EPIC_ID_ASC
+  EPIC_ID_DESC
+  PARENT_ID_ASC
+  PARENT_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `UserStory` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input UserStoryCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `order` field."""
+  order: Int
+
+  """Checks for equality with the object’s `asA` field."""
+  asA: UUID
+
+  """Checks for equality with the object’s `epicId` field."""
+  epicId: UUID
+
+  """Checks for equality with the object’s `parentId` field."""
+  parentId: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""
+A filter to be used against `UserStory` object types. All fields are combined with a logical ‘and.’
+"""
+input UserStoryFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `order` field."""
+  order: IntFilter
+
+  """Filter by the object’s `asA` field."""
+  asA: UUIDFilter
+
+  """Filter by the object’s `epicId` field."""
+  epicId: UUIDFilter
+
+  """Filter by the object’s `parentId` field."""
+  parentId: UUIDFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [UserStoryFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [UserStoryFilter!]
+
+  """Negates the expression."""
+  not: UserStoryFilter
+}
+
 """A connection to a list of `Task` values."""
 type TasksConnection {
   """A list of `Task` objects."""
@@ -842,12 +1113,50 @@ type Task implements Node {
   storyId: UUID!
   status: TaskStatus
   estimate: Int!
+  parentId: UUID
   uncertainty: Int!
   createdAt: Datetime!
   updatedAt: Datetime!
 
   """Reads a single `UserStory` that is related to this `Task`."""
   story: UserStory
+
+  """Reads a single `Task` that is related to this `Task`."""
+  parent: Task
+
+  """Reads and enables pagination through a set of `Task`."""
+  childTasks(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TaskCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TaskFilter
+  ): TasksConnection!
 }
 
 enum TaskStatus {
@@ -870,15 +1179,6 @@ enum TaskStatus {
   DELETED
 }
 
-"""A `Task` edge in the connection."""
-type TasksEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Task` at the end of the edge."""
-  node: Task!
-}
-
 """Methods to use when ordering `Task`."""
 enum TasksOrderBy {
   NATURAL
@@ -890,6 +1190,8 @@ enum TasksOrderBy {
   STATUS_DESC
   ESTIMATE_ASC
   ESTIMATE_DESC
+  PARENT_ID_ASC
+  PARENT_ID_DESC
   UNCERTAINTY_ASC
   UNCERTAINTY_DESC
   CREATED_AT_ASC
@@ -916,6 +1218,9 @@ input TaskCondition {
   """Checks for equality with the object’s `estimate` field."""
   estimate: Int
 
+  """Checks for equality with the object’s `parentId` field."""
+  parentId: UUID
+
   """Checks for equality with the object’s `uncertainty` field."""
   uncertainty: Int
 
@@ -941,6 +1246,9 @@ input TaskFilter {
 
   """Filter by the object’s `estimate` field."""
   estimate: IntFilter
+
+  """Filter by the object’s `parentId` field."""
+  parentId: UUIDFilter
 
   """Filter by the object’s `uncertainty` field."""
   uncertainty: IntFilter
@@ -1003,46 +1311,13 @@ input TaskStatusFilter {
   greaterThanOrEqualTo: TaskStatus
 }
 
-"""
-A filter to be used against Int fields. All fields are combined with a logical ‘and.’
-"""
-input IntFilter {
-  """
-  Is null (if `true` is specified) or is not null (if `false` is specified).
-  """
-  isNull: Boolean
+"""A `Task` edge in the connection."""
+type TasksEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
 
-  """Equal to the specified value."""
-  equalTo: Int
-
-  """Not equal to the specified value."""
-  notEqualTo: Int
-
-  """
-  Not equal to the specified value, treating null like an ordinary value.
-  """
-  distinctFrom: Int
-
-  """Equal to the specified value, treating null like an ordinary value."""
-  notDistinctFrom: Int
-
-  """Included in the specified list."""
-  in: [Int!]
-
-  """Not included in the specified list."""
-  notIn: [Int!]
-
-  """Less than the specified value."""
-  lessThan: Int
-
-  """Less than or equal to the specified value."""
-  lessThanOrEqualTo: Int
-
-  """Greater than the specified value."""
-  greaterThan: Int
-
-  """Greater than or equal to the specified value."""
-  greaterThanOrEqualTo: Int
+  """The `Task` at the end of the edge."""
+  node: Task!
 }
 
 """A `UserStory` edge in the connection."""
@@ -1054,87 +1329,22 @@ type UserStoriesEdge {
   node: UserStory!
 }
 
-"""Methods to use when ordering `UserStory`."""
-enum UserStoriesOrderBy {
-  NATURAL
-  ID_ASC
-  ID_DESC
-  AS_A_ASC
-  AS_A_DESC
-  EPIC_ID_ASC
-  EPIC_ID_DESC
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `UserStory` object types. All fields are tested
-for equality and combined with a logical ‘and.’
-"""
-input UserStoryCondition {
-  """Checks for equality with the object’s `id` field."""
-  id: UUID
-
-  """Checks for equality with the object’s `asA` field."""
-  asA: UUID
-
-  """Checks for equality with the object’s `epicId` field."""
-  epicId: UUID
-
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-}
-
-"""
-A filter to be used against `UserStory` object types. All fields are combined with a logical ‘and.’
-"""
-input UserStoryFilter {
-  """Filter by the object’s `id` field."""
-  id: UUIDFilter
-
-  """Filter by the object’s `asA` field."""
-  asA: UUIDFilter
-
-  """Filter by the object’s `epicId` field."""
-  epicId: UUIDFilter
-
-  """Filter by the object’s `createdAt` field."""
-  createdAt: DatetimeFilter
-
-  """Filter by the object’s `updatedAt` field."""
-  updatedAt: DatetimeFilter
-
-  """Checks for all expressions in this list."""
-  and: [UserStoryFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [UserStoryFilter!]
-
-  """Negates the expression."""
-  not: UserStoryFilter
-}
-
-"""A `ProjectPersona` edge in the connection."""
-type ProjectPersonasEdge {
+"""A `Persona` edge in the connection."""
+type PersonasEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `ProjectPersona` at the end of the edge."""
-  node: ProjectPersona!
+  """The `Persona` at the end of the edge."""
+  node: Persona!
 }
 
-"""Methods to use when ordering `ProjectPersona`."""
-enum ProjectPersonasOrderBy {
+"""Methods to use when ordering `Persona`."""
+enum PersonasOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
+  NAME_ASC
+  NAME_DESC
   PROJECT_ID_ASC
   PROJECT_ID_DESC
   CREATED_AT_ASC
@@ -1146,12 +1356,14 @@ enum ProjectPersonasOrderBy {
 }
 
 """
-A condition to be used against `ProjectPersona` object types. All fields are
-tested for equality and combined with a logical ‘and.’
+A condition to be used against `Persona` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
-input ProjectPersonaCondition {
+input PersonaCondition {
   """Checks for equality with the object’s `id` field."""
   id: UUID
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
 
   """Checks for equality with the object’s `projectId` field."""
   projectId: UUID
@@ -1164,11 +1376,14 @@ input ProjectPersonaCondition {
 }
 
 """
-A filter to be used against `ProjectPersona` object types. All fields are combined with a logical ‘and.’
+A filter to be used against `Persona` object types. All fields are combined with a logical ‘and.’
 """
-input ProjectPersonaFilter {
+input PersonaFilter {
   """Filter by the object’s `id` field."""
   id: UUIDFilter
+
+  """Filter by the object’s `name` field."""
+  name: StringFilter
 
   """Filter by the object’s `projectId` field."""
   projectId: UUIDFilter
@@ -1180,13 +1395,245 @@ input ProjectPersonaFilter {
   updatedAt: DatetimeFilter
 
   """Checks for all expressions in this list."""
-  and: [ProjectPersonaFilter!]
+  and: [PersonaFilter!]
 
   """Checks for any expressions in this list."""
-  or: [ProjectPersonaFilter!]
+  or: [PersonaFilter!]
 
   """Negates the expression."""
-  not: ProjectPersonaFilter
+  not: PersonaFilter
+}
+
+"""
+A filter to be used against String fields. All fields are combined with a logical ‘and.’
+"""
+input StringFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: String
+
+  """Not equal to the specified value."""
+  notEqualTo: String
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: String
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: String
+
+  """Included in the specified list."""
+  in: [String!]
+
+  """Not included in the specified list."""
+  notIn: [String!]
+
+  """Less than the specified value."""
+  lessThan: String
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: String
+
+  """Greater than the specified value."""
+  greaterThan: String
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: String
+
+  """Contains the specified string (case-sensitive)."""
+  includes: String
+
+  """Does not contain the specified string (case-sensitive)."""
+  notIncludes: String
+
+  """Contains the specified string (case-insensitive)."""
+  includesInsensitive: String
+
+  """Does not contain the specified string (case-insensitive)."""
+  notIncludesInsensitive: String
+
+  """Starts with the specified string (case-sensitive)."""
+  startsWith: String
+
+  """Does not start with the specified string (case-sensitive)."""
+  notStartsWith: String
+
+  """Starts with the specified string (case-insensitive)."""
+  startsWithInsensitive: String
+
+  """Does not start with the specified string (case-insensitive)."""
+  notStartsWithInsensitive: String
+
+  """Ends with the specified string (case-sensitive)."""
+  endsWith: String
+
+  """Does not end with the specified string (case-sensitive)."""
+  notEndsWith: String
+
+  """Ends with the specified string (case-insensitive)."""
+  endsWithInsensitive: String
+
+  """Does not end with the specified string (case-insensitive)."""
+  notEndsWithInsensitive: String
+
+  """
+  Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  like: String
+
+  """
+  Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  notLike: String
+
+  """
+  Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  likeInsensitive: String
+
+  """
+  Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  notLikeInsensitive: String
+
+  """Equal to the specified value (case-insensitive)."""
+  equalToInsensitive: String
+
+  """Not equal to the specified value (case-insensitive)."""
+  notEqualToInsensitive: String
+
+  """
+  Not equal to the specified value, treating null like an ordinary value (case-insensitive).
+  """
+  distinctFromInsensitive: String
+
+  """
+  Equal to the specified value, treating null like an ordinary value (case-insensitive).
+  """
+  notDistinctFromInsensitive: String
+
+  """Included in the specified list (case-insensitive)."""
+  inInsensitive: [String!]
+
+  """Not included in the specified list (case-insensitive)."""
+  notInInsensitive: [String!]
+
+  """Less than the specified value (case-insensitive)."""
+  lessThanInsensitive: String
+
+  """Less than or equal to the specified value (case-insensitive)."""
+  lessThanOrEqualToInsensitive: String
+
+  """Greater than the specified value (case-insensitive)."""
+  greaterThanInsensitive: String
+
+  """Greater than or equal to the specified value (case-insensitive)."""
+  greaterThanOrEqualToInsensitive: String
+}
+
+"""Methods to use when ordering `Domain`."""
+enum DomainsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  ORDER_ASC
+  ORDER_DESC
+  PROJECT_ID_ASC
+  PROJECT_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Domain` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input DomainCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `order` field."""
+  order: Int
+
+  """Checks for equality with the object’s `projectId` field."""
+  projectId: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""
+A filter to be used against `Domain` object types. All fields are combined with a logical ‘and.’
+"""
+input DomainFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Filter by the object’s `order` field."""
+  order: IntFilter
+
+  """Filter by the object’s `projectId` field."""
+  projectId: UUIDFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [DomainFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [DomainFilter!]
+
+  """Negates the expression."""
+  not: DomainFilter
+}
+
+"""A connection to a list of `Epic` values."""
+type EpicsConnection {
+  """A list of `Epic` objects."""
+  nodes: [Epic!]!
+
+  """
+  A list of edges which contains the `Epic` and cursor to aid in pagination.
+  """
+  edges: [EpicsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Epic` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Epic` edge in the connection."""
+type EpicsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Epic` at the end of the edge."""
+  node: Epic!
 }
 
 """Methods to use when ordering `Epic`."""
@@ -1194,6 +1641,10 @@ enum EpicsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
+  NAME_ASC
+  NAME_DESC
+  ORDER_ASC
+  ORDER_DESC
   PROJECT_ID_ASC
   PROJECT_ID_DESC
   CREATED_AT_ASC
@@ -1211,6 +1662,12 @@ input EpicCondition {
   """Checks for equality with the object’s `id` field."""
   id: UUID
 
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `order` field."""
+  order: Int
+
   """Checks for equality with the object’s `projectId` field."""
   projectId: UUID
 
@@ -1227,6 +1684,12 @@ A filter to be used against `Epic` object types. All fields are combined with a 
 input EpicFilter {
   """Filter by the object’s `id` field."""
   id: UUIDFilter
+
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Filter by the object’s `order` field."""
+  order: IntFilter
 
   """Filter by the object’s `projectId` field."""
   projectId: UUIDFilter
@@ -1247,13 +1710,13 @@ input EpicFilter {
   not: EpicFilter
 }
 
-"""A `Epic` edge in the connection."""
-type EpicsEdge {
+"""A `Domain` edge in the connection."""
+type DomainsEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `Epic` at the end of the edge."""
-  node: Epic!
+  """The `Domain` at the end of the edge."""
+  node: Domain!
 }
 
 """A connection to a list of `Organization` values."""
@@ -1337,6 +1800,14 @@ input OrganizationFilter {
 The root mutation type which contains root level fields which mutate data.
 """
 type Mutation {
+  """Creates a single `Domain`."""
+  createDomain(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateDomainInput!
+  ): CreateDomainPayload
+
   """Creates a single `Epic`."""
   createEpic(
     """
@@ -1353,13 +1824,13 @@ type Mutation {
     input: CreateOrganizationInput!
   ): CreateOrganizationPayload
 
-  """Creates a single `ProjectPersona`."""
-  createProjectPersona(
+  """Creates a single `Persona`."""
+  createPersona(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateProjectPersonaInput!
-  ): CreateProjectPersonaPayload
+    input: CreatePersonaInput!
+  ): CreatePersonaPayload
 
   """Creates a single `Project`."""
   createProject(
@@ -1384,6 +1855,22 @@ type Mutation {
     """
     input: CreateUserStoryInput!
   ): CreateUserStoryPayload
+
+  """Updates a single `Domain` using its globally unique id and a patch."""
+  updateDomainByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateDomainByNodeIdInput!
+  ): UpdateDomainPayload
+
+  """Updates a single `Domain` using a unique key and a patch."""
+  updateDomain(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateDomainInput!
+  ): UpdateDomainPayload
 
   """Updates a single `Epic` using its globally unique id and a patch."""
   updateEpicByNodeId(
@@ -1419,23 +1906,21 @@ type Mutation {
     input: UpdateOrganizationInput!
   ): UpdateOrganizationPayload
 
-  """
-  Updates a single `ProjectPersona` using its globally unique id and a patch.
-  """
-  updateProjectPersonaByNodeId(
+  """Updates a single `Persona` using its globally unique id and a patch."""
+  updatePersonaByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateProjectPersonaByNodeIdInput!
-  ): UpdateProjectPersonaPayload
+    input: UpdatePersonaByNodeIdInput!
+  ): UpdatePersonaPayload
 
-  """Updates a single `ProjectPersona` using a unique key and a patch."""
-  updateProjectPersona(
+  """Updates a single `Persona` using a unique key and a patch."""
+  updatePersona(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateProjectPersonaInput!
-  ): UpdateProjectPersonaPayload
+    input: UpdatePersonaInput!
+  ): UpdatePersonaPayload
 
   """Updates a single `Project` using its globally unique id and a patch."""
   updateProjectByNodeId(
@@ -1451,6 +1936,14 @@ type Mutation {
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: UpdateProjectInput!
+  ): UpdateProjectPayload
+
+  """Updates a single `Project` using a unique key and a patch."""
+  updateProjectByOrganizationIdAndName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateProjectByOrganizationIdAndNameInput!
   ): UpdateProjectPayload
 
   """Updates a single `Task` using its globally unique id and a patch."""
@@ -1485,6 +1978,22 @@ type Mutation {
     input: UpdateUserStoryInput!
   ): UpdateUserStoryPayload
 
+  """Deletes a single `Domain` using its globally unique id."""
+  deleteDomainByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteDomainByNodeIdInput!
+  ): DeleteDomainPayload
+
+  """Deletes a single `Domain` using a unique key."""
+  deleteDomain(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteDomainInput!
+  ): DeleteDomainPayload
+
   """Deletes a single `Epic` using its globally unique id."""
   deleteEpicByNodeId(
     """
@@ -1517,21 +2026,21 @@ type Mutation {
     input: DeleteOrganizationInput!
   ): DeleteOrganizationPayload
 
-  """Deletes a single `ProjectPersona` using its globally unique id."""
-  deleteProjectPersonaByNodeId(
+  """Deletes a single `Persona` using its globally unique id."""
+  deletePersonaByNodeId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteProjectPersonaByNodeIdInput!
-  ): DeleteProjectPersonaPayload
+    input: DeletePersonaByNodeIdInput!
+  ): DeletePersonaPayload
 
-  """Deletes a single `ProjectPersona` using a unique key."""
-  deleteProjectPersona(
+  """Deletes a single `Persona` using a unique key."""
+  deletePersona(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteProjectPersonaInput!
-  ): DeleteProjectPersonaPayload
+    input: DeletePersonaInput!
+  ): DeletePersonaPayload
 
   """Deletes a single `Project` using its globally unique id."""
   deleteProjectByNodeId(
@@ -1547,6 +2056,14 @@ type Mutation {
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteProjectInput!
+  ): DeleteProjectPayload
+
+  """Deletes a single `Project` using a unique key."""
+  deleteProjectByOrganizationIdAndName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteProjectByOrganizationIdAndNameInput!
   ): DeleteProjectPayload
 
   """Deletes a single `Task` using its globally unique id."""
@@ -1594,6 +2111,57 @@ type Mutation {
   ): DeleteFilePayload
 }
 
+"""The output of our create `Domain` mutation."""
+type CreateDomainPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Domain` that was created by this mutation."""
+  domain: Domain
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Project` that is related to this `Domain`."""
+  project: Project
+
+  """An edge for our `Domain`. May be used by Relay 1."""
+  domainEdge(
+    """The method to use when ordering `Domain`."""
+    orderBy: [DomainsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): DomainsEdge
+}
+
+"""All input for the create `Domain` mutation."""
+input CreateDomainInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Domain` to be created by this mutation."""
+  domain: DomainInput!
+}
+
+"""An input for mutations affecting `Domain`"""
+input DomainInput {
+  id: UUID
+  name: String!
+  shortName: String!
+  order: Int
+  description: String
+  projectId: UUID!
+  color: String!
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
 """The output of our create `Epic` mutation."""
 type CreateEpicPayload {
   """
@@ -1636,6 +2204,7 @@ input CreateEpicInput {
 input EpicInput {
   id: UUID
   name: String!
+  order: Int
   description: String!
   icon: String!
   projectId: UUID!
@@ -1683,53 +2252,56 @@ input OrganizationInput {
   id: UUID
   name: String!
   description: String!
+
+  """The URL of the organization's logo."""
   logoUrl: String!
   createdAt: Datetime
   updatedAt: Datetime
 }
 
-"""The output of our create `ProjectPersona` mutation."""
-type CreateProjectPersonaPayload {
+"""The output of our create `Persona` mutation."""
+type CreatePersonaPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `ProjectPersona` that was created by this mutation."""
-  projectPersona: ProjectPersona
+  """The `Persona` that was created by this mutation."""
+  persona: Persona
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """Reads a single `Project` that is related to this `ProjectPersona`."""
+  """Reads a single `Project` that is related to this `Persona`."""
   project: Project
 
-  """An edge for our `ProjectPersona`. May be used by Relay 1."""
-  projectPersonaEdge(
-    """The method to use when ordering `ProjectPersona`."""
-    orderBy: [ProjectPersonasOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ProjectPersonasEdge
+  """An edge for our `Persona`. May be used by Relay 1."""
+  personaEdge(
+    """The method to use when ordering `Persona`."""
+    orderBy: [PersonasOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PersonasEdge
 }
 
-"""All input for the create `ProjectPersona` mutation."""
-input CreateProjectPersonaInput {
+"""All input for the create `Persona` mutation."""
+input CreatePersonaInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
 
-  """The `ProjectPersona` to be created by this mutation."""
-  projectPersona: ProjectPersonaInput!
+  """The `Persona` to be created by this mutation."""
+  persona: PersonaInput!
 }
 
-"""An input for mutations affecting `ProjectPersona`"""
-input ProjectPersonaInput {
+"""An input for mutations affecting `Persona`"""
+input PersonaInput {
   id: UUID
   name: String!
+  shortName: String!
   description: String!
   projectId: UUID!
   createdAt: Datetime
@@ -1779,6 +2351,7 @@ input ProjectInput {
   id: UUID
   name: String!
   description: String!
+  order: Int
   organizationId: UUID!
   createdAt: Datetime
   updatedAt: Datetime
@@ -1802,6 +2375,9 @@ type CreateTaskPayload {
 
   """Reads a single `UserStory` that is related to this `Task`."""
   story: UserStory
+
+  """Reads a single `Task` that is related to this `Task`."""
+  parent: Task
 
   """An edge for our `Task`. May be used by Relay 1."""
   taskEdge(
@@ -1830,6 +2406,7 @@ input TaskInput {
   storyId: UUID!
   status: TaskStatus
   estimate: Int!
+  parentId: UUID
   uncertainty: Int!
   createdAt: Datetime
   updatedAt: Datetime
@@ -1851,11 +2428,14 @@ type CreateUserStoryPayload {
   """
   query: Query
 
-  """Reads a single `ProjectPersona` that is related to this `UserStory`."""
-  projectPersonaByAsA: ProjectPersona
+  """Reads a single `Persona` that is related to this `UserStory`."""
+  personaByAsA: Persona
 
   """Reads a single `Epic` that is related to this `UserStory`."""
   epic: Epic
+
+  """Reads a single `UserStory` that is related to this `UserStory`."""
+  parent: UserStory
 
   """An edge for our `UserStory`. May be used by Relay 1."""
   userStoryEdge(
@@ -1879,7 +2459,8 @@ input CreateUserStoryInput {
 """An input for mutations affecting `UserStory`"""
 input UserStoryInput {
   id: UUID
-  name: String!
+  name: String
+  order: Int
   asA: UUID
   iWant: String!
   soThat: String
@@ -1887,8 +2468,84 @@ input UserStoryInput {
   validationCriteria: String
   comments: String
   variables: String
+  parentId: UUID
   createdAt: Datetime
   updatedAt: Datetime
+}
+
+"""The output of our update `Domain` mutation."""
+type UpdateDomainPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Domain` that was updated by this mutation."""
+  domain: Domain
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Project` that is related to this `Domain`."""
+  project: Project
+
+  """An edge for our `Domain`. May be used by Relay 1."""
+  domainEdge(
+    """The method to use when ordering `Domain`."""
+    orderBy: [DomainsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): DomainsEdge
+}
+
+"""All input for the `updateDomainByNodeId` mutation."""
+input UpdateDomainByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Domain` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Domain` being updated.
+  """
+  patch: DomainPatch!
+}
+
+"""
+Represents an update to a `Domain`. Fields that are set will be updated.
+"""
+input DomainPatch {
+  id: UUID
+  name: String
+  shortName: String
+  order: Int
+  description: String
+  projectId: UUID
+  color: String
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+"""All input for the `updateDomain` mutation."""
+input UpdateDomainInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Domain` being updated.
+  """
+  patch: DomainPatch!
+  id: UUID!
 }
 
 """The output of our update `Epic` mutation."""
@@ -1940,6 +2597,7 @@ input UpdateEpicByNodeIdInput {
 input EpicPatch {
   id: UUID
   name: String
+  order: Int
   description: String
   icon: String
   projectId: UUID
@@ -2011,6 +2669,8 @@ input OrganizationPatch {
   id: UUID
   name: String
   description: String
+
+  """The URL of the organization's logo."""
   logoUrl: String
   createdAt: Datetime
   updatedAt: Datetime
@@ -2031,34 +2691,34 @@ input UpdateOrganizationInput {
   id: UUID!
 }
 
-"""The output of our update `ProjectPersona` mutation."""
-type UpdateProjectPersonaPayload {
+"""The output of our update `Persona` mutation."""
+type UpdatePersonaPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `ProjectPersona` that was updated by this mutation."""
-  projectPersona: ProjectPersona
+  """The `Persona` that was updated by this mutation."""
+  persona: Persona
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """Reads a single `Project` that is related to this `ProjectPersona`."""
+  """Reads a single `Project` that is related to this `Persona`."""
   project: Project
 
-  """An edge for our `ProjectPersona`. May be used by Relay 1."""
-  projectPersonaEdge(
-    """The method to use when ordering `ProjectPersona`."""
-    orderBy: [ProjectPersonasOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ProjectPersonasEdge
+  """An edge for our `Persona`. May be used by Relay 1."""
+  personaEdge(
+    """The method to use when ordering `Persona`."""
+    orderBy: [PersonasOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PersonasEdge
 }
 
-"""All input for the `updateProjectPersonaByNodeId` mutation."""
-input UpdateProjectPersonaByNodeIdInput {
+"""All input for the `updatePersonaByNodeId` mutation."""
+input UpdatePersonaByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2066,30 +2726,31 @@ input UpdateProjectPersonaByNodeIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `ProjectPersona` to be updated.
+  The globally unique `ID` which will identify a single `Persona` to be updated.
   """
   nodeId: ID!
 
   """
-  An object where the defined keys will be set on the `ProjectPersona` being updated.
+  An object where the defined keys will be set on the `Persona` being updated.
   """
-  patch: ProjectPersonaPatch!
+  patch: PersonaPatch!
 }
 
 """
-Represents an update to a `ProjectPersona`. Fields that are set will be updated.
+Represents an update to a `Persona`. Fields that are set will be updated.
 """
-input ProjectPersonaPatch {
+input PersonaPatch {
   id: UUID
   name: String
+  shortName: String
   description: String
   projectId: UUID
   createdAt: Datetime
   updatedAt: Datetime
 }
 
-"""All input for the `updateProjectPersona` mutation."""
-input UpdateProjectPersonaInput {
+"""All input for the `updatePersona` mutation."""
+input UpdatePersonaInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2097,9 +2758,9 @@ input UpdateProjectPersonaInput {
   clientMutationId: String
 
   """
-  An object where the defined keys will be set on the `ProjectPersona` being updated.
+  An object where the defined keys will be set on the `Persona` being updated.
   """
-  patch: ProjectPersonaPatch!
+  patch: PersonaPatch!
   id: UUID!
 }
 
@@ -2155,6 +2816,7 @@ input ProjectPatch {
   id: UUID
   name: String
   description: String
+  order: Int
   organizationId: UUID
   createdAt: Datetime
   updatedAt: Datetime
@@ -2175,6 +2837,22 @@ input UpdateProjectInput {
   id: UUID!
 }
 
+"""All input for the `updateProjectByOrganizationIdAndName` mutation."""
+input UpdateProjectByOrganizationIdAndNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Project` being updated.
+  """
+  patch: ProjectPatch!
+  organizationId: UUID!
+  name: String!
+}
+
 """The output of our update `Task` mutation."""
 type UpdateTaskPayload {
   """
@@ -2193,6 +2871,9 @@ type UpdateTaskPayload {
 
   """Reads a single `UserStory` that is related to this `Task`."""
   story: UserStory
+
+  """Reads a single `Task` that is related to this `Task`."""
+  parent: Task
 
   """An edge for our `Task`. May be used by Relay 1."""
   taskEdge(
@@ -2228,6 +2909,7 @@ input TaskPatch {
   storyId: UUID
   status: TaskStatus
   estimate: Int
+  parentId: UUID
   uncertainty: Int
   createdAt: Datetime
   updatedAt: Datetime
@@ -2264,11 +2946,14 @@ type UpdateUserStoryPayload {
   """
   query: Query
 
-  """Reads a single `ProjectPersona` that is related to this `UserStory`."""
-  projectPersonaByAsA: ProjectPersona
+  """Reads a single `Persona` that is related to this `UserStory`."""
+  personaByAsA: Persona
 
   """Reads a single `Epic` that is related to this `UserStory`."""
   epic: Epic
+
+  """Reads a single `UserStory` that is related to this `UserStory`."""
+  parent: UserStory
 
   """An edge for our `UserStory`. May be used by Relay 1."""
   userStoryEdge(
@@ -2302,6 +2987,7 @@ Represents an update to a `UserStory`. Fields that are set will be updated.
 input UserStoryPatch {
   id: UUID
   name: String
+  order: Int
   asA: UUID
   iWant: String
   soThat: String
@@ -2309,6 +2995,7 @@ input UserStoryPatch {
   validationCriteria: String
   comments: String
   variables: String
+  parentId: UUID
   createdAt: Datetime
   updatedAt: Datetime
 }
@@ -2325,6 +3012,57 @@ input UpdateUserStoryInput {
   An object where the defined keys will be set on the `UserStory` being updated.
   """
   patch: UserStoryPatch!
+  id: UUID!
+}
+
+"""The output of our delete `Domain` mutation."""
+type DeleteDomainPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Domain` that was deleted by this mutation."""
+  domain: Domain
+  deletedDomainNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Project` that is related to this `Domain`."""
+  project: Project
+
+  """An edge for our `Domain`. May be used by Relay 1."""
+  domainEdge(
+    """The method to use when ordering `Domain`."""
+    orderBy: [DomainsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): DomainsEdge
+}
+
+"""All input for the `deleteDomainByNodeId` mutation."""
+input DeleteDomainByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Domain` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteDomain` mutation."""
+input DeleteDomainInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
   id: UUID!
 }
 
@@ -2427,35 +3165,35 @@ input DeleteOrganizationInput {
   id: UUID!
 }
 
-"""The output of our delete `ProjectPersona` mutation."""
-type DeleteProjectPersonaPayload {
+"""The output of our delete `Persona` mutation."""
+type DeletePersonaPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `ProjectPersona` that was deleted by this mutation."""
-  projectPersona: ProjectPersona
-  deletedProjectPersonaNodeId: ID
+  """The `Persona` that was deleted by this mutation."""
+  persona: Persona
+  deletedPersonaNodeId: ID
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """Reads a single `Project` that is related to this `ProjectPersona`."""
+  """Reads a single `Project` that is related to this `Persona`."""
   project: Project
 
-  """An edge for our `ProjectPersona`. May be used by Relay 1."""
-  projectPersonaEdge(
-    """The method to use when ordering `ProjectPersona`."""
-    orderBy: [ProjectPersonasOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ProjectPersonasEdge
+  """An edge for our `Persona`. May be used by Relay 1."""
+  personaEdge(
+    """The method to use when ordering `Persona`."""
+    orderBy: [PersonasOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PersonasEdge
 }
 
-"""All input for the `deleteProjectPersonaByNodeId` mutation."""
-input DeleteProjectPersonaByNodeIdInput {
+"""All input for the `deletePersonaByNodeId` mutation."""
+input DeletePersonaByNodeIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2463,13 +3201,13 @@ input DeleteProjectPersonaByNodeIdInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `ProjectPersona` to be deleted.
+  The globally unique `ID` which will identify a single `Persona` to be deleted.
   """
   nodeId: ID!
 }
 
-"""All input for the `deleteProjectPersona` mutation."""
-input DeleteProjectPersonaInput {
+"""All input for the `deletePersona` mutation."""
+input DeletePersonaInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2529,6 +3267,17 @@ input DeleteProjectInput {
   id: UUID!
 }
 
+"""All input for the `deleteProjectByOrganizationIdAndName` mutation."""
+input DeleteProjectByOrganizationIdAndNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  organizationId: UUID!
+  name: String!
+}
+
 """The output of our delete `Task` mutation."""
 type DeleteTaskPayload {
   """
@@ -2548,6 +3297,9 @@ type DeleteTaskPayload {
 
   """Reads a single `UserStory` that is related to this `Task`."""
   story: UserStory
+
+  """Reads a single `Task` that is related to this `Task`."""
+  parent: Task
 
   """An edge for our `Task`. May be used by Relay 1."""
   taskEdge(
@@ -2597,11 +3349,14 @@ type DeleteUserStoryPayload {
   """
   query: Query
 
-  """Reads a single `ProjectPersona` that is related to this `UserStory`."""
-  projectPersonaByAsA: ProjectPersona
+  """Reads a single `Persona` that is related to this `UserStory`."""
+  personaByAsA: Persona
 
   """Reads a single `Epic` that is related to this `UserStory`."""
   epic: Epic
+
+  """Reads a single `UserStory` that is related to this `UserStory`."""
+  parent: UserStory
 
   """An edge for our `UserStory`. May be used by Relay 1."""
   userStoryEdge(

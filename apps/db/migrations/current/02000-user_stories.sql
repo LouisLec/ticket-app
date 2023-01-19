@@ -5,14 +5,16 @@
 drop table if exists publ.user_stories cascade;
 create table publ.user_stories (
     id uuid not null default uuid_generate_v4() primary key unique, 
-    name text not null,
-    as_a uuid references publ.project_personas(id) on delete restrict,
+    name text,
+    "order" int,
+    as_a uuid references publ.personas(id) on delete restrict,
     i_want text not null,
     so_that text,
     epic_id uuid references publ.epics(id) on delete restrict,
     validation_criteria text,
     comments text,
     variables text,
+    parent_id uuid references publ.user_stories(id) on delete restrict,
     -- status text not null, //no status, for now it is computed from the tasks
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now()
@@ -21,6 +23,8 @@ create table publ.user_stories (
 -- indexes
     create index on publ.user_stories(epic_id);
      create index on publ.user_stories(as_a);
+    create index on publ.user_stories("order");
+    create index on publ.user_stories(parent_id);
   create index on publ.user_stories(created_at);
   create index on publ.user_stories(updated_at);
 
@@ -47,3 +51,55 @@ create table publ.user_stories (
 /*
   END TABLE: publ.user_stories
 */
+
+
+create or replace function publ.update_user_story_order() returns trigger as $$
+declare
+  max_order int;
+begin
+  if (TG_OP = 'INSERT') then
+    if (NEW."order" is null) then
+      -- Get the max "order" value for the organization
+      select max("order") INTO max_order
+      from publ.user_stories
+      where epic_id = NEW.epic_id;
+      if (max_order IS NOT NULL) then
+        NEW."order" = max_order + 1;
+      ELSE
+        NEW."order" = 0;
+      END if;
+    ELSE
+      -- Shift existing projects with higher "order" value
+      update publ.user_stories
+      set "order" = "order" + 1
+      where epic_id = NEW.epic_id
+        and "order" >= NEW."order";
+    END if;
+  elsif (TG_OP = 'UPDATE') then
+    if (OLD."order" <> NEW."order") then
+      -- Shift existing projects with higher "order" value
+      if (OLD."order" < NEW."order") then
+        update publ.user_stories
+        set "order" = "order" - 1
+        where epic_id = NEW.epic_id
+          and "order" > OLD."order"
+          and "order" <= NEW."order";
+      else
+        update publ.user_stories
+        set "order" = "order" + 1
+        where epic_id = NEW.epic_id
+          and "order" >= NEW."order"
+          and "order" < OLD."order";
+      end if;
+    end if;
+  end if;
+  return NEW;
+end;
+$$ language plpgsql volatile security definer;
+
+-- triggers
+  create trigger _100_update_user_story_order
+  before insert or update on publ.user_stories
+  for each row
+  execute procedure publ.update_user_story_order();
+

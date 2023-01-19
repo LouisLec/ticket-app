@@ -26,6 +26,7 @@ create table publ.tasks (
     story_id uuid not null references publ.user_stories(id) on delete cascade,
     status text references publ.task_status(type) on delete restrict default 'BACKLOG',
     estimate integer not null,
+    parent_id uuid references publ.tasks(id) on delete restrict,
     uncertainty integer not null,
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now()
@@ -36,6 +37,7 @@ create table publ.tasks (
     create index on publ.tasks(status);
     create index on publ.tasks(estimate);
     create index on publ.tasks(uncertainty);
+    create index on publ.tasks(parent_id);
 
   create index on publ.tasks(created_at);
   create index on publ.tasks(updated_at);

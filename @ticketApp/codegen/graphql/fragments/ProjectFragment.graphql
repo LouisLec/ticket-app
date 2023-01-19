@@ -2,6 +2,7 @@ fragment ProjectFragment on Project {
   id
   name
   description
+  order
   createdAt
   updatedAt
 }

@@ -1,5 +1,8 @@
 query GetAllProjectsByOrganizationId($organizationId: UUID!) {
-  projects(condition: { organizationId: $organizationId }) {
+  projects(
+    orderBy: [ORDER_ASC]
+    condition: { organizationId: $organizationId }
+  ) {
     nodes {
       ...ProjectFragment
     }

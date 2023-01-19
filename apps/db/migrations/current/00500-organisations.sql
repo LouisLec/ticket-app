@@ -40,6 +40,7 @@ create table publ.organizations (
 
 -- fixtures
   -- fixtures go here
+  insert into publ.organizations (id, name, description, logo_url) values ('3fdd6e49-8a4b-41c8-8df0-17fe8be4efb8', 'The Organisation', 'The Organisation is a group of people who work together on projects.', 'https://project-management.com/wp-content/uploads/2022/11/PMcom_logo_MobileLogo.png');
 /*
   END TABLE: publ.organizations
 */
