@@ -39,7 +39,13 @@ const ProjectsPerOrgPage = async ({ params }) => {
                     <PencilSquareIcon className="w-4 h-4" /> {project.id}
                   </button>
                 </th>
-                <td>{project.name}</td>
+                <td>
+                  {" "}
+                  <span className="font-mono text-xs font-bold font-slate-600">
+                    #{project.order}
+                  </span>{" "}
+                  {project.name}
+                </td>
                 <td>{project.description}</td>
                 <td>{conciseDate(project.createdAt)}</td>
                 <td>{conciseDate(project.updatedAt)}</td>

@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { sdk } from "../../utils/sdk";
-import { PencilSquareIcon, SquaresPlusIcon } from "@heroicons/react/24/outline";
+import {
+  LinkIcon,
+  PencilSquareIcon,
+  SquaresPlusIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { conciseDate } from "../../utils/format-primitives";
 
 const OrganizationsPage = async () => {
@@ -32,17 +37,41 @@ const OrganizationsPage = async () => {
           <tbody>
             {data.organizations.nodes.map(organization => (
               <tr key={organization.id}>
-                <th className="" scope="row">
-                  <Link
-                    className="inline-flex  text-xs bg-slate-300 font-mono py-0.5 px-1 rounded text-slate-600"
-                    href={"/organizations/" + organization.id}
-                  >
-                    <PencilSquareIcon className="w-4 h-4" /> {organization.id}
-                  </Link>
+                <th className="flex gap-2" scope="row">
+                  <div className="inline-flex  text-xs bg-slate-300 font-mono py-0.5 px-1 rounded text-slate-600">
+                    {organization.id}
+                  </div>
+                  <div className="flex gap-2">
+                    {" "}
+                    <Link href={"/organizations/" + organization.id}>
+                      <LinkIcon className="w-4 h-4" />
+                    </Link>
+                    <Link href={"/organizations/" + organization.id}>
+                      {" "}
+                      <PencilSquareIcon className="w-4 h-4" />{" "}
+                    </Link>
+                    <button>
+                      <TrashIcon className="w-4 h-4" />
+                    </button>
+                  </div>
                 </th>
                 <td>{organization.name}</td>
                 <td>{organization.description}</td>
-                <td>{organization.logoUrl}</td>
+                <td>
+                  {organization.logoUrl ? (
+                    <img
+                      src={organization.logoUrl}
+                      alt="logo"
+                      className="object-contain object-center w-10 h-10 m-0 border rounded-full border-slate-700"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center w-10 h-10 border rounded-full bg-slate-300 border-slate-700">
+                      <span className="font-serif text-xl text-slate-600">
+                        {organization.name[0]}
+                      </span>
+                    </div>
+                  )}
+                </td>
                 <td>{conciseDate(organization.createdAt)}</td>
                 <td>{conciseDate(organization.updatedAt)}</td>
               </tr>
