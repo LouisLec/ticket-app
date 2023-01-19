@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "./scripts/with-env.sh turbo dev"
+    "dev": "./scripts/with-env.sh turbo dev",
+    "init:db": "./scripts/with-env.sh node ./scripts/init-db.js",
+    "ruru": "./scripts/with-env.sh npx -p http-proxy -p ruru ruru -SPe 'http://localhost:8000/graphql'",
+    "gm": " pnpm --filter db gm "
   },
   "repository": {
     "type": "git",

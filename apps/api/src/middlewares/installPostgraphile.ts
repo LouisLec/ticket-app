@@ -30,6 +30,7 @@ const postgraphileDevelopmentOptions: PostGraphileOptions = {
   showErrorStack: "json",
   extendedErrors: ["hint", "detail", "errcode"],
   exportGqlSchemaPath: "../../data/schema.graphql",
+  exportJsonSchemaPath: "../../data/schema.json",
   graphiql: true,
   enhanceGraphiql: true,
   allowExplain: true,
