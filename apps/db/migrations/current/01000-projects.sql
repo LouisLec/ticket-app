@@ -43,6 +43,10 @@ create table publ.projects (
 
 -- fixtures
     -- fixtures go here
+      insert into publ.projects (id, name, description, organization_id) values ('b9b4b51f-e5e1-4068-a593-4c7212da4e2d', 'Chez Daddy', 'Des cafés conviviaux et intergénrationnels pour recréer du lien dans les quartiers', (select id from publ.organizations where name = 'The Organisation'));
+    insert into publ.projects (id, name, description, organization_id) values ('2678d40b-c0ee-4472-b9b1-146374a87fa4', 'Canto', 'Le conservatoire du chant populaire', (select id from publ.organizations where name = 'The Organisation'));
+    insert into publ.projects (id, name, description, organization_id) values ('a04700b6-8afc-4ce5-a820-599b6cef5de1', 'Napol.io', 'Le meilleur booster de productivité pour la gestion de projet informatique', (select id from publ.organizations where name = 'The Organisation'));
+
 /*
     END TABLE: publ.projects
 
@@ -91,6 +95,10 @@ create table publ.personas (
 
 -- fixtures
   -- fixtures go here
+  -- insert 4 personas for project Canto
+  insert into publ.personas (id, name, short_name, description, project_id) values ('f7d728b7-c490-4118-bc67-eb2dce230811', 'Chanteur', 'Chanteur', 'Chanteur', (select id from publ.projects where name = 'Canto'));
+  insert into publ.personas (id, name, short_name, description, project_id) values ('8d26313c-564a-47a4-8e12-8b83b39b5dc6', 'Chanteuse', 'Chanteuse', 'Chanteuse', (select id from publ.projects where name = 'Canto'));
+  insert into publ.personas (id, name, short_name, description, project_id) values ('acff5612-9c8b-429b-8077-d2b98d48bb87', 'Choriste', 'Choriste', 'Choriste', (select id from publ.projects where name = 'Canto'));
 /*
   END TABLE: publ.personas
 */

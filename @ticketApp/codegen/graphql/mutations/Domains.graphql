@@ -1,0 +1,28 @@
+# mutations to create, delete and update a domain.
+
+# create a domain
+mutation CreateDomain($input: CreateDomainInput!) {
+  createDomain(input: $input) {
+    domain {
+      ...DomainFragment
+    }
+  }
+}
+
+# delete a domain
+mutation DeleteDomain($input: DeleteDomainInput!) {
+  deleteDomain(input: $input) {
+    domain {
+      ...DomainFragment
+    }
+  }
+}
+
+# update a domain
+mutation UpdateDomain($input: UpdateDomainInput!) {
+  updateDomain(input: $input) {
+    domain {
+      ...DomainFragment
+    }
+  }
+}

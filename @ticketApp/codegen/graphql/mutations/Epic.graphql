@@ -1,0 +1,28 @@
+# mutations to create, delete and update an epic.
+
+# Create an epic,
+mutation CreateEpic($input: CreateEpicInput!) {
+  createEpic(input: $input) {
+    epic {
+      ...EpicFragment
+    }
+  }
+}
+
+# Delete an epic,
+mutation DeleteEpic($input: DeleteEpicInput!) {
+  deleteEpic(input: $input) {
+    epic {
+      ...EpicFragment
+    }
+  }
+}
+
+# Update an epic,
+mutation UpdateEpic($input: UpdateEpicInput!) {
+  updateEpic(input: $input) {
+    epic {
+      ...EpicFragment
+    }
+  }
+}

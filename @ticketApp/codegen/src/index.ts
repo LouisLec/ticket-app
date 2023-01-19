@@ -48,18 +48,10 @@ export type CreateDomainPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `Domain` that was created by this mutation. */
   domain?: Maybe<Domain>;
-  /** An edge for our `Domain`. May be used by Relay 1. */
-  domainEdge?: Maybe<DomainsEdge>;
   /** Reads a single `Project` that is related to this `Domain`. */
   project?: Maybe<Project>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `Domain` mutation. */
-export type CreateDomainPayloadDomainEdgeArgs = {
-  orderBy?: InputMaybe<Array<DomainsOrderBy>>;
 };
 
 /** All input for the create `Epic` mutation. */
@@ -151,18 +143,10 @@ export type CreatePersonaPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `Persona` that was created by this mutation. */
   persona?: Maybe<Persona>;
-  /** An edge for our `Persona`. May be used by Relay 1. */
-  personaEdge?: Maybe<PersonasEdge>;
   /** Reads a single `Project` that is related to this `Persona`. */
   project?: Maybe<Project>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our create `Persona` mutation. */
-export type CreatePersonaPayloadPersonaEdgeArgs = {
-  orderBy?: InputMaybe<Array<PersonasOrderBy>>;
 };
 
 /** All input for the create `Project` mutation. */
@@ -334,18 +318,10 @@ export type DeleteDomainPayload = {
   deletedDomainNodeId?: Maybe<Scalars['ID']>;
   /** The `Domain` that was deleted by this mutation. */
   domain?: Maybe<Domain>;
-  /** An edge for our `Domain`. May be used by Relay 1. */
-  domainEdge?: Maybe<DomainsEdge>;
   /** Reads a single `Project` that is related to this `Domain`. */
   project?: Maybe<Project>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `Domain` mutation. */
-export type DeleteDomainPayloadDomainEdgeArgs = {
-  orderBy?: InputMaybe<Array<DomainsOrderBy>>;
 };
 
 /** All input for the `deleteEpicByNodeId` mutation. */
@@ -479,18 +455,10 @@ export type DeletePersonaPayload = {
   deletedPersonaNodeId?: Maybe<Scalars['ID']>;
   /** The `Persona` that was deleted by this mutation. */
   persona?: Maybe<Persona>;
-  /** An edge for our `Persona`. May be used by Relay 1. */
-  personaEdge?: Maybe<PersonasEdge>;
   /** Reads a single `Project` that is related to this `Persona`. */
   project?: Maybe<Project>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `Persona` mutation. */
-export type DeletePersonaPayloadPersonaEdgeArgs = {
-  orderBy?: InputMaybe<Array<PersonasOrderBy>>;
 };
 
 /** All input for the `deleteProjectByNodeId` mutation. */
@@ -648,6 +616,7 @@ export type DeleteUserStoryPayloadUserStoryEdgeArgs = {
   orderBy?: InputMaybe<Array<UserStoriesOrderBy>>;
 };
 
+/** An area of the project, such as DB, backend, frontend... */
 export type Domain = Node & {
   __typename?: 'Domain';
   color: Scalars['String'];
@@ -729,28 +698,6 @@ export type DomainPatch = {
   updatedAt?: InputMaybe<Scalars['Datetime']>;
 };
 
-/** A connection to a list of `Domain` values. */
-export type DomainsConnection = {
-  __typename?: 'DomainsConnection';
-  /** A list of edges which contains the `Domain` and cursor to aid in pagination. */
-  edges: Array<DomainsEdge>;
-  /** A list of `Domain` objects. */
-  nodes: Array<Domain>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Domain` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Domain` edge in the connection. */
-export type DomainsEdge = {
-  __typename?: 'DomainsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Domain` at the end of the edge. */
-  node: Domain;
-};
-
 /** Methods to use when ordering `Domain`. */
 export enum DomainsOrderBy {
   CreatedAtAsc = 'CREATED_AT_ASC',
@@ -770,6 +717,7 @@ export enum DomainsOrderBy {
   UpdatedAtDesc = 'UPDATED_AT_DESC'
 }
 
+/** A precisely defined action of a persona using the project. */
 export type Epic = Node & {
   __typename?: 'Epic';
   createdAt: Scalars['Datetime'];
@@ -786,9 +734,12 @@ export type Epic = Node & {
   updatedAt: Scalars['Datetime'];
   /** Reads and enables pagination through a set of `UserStory`. */
   userStories: UserStoriesConnection;
+  /** Reads and enables pagination through a set of `UserStory`. */
+  userStoriesList: Array<UserStory>;
 };
 
 
+/** A precisely defined action of a persona using the project. */
 export type EpicUserStoriesArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -796,6 +747,16 @@ export type EpicUserStoriesArgs = {
   filter?: InputMaybe<UserStoryFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserStoriesOrderBy>>;
+};
+
+
+/** A precisely defined action of a persona using the project. */
+export type EpicUserStoriesListArgs = {
+  condition?: InputMaybe<UserStoryCondition>;
+  filter?: InputMaybe<UserStoryFilter>;
+  first?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<UserStoriesOrderBy>>;
 };
@@ -1388,6 +1349,7 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['Cursor']>;
 };
 
+/** A typical user of the project, such as a developer, a designer, a manager, etc. */
 export type Persona = Node & {
   __typename?: 'Persona';
   createdAt: Scalars['Datetime'];
@@ -1403,9 +1365,12 @@ export type Persona = Node & {
   updatedAt: Scalars['Datetime'];
   /** Reads and enables pagination through a set of `UserStory`. */
   userStoriesByAsA: UserStoriesConnection;
+  /** Reads and enables pagination through a set of `UserStory`. */
+  userStoriesByAsAList: Array<UserStory>;
 };
 
 
+/** A typical user of the project, such as a developer, a designer, a manager, etc. */
 export type PersonaUserStoriesByAsAArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -1413,6 +1378,16 @@ export type PersonaUserStoriesByAsAArgs = {
   filter?: InputMaybe<UserStoryFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserStoriesOrderBy>>;
+};
+
+
+/** A typical user of the project, such as a developer, a designer, a manager, etc. */
+export type PersonaUserStoriesByAsAListArgs = {
+  condition?: InputMaybe<UserStoryCondition>;
+  filter?: InputMaybe<UserStoryFilter>;
+  first?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<UserStoriesOrderBy>>;
 };
@@ -1473,28 +1448,6 @@ export type PersonaPatch = {
   updatedAt?: InputMaybe<Scalars['Datetime']>;
 };
 
-/** A connection to a list of `Persona` values. */
-export type PersonasConnection = {
-  __typename?: 'PersonasConnection';
-  /** A list of edges which contains the `Persona` and cursor to aid in pagination. */
-  edges: Array<PersonasEdge>;
-  /** A list of `Persona` objects. */
-  nodes: Array<Persona>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Persona` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Persona` edge in the connection. */
-export type PersonasEdge = {
-  __typename?: 'PersonasEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Persona` at the end of the edge. */
-  node: Persona;
-};
-
 /** Methods to use when ordering `Persona`. */
 export enum PersonasOrderBy {
   CreatedAtAsc = 'CREATED_AT_ASC',
@@ -1517,9 +1470,11 @@ export type Project = Node & {
   createdAt: Scalars['Datetime'];
   description: Scalars['String'];
   /** Reads and enables pagination through a set of `Domain`. */
-  domains: DomainsConnection;
+  domainsList: Array<Domain>;
   /** Reads and enables pagination through a set of `Epic`. */
   epics: EpicsConnection;
+  /** Reads and enables pagination through a set of `Epic`. */
+  epicsList: Array<Epic>;
   id: Scalars['UUID'];
   name: Scalars['String'];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -1529,18 +1484,15 @@ export type Project = Node & {
   organization?: Maybe<Organization>;
   organizationId: Scalars['UUID'];
   /** Reads and enables pagination through a set of `Persona`. */
-  personas: PersonasConnection;
+  personasList: Array<Persona>;
   updatedAt: Scalars['Datetime'];
 };
 
 
-export type ProjectDomainsArgs = {
-  after?: InputMaybe<Scalars['Cursor']>;
-  before?: InputMaybe<Scalars['Cursor']>;
+export type ProjectDomainsListArgs = {
   condition?: InputMaybe<DomainCondition>;
   filter?: InputMaybe<DomainFilter>;
   first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<DomainsOrderBy>>;
 };
@@ -1558,13 +1510,19 @@ export type ProjectEpicsArgs = {
 };
 
 
-export type ProjectPersonasArgs = {
-  after?: InputMaybe<Scalars['Cursor']>;
-  before?: InputMaybe<Scalars['Cursor']>;
+export type ProjectEpicsListArgs = {
+  condition?: InputMaybe<EpicCondition>;
+  filter?: InputMaybe<EpicFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<EpicsOrderBy>>;
+};
+
+
+export type ProjectPersonasListArgs = {
   condition?: InputMaybe<PersonaCondition>;
   filter?: InputMaybe<PersonaFilter>;
   first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<PersonasOrderBy>>;
 };
@@ -1670,13 +1628,15 @@ export type Query = Node & {
   domain?: Maybe<Domain>;
   /** Reads a single `Domain` using its globally unique `ID`. */
   domainByNodeId?: Maybe<Domain>;
-  /** Reads and enables pagination through a set of `Domain`. */
-  domains?: Maybe<DomainsConnection>;
+  /** Reads a set of `Domain`. */
+  domainsList?: Maybe<Array<Domain>>;
   epic?: Maybe<Epic>;
   /** Reads a single `Epic` using its globally unique `ID`. */
   epicByNodeId?: Maybe<Epic>;
   /** Reads and enables pagination through a set of `Epic`. */
   epics?: Maybe<EpicsConnection>;
+  /** Reads a set of `Epic`. */
+  epicsList?: Maybe<Array<Epic>>;
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>;
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
@@ -1689,8 +1649,8 @@ export type Query = Node & {
   persona?: Maybe<Persona>;
   /** Reads a single `Persona` using its globally unique `ID`. */
   personaByNodeId?: Maybe<Persona>;
-  /** Reads and enables pagination through a set of `Persona`. */
-  personas?: Maybe<PersonasConnection>;
+  /** Reads a set of `Persona`. */
+  personasList?: Maybe<Array<Persona>>;
   project?: Maybe<Project>;
   /** Reads a single `Project` using its globally unique `ID`. */
   projectByNodeId?: Maybe<Project>;
@@ -1709,6 +1669,8 @@ export type Query = Node & {
   tasks?: Maybe<TasksConnection>;
   /** Reads and enables pagination through a set of `UserStory`. */
   userStories?: Maybe<UserStoriesConnection>;
+  /** Reads a set of `UserStory`. */
+  userStoriesList?: Maybe<Array<UserStory>>;
   userStory?: Maybe<UserStory>;
   /** Reads a single `UserStory` using its globally unique `ID`. */
   userStoryByNodeId?: Maybe<UserStory>;
@@ -1728,13 +1690,10 @@ export type QueryDomainByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryDomainsArgs = {
-  after?: InputMaybe<Scalars['Cursor']>;
-  before?: InputMaybe<Scalars['Cursor']>;
+export type QueryDomainsListArgs = {
   condition?: InputMaybe<DomainCondition>;
   filter?: InputMaybe<DomainFilter>;
   first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<DomainsOrderBy>>;
 };
@@ -1760,6 +1719,16 @@ export type QueryEpicsArgs = {
   filter?: InputMaybe<EpicFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<EpicsOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEpicsListArgs = {
+  condition?: InputMaybe<EpicCondition>;
+  filter?: InputMaybe<EpicFilter>;
+  first?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<EpicsOrderBy>>;
 };
@@ -1809,13 +1778,10 @@ export type QueryPersonaByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryPersonasArgs = {
-  after?: InputMaybe<Scalars['Cursor']>;
-  before?: InputMaybe<Scalars['Cursor']>;
+export type QueryPersonasListArgs = {
   condition?: InputMaybe<PersonaCondition>;
   filter?: InputMaybe<PersonaFilter>;
   first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<PersonasOrderBy>>;
 };
@@ -1886,6 +1852,16 @@ export type QueryUserStoriesArgs = {
   filter?: InputMaybe<UserStoryFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserStoriesOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserStoriesListArgs = {
+  condition?: InputMaybe<UserStoryCondition>;
+  filter?: InputMaybe<UserStoryFilter>;
+  first?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<UserStoriesOrderBy>>;
 };
@@ -2235,18 +2211,10 @@ export type UpdateDomainPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `Domain` that was updated by this mutation. */
   domain?: Maybe<Domain>;
-  /** An edge for our `Domain`. May be used by Relay 1. */
-  domainEdge?: Maybe<DomainsEdge>;
   /** Reads a single `Project` that is related to this `Domain`. */
   project?: Maybe<Project>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `Domain` mutation. */
-export type UpdateDomainPayloadDomainEdgeArgs = {
-  orderBy?: InputMaybe<Array<DomainsOrderBy>>;
 };
 
 /** All input for the `updateEpicByNodeId` mutation. */
@@ -2380,18 +2348,10 @@ export type UpdatePersonaPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `Persona` that was updated by this mutation. */
   persona?: Maybe<Persona>;
-  /** An edge for our `Persona`. May be used by Relay 1. */
-  personaEdge?: Maybe<PersonasEdge>;
   /** Reads a single `Project` that is related to this `Persona`. */
   project?: Maybe<Project>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-};
-
-
-/** The output of our update `Persona` mutation. */
-export type UpdatePersonaPayloadPersonaEdgeArgs = {
-  orderBy?: InputMaybe<Array<PersonasOrderBy>>;
 };
 
 /** All input for the `updateProjectByNodeId` mutation. */
@@ -2603,11 +2563,14 @@ export enum UserStoriesOrderBy {
   UpdatedAtDesc = 'UPDATED_AT_DESC'
 }
 
+/** A precisely defined action of a persona using the project. */
 export type UserStory = Node & {
   __typename?: 'UserStory';
   asA?: Maybe<Scalars['UUID']>;
   /** Reads and enables pagination through a set of `UserStory`. */
   childUserStories: UserStoriesConnection;
+  /** Reads and enables pagination through a set of `UserStory`. */
+  childUserStoriesList: Array<UserStory>;
   comments?: Maybe<Scalars['String']>;
   createdAt: Scalars['Datetime'];
   /** Reads a single `Epic` that is related to this `UserStory`. */
@@ -2633,6 +2596,7 @@ export type UserStory = Node & {
 };
 
 
+/** A precisely defined action of a persona using the project. */
 export type UserStoryChildUserStoriesArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -2645,6 +2609,17 @@ export type UserStoryChildUserStoriesArgs = {
 };
 
 
+/** A precisely defined action of a persona using the project. */
+export type UserStoryChildUserStoriesListArgs = {
+  condition?: InputMaybe<UserStoryCondition>;
+  filter?: InputMaybe<UserStoryFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserStoriesOrderBy>>;
+};
+
+
+/** A precisely defined action of a persona using the project. */
 export type UserStoryTasksByStoryIdArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -2735,13 +2710,59 @@ export type UserStoryPatch = {
   variables?: InputMaybe<Scalars['String']>;
 };
 
+export type DomainFragmentFragment = { __typename?: 'Domain', id: any, name: string, shortName: string, color: string };
+
 export type EpicFragmentFragment = { __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any };
 
 export type OrganizationFragmentFragment = { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any };
 
+export type PersonaFragmentFragment = { __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any };
+
 export type ProjectFragmentFragment = { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any };
 
 export type UserStoryFragmentFragment = { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any };
+
+export type CreateDomainMutationVariables = Exact<{
+  input: CreateDomainInput;
+}>;
+
+
+export type CreateDomainMutation = { __typename?: 'Mutation', createDomain?: { __typename?: 'CreateDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string } | null } | null };
+
+export type DeleteDomainMutationVariables = Exact<{
+  input: DeleteDomainInput;
+}>;
+
+
+export type DeleteDomainMutation = { __typename?: 'Mutation', deleteDomain?: { __typename?: 'DeleteDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string } | null } | null };
+
+export type UpdateDomainMutationVariables = Exact<{
+  input: UpdateDomainInput;
+}>;
+
+
+export type UpdateDomainMutation = { __typename?: 'Mutation', updateDomain?: { __typename?: 'UpdateDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string } | null } | null };
+
+export type CreateEpicMutationVariables = Exact<{
+  input: CreateEpicInput;
+}>;
+
+
+export type CreateEpicMutation = { __typename?: 'Mutation', createEpic?: { __typename?: 'CreateEpicPayload', epic?: { __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any } | null } | null };
+
+export type DeleteEpicMutationVariables = Exact<{
+  input: DeleteEpicInput;
+}>;
+
+
+export type DeleteEpicMutation = { __typename?: 'Mutation', deleteEpic?: { __typename?: 'DeleteEpicPayload', epic?: { __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any } | null } | null };
+
+export type UpdateEpicMutationVariables = Exact<{
+  input: UpdateEpicInput;
+}>;
+
+
+export type UpdateEpicMutation = { __typename?: 'Mutation', updateEpic?: { __typename?: 'UpdateEpicPayload', epic?: { __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any } | null } | null };
 
 export type CreateOrganizationMutationVariables = Exact<{
   input: CreateOrganizationInput;
@@ -2756,6 +2777,27 @@ export type UpdateOrganizationMutationVariables = Exact<{
 
 
 export type UpdateOrganizationMutation = { __typename?: 'Mutation', updateOrganization?: { __typename?: 'UpdateOrganizationPayload', organization?: { __typename?: 'Organization', id: any } | null } | null };
+
+export type CreatePersonaMutationVariables = Exact<{
+  input: CreatePersonaInput;
+}>;
+
+
+export type CreatePersonaMutation = { __typename?: 'Mutation', createPersona?: { __typename?: 'CreatePersonaPayload', persona?: { __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any } | null } | null };
+
+export type DeletePersonaMutationVariables = Exact<{
+  input: DeletePersonaInput;
+}>;
+
+
+export type DeletePersonaMutation = { __typename?: 'Mutation', deletePersona?: { __typename?: 'DeletePersonaPayload', persona?: { __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any } | null } | null };
+
+export type UpdatePersonaMutationVariables = Exact<{
+  input: UpdatePersonaInput;
+}>;
+
+
+export type UpdatePersonaMutation = { __typename?: 'Mutation', updatePersona?: { __typename?: 'UpdatePersonaPayload', persona?: { __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any } | null } | null };
 
 export type CreateProjectMutationVariables = Exact<{
   input: CreateProjectInput;
@@ -2783,6 +2825,21 @@ export type GetAllProjectsByOrganizationIdQueryVariables = Exact<{
 
 export type GetAllProjectsByOrganizationIdQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectsConnection', nodes: Array<{ __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any }> } | null };
 
+export type GetProjectByIdQueryVariables = Exact<{
+  projectId: Scalars['UUID'];
+}>;
+
+
+export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any }> }> } | null };
+
+export const DomainFragmentFragmentDoc = gql`
+    fragment DomainFragment on Domain {
+  id
+  name
+  shortName
+  color
+}
+    `;
 export const EpicFragmentFragmentDoc = gql`
     fragment EpicFragment on Epic {
   id
@@ -2799,6 +2856,16 @@ export const OrganizationFragmentFragmentDoc = gql`
   name
   description
   logoUrl
+  createdAt
+  updatedAt
+}
+    `;
+export const PersonaFragmentFragmentDoc = gql`
+    fragment PersonaFragment on Persona {
+  id
+  name
+  shortName
+  description
   createdAt
   updatedAt
 }
@@ -2827,6 +2894,60 @@ export const UserStoryFragmentFragmentDoc = gql`
   updatedAt
 }
     `;
+export const CreateDomainDocument = gql`
+    mutation CreateDomain($input: CreateDomainInput!) {
+  createDomain(input: $input) {
+    domain {
+      ...DomainFragment
+    }
+  }
+}
+    ${DomainFragmentFragmentDoc}`;
+export const DeleteDomainDocument = gql`
+    mutation DeleteDomain($input: DeleteDomainInput!) {
+  deleteDomain(input: $input) {
+    domain {
+      ...DomainFragment
+    }
+  }
+}
+    ${DomainFragmentFragmentDoc}`;
+export const UpdateDomainDocument = gql`
+    mutation UpdateDomain($input: UpdateDomainInput!) {
+  updateDomain(input: $input) {
+    domain {
+      ...DomainFragment
+    }
+  }
+}
+    ${DomainFragmentFragmentDoc}`;
+export const CreateEpicDocument = gql`
+    mutation CreateEpic($input: CreateEpicInput!) {
+  createEpic(input: $input) {
+    epic {
+      ...EpicFragment
+    }
+  }
+}
+    ${EpicFragmentFragmentDoc}`;
+export const DeleteEpicDocument = gql`
+    mutation DeleteEpic($input: DeleteEpicInput!) {
+  deleteEpic(input: $input) {
+    epic {
+      ...EpicFragment
+    }
+  }
+}
+    ${EpicFragmentFragmentDoc}`;
+export const UpdateEpicDocument = gql`
+    mutation UpdateEpic($input: UpdateEpicInput!) {
+  updateEpic(input: $input) {
+    epic {
+      ...EpicFragment
+    }
+  }
+}
+    ${EpicFragmentFragmentDoc}`;
 export const CreateOrganizationDocument = gql`
     mutation CreateOrganization($input: CreateOrganizationInput!) {
   createOrganization(input: $input) {
@@ -2845,6 +2966,33 @@ export const UpdateOrganizationDocument = gql`
   }
 }
     `;
+export const CreatePersonaDocument = gql`
+    mutation CreatePersona($input: CreatePersonaInput!) {
+  createPersona(input: $input) {
+    persona {
+      ...PersonaFragment
+    }
+  }
+}
+    ${PersonaFragmentFragmentDoc}`;
+export const DeletePersonaDocument = gql`
+    mutation DeletePersona($input: DeletePersonaInput!) {
+  deletePersona(input: $input) {
+    persona {
+      ...PersonaFragment
+    }
+  }
+}
+    ${PersonaFragmentFragmentDoc}`;
+export const UpdatePersonaDocument = gql`
+    mutation UpdatePersona($input: UpdatePersonaInput!) {
+  updatePersona(input: $input) {
+    persona {
+      ...PersonaFragment
+    }
+  }
+}
+    ${PersonaFragmentFragmentDoc}`;
 export const CreateProjectDocument = gql`
     mutation CreateProject($input: CreateProjectInput!) {
   createProject(input: $input) {
@@ -2889,6 +3037,29 @@ export const GetAllProjectsByOrganizationIdDocument = gql`
   }
 }
     ${ProjectFragmentFragmentDoc}`;
+export const GetProjectByIdDocument = gql`
+    query GetProjectById($projectId: UUID!) {
+  project(id: $projectId) {
+    ...ProjectFragment
+    domainsList {
+      ...DomainFragment
+    }
+    personasList {
+      ...PersonaFragment
+    }
+    epicsList {
+      ...EpicFragment
+      userStoriesList {
+        ...UserStoryFragment
+      }
+    }
+  }
+}
+    ${ProjectFragmentFragmentDoc}
+${DomainFragmentFragmentDoc}
+${PersonaFragmentFragmentDoc}
+${EpicFragmentFragmentDoc}
+${UserStoryFragmentFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -2897,11 +3068,38 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    CreateDomain(variables: CreateDomainMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateDomainMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateDomainMutation>(CreateDomainDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateDomain', 'mutation');
+    },
+    DeleteDomain(variables: DeleteDomainMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteDomainMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteDomainMutation>(DeleteDomainDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteDomain', 'mutation');
+    },
+    UpdateDomain(variables: UpdateDomainMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateDomainMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateDomainMutation>(UpdateDomainDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateDomain', 'mutation');
+    },
+    CreateEpic(variables: CreateEpicMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateEpicMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateEpicMutation>(CreateEpicDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateEpic', 'mutation');
+    },
+    DeleteEpic(variables: DeleteEpicMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteEpicMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteEpicMutation>(DeleteEpicDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteEpic', 'mutation');
+    },
+    UpdateEpic(variables: UpdateEpicMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateEpicMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateEpicMutation>(UpdateEpicDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateEpic', 'mutation');
+    },
     CreateOrganization(variables: CreateOrganizationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateOrganizationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateOrganizationMutation>(CreateOrganizationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateOrganization', 'mutation');
     },
     UpdateOrganization(variables: UpdateOrganizationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateOrganizationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateOrganizationMutation>(UpdateOrganizationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateOrganization', 'mutation');
+    },
+    CreatePersona(variables: CreatePersonaMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreatePersonaMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreatePersonaMutation>(CreatePersonaDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreatePersona', 'mutation');
+    },
+    DeletePersona(variables: DeletePersonaMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeletePersonaMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeletePersonaMutation>(DeletePersonaDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeletePersona', 'mutation');
+    },
+    UpdatePersona(variables: UpdatePersonaMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdatePersonaMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdatePersonaMutation>(UpdatePersonaDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdatePersona', 'mutation');
     },
     CreateProject(variables: CreateProjectMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateProjectMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateProjectMutation>(CreateProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateProject', 'mutation');
@@ -2914,6 +3112,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetAllProjectsByOrganizationId(variables: GetAllProjectsByOrganizationIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAllProjectsByOrganizationIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetAllProjectsByOrganizationIdQuery>(GetAllProjectsByOrganizationIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetAllProjectsByOrganizationId', 'query');
+    },
+    GetProjectById(variables: GetProjectByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProjectByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetProjectByIdQuery>(GetProjectByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetProjectById', 'query');
     }
   };
 }

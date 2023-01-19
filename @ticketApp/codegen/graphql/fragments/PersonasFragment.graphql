@@ -1,0 +1,8 @@
+fragment PersonaFragment on Persona {
+  id
+  name
+  shortName
+  description
+  createdAt
+  updatedAt
+}

@@ -3,6 +3,30 @@
   "version": 1,
   "config": {
     "class": {
+      "publ.domains": {
+        "description": "An area of the project, such as DB, backend, frontend...",
+        "tags": {
+          "simpleCollections": "only"
+        }
+      },
+      "publ.personas": {
+        "description": "A typical user of the project, such as a developer, a designer, a manager, etc.",
+        "tags": {
+          "simpleCollections": "only"
+        }
+      },
+      "publ.user_stories": {
+        "description": "A precisely defined action of a persona using the project.",
+        "tags": {
+          "simpleCollections": "both"
+        }
+      },
+      "publ.epics": {
+        "description": "A precisely defined action of a persona using the project.",
+        "tags": {
+          "simpleCollections": "both"
+        }
+      },
       "publ.organizations": {
         "description": "A company, organization, or institution.",
         "attribute": {

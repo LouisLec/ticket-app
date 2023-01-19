@@ -1,0 +1,6 @@
+fragment DomainFragment on Domain {
+  id
+  name
+  shortName
+  color
+}

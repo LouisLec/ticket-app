@@ -1,0 +1,28 @@
+# mutations to create, delete and update a persona.
+
+# create a persona
+mutation CreatePersona($input: CreatePersonaInput!) {
+  createPersona(input: $input) {
+    persona {
+      ...PersonaFragment
+    }
+  }
+}
+
+# delete a persona
+mutation DeletePersona($input: DeletePersonaInput!) {
+  deletePersona(input: $input) {
+    persona {
+      ...PersonaFragment
+    }
+  }
+}
+
+# update a persona
+mutation UpdatePersona($input: UpdatePersonaInput!) {
+  updatePersona(input: $input) {
+    persona {
+      ...PersonaFragment
+    }
+  }
+}

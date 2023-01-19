@@ -17,28 +17,16 @@ type Query implements Node {
     nodeId: ID!
   ): Node
 
-  """Reads and enables pagination through a set of `Domain`."""
-  domains(
+  """Reads a set of `Domain`."""
+  domainsList(
     """Only read the first `n` values of the set."""
     first: Int
 
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
+    """Skip the first `n` values."""
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
     """The method to use when ordering `Domain`."""
-    orderBy: [DomainsOrderBy!] = [PRIMARY_KEY_ASC]
+    orderBy: [DomainsOrderBy!]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -49,7 +37,7 @@ type Query implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: DomainFilter
-  ): DomainsConnection
+  ): [Domain!]
 
   """Reads and enables pagination through a set of `Epic`."""
   epics(
@@ -85,6 +73,28 @@ type Query implements Node {
     filter: EpicFilter
   ): EpicsConnection
 
+  """Reads a set of `Epic`."""
+  epicsList(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """The method to use when ordering `Epic`."""
+    orderBy: [EpicsOrderBy!]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EpicCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EpicFilter
+  ): [Epic!]
+
   """Reads and enables pagination through a set of `Organization`."""
   organizations(
     """Only read the first `n` values of the set."""
@@ -119,28 +129,16 @@ type Query implements Node {
     filter: OrganizationFilter
   ): OrganizationsConnection
 
-  """Reads and enables pagination through a set of `Persona`."""
-  personas(
+  """Reads a set of `Persona`."""
+  personasList(
     """Only read the first `n` values of the set."""
     first: Int
 
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
+    """Skip the first `n` values."""
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
     """The method to use when ordering `Persona`."""
-    orderBy: [PersonasOrderBy!] = [PRIMARY_KEY_ASC]
+    orderBy: [PersonasOrderBy!]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -151,7 +149,7 @@ type Query implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: PersonaFilter
-  ): PersonasConnection
+  ): [Persona!]
 
   """Reads and enables pagination through a set of `Project`."""
   projects(
@@ -254,6 +252,28 @@ type Query implements Node {
     """
     filter: UserStoryFilter
   ): UserStoriesConnection
+
+  """Reads a set of `UserStory`."""
+  userStoriesList(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserStoryCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UserStoryFilter
+  ): [UserStory!]
   domain(id: UUID!): Domain
   epic(id: UUID!): Epic
   organization(id: UUID!): Organization
@@ -316,23 +336,7 @@ interface Node {
   nodeId: ID!
 }
 
-"""A connection to a list of `Domain` values."""
-type DomainsConnection {
-  """A list of `Domain` objects."""
-  nodes: [Domain!]!
-
-  """
-  A list of edges which contains the `Domain` and cursor to aid in pagination.
-  """
-  edges: [DomainsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Domain` you could get from the connection."""
-  totalCount: Int!
-}
-
+"""An area of the project, such as DB, backend, frontend..."""
 type Domain implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -380,27 +384,15 @@ type Project implements Node {
   organization: Organization
 
   """Reads and enables pagination through a set of `Persona`."""
-  personas(
+  personasList(
     """Only read the first `n` values of the set."""
     first: Int
 
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
+    """Skip the first `n` values."""
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
     """The method to use when ordering `Persona`."""
-    orderBy: [PersonasOrderBy!] = [PRIMARY_KEY_ASC]
+    orderBy: [PersonasOrderBy!]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -411,30 +403,18 @@ type Project implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: PersonaFilter
-  ): PersonasConnection!
+  ): [Persona!]!
 
   """Reads and enables pagination through a set of `Domain`."""
-  domains(
+  domainsList(
     """Only read the first `n` values of the set."""
     first: Int
 
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
+    """Skip the first `n` values."""
     offset: Int
 
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
     """The method to use when ordering `Domain`."""
-    orderBy: [DomainsOrderBy!] = [PRIMARY_KEY_ASC]
+    orderBy: [DomainsOrderBy!]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -445,7 +425,7 @@ type Project implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: DomainFilter
-  ): DomainsConnection!
+  ): [Domain!]!
 
   """Reads and enables pagination through a set of `Epic`."""
   epics(
@@ -480,6 +460,28 @@ type Project implements Node {
     """
     filter: EpicFilter
   ): EpicsConnection!
+
+  """Reads and enables pagination through a set of `Epic`."""
+  epicsList(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """The method to use when ordering `Epic`."""
+    orderBy: [EpicsOrderBy!]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EpicCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EpicFilter
+  ): [Epic!]!
 }
 
 """A company, organization, or institution."""
@@ -768,23 +770,9 @@ input DatetimeFilter {
   greaterThanOrEqualTo: Datetime
 }
 
-"""A connection to a list of `Persona` values."""
-type PersonasConnection {
-  """A list of `Persona` objects."""
-  nodes: [Persona!]!
-
-  """
-  A list of edges which contains the `Persona` and cursor to aid in pagination.
-  """
-  edges: [PersonasEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Persona` you could get from the connection."""
-  totalCount: Int!
-}
-
+"""
+A typical user of the project, such as a developer, a designer, a manager, etc.
+"""
 type Persona implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -834,6 +822,28 @@ type Persona implements Node {
     """
     filter: UserStoryFilter
   ): UserStoriesConnection!
+
+  """Reads and enables pagination through a set of `UserStory`."""
+  userStoriesByAsAList(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserStoryCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UserStoryFilter
+  ): [UserStory!]!
 }
 
 """A connection to a list of `UserStory` values."""
@@ -853,6 +863,7 @@ type UserStoriesConnection {
   totalCount: Int!
 }
 
+"""A precisely defined action of a persona using the project."""
 type UserStory implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -915,6 +926,28 @@ type UserStory implements Node {
     filter: UserStoryFilter
   ): UserStoriesConnection!
 
+  """Reads and enables pagination through a set of `UserStory`."""
+  childUserStoriesList(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserStoryCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UserStoryFilter
+  ): [UserStory!]!
+
   """Reads and enables pagination through a set of `Task`."""
   tasksByStoryId(
     """Only read the first `n` values of the set."""
@@ -950,6 +983,7 @@ type UserStory implements Node {
   ): TasksConnection!
 }
 
+"""A precisely defined action of a persona using the project."""
 type Epic implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -1000,6 +1034,28 @@ type Epic implements Node {
     """
     filter: UserStoryFilter
   ): UserStoriesConnection!
+
+  """Reads and enables pagination through a set of `UserStory`."""
+  userStoriesList(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """The method to use when ordering `UserStory`."""
+    orderBy: [UserStoriesOrderBy!]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserStoryCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UserStoryFilter
+  ): [UserStory!]!
 }
 
 """Methods to use when ordering `UserStory`."""
@@ -1327,15 +1383,6 @@ type UserStoriesEdge {
 
   """The `UserStory` at the end of the edge."""
   node: UserStory!
-}
-
-"""A `Persona` edge in the connection."""
-type PersonasEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Persona` at the end of the edge."""
-  node: Persona!
 }
 
 """Methods to use when ordering `Persona`."""
@@ -1708,15 +1755,6 @@ input EpicFilter {
 
   """Negates the expression."""
   not: EpicFilter
-}
-
-"""A `Domain` edge in the connection."""
-type DomainsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Domain` at the end of the edge."""
-  node: Domain!
 }
 
 """A connection to a list of `Organization` values."""
@@ -2129,12 +2167,6 @@ type CreateDomainPayload {
 
   """Reads a single `Project` that is related to this `Domain`."""
   project: Project
-
-  """An edge for our `Domain`. May be used by Relay 1."""
-  domainEdge(
-    """The method to use when ordering `Domain`."""
-    orderBy: [DomainsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): DomainsEdge
 }
 
 """All input for the create `Domain` mutation."""
@@ -2277,12 +2309,6 @@ type CreatePersonaPayload {
 
   """Reads a single `Project` that is related to this `Persona`."""
   project: Project
-
-  """An edge for our `Persona`. May be used by Relay 1."""
-  personaEdge(
-    """The method to use when ordering `Persona`."""
-    orderBy: [PersonasOrderBy!] = [PRIMARY_KEY_ASC]
-  ): PersonasEdge
 }
 
 """All input for the create `Persona` mutation."""
@@ -2491,12 +2517,6 @@ type UpdateDomainPayload {
 
   """Reads a single `Project` that is related to this `Domain`."""
   project: Project
-
-  """An edge for our `Domain`. May be used by Relay 1."""
-  domainEdge(
-    """The method to use when ordering `Domain`."""
-    orderBy: [DomainsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): DomainsEdge
 }
 
 """All input for the `updateDomainByNodeId` mutation."""
@@ -2709,12 +2729,6 @@ type UpdatePersonaPayload {
 
   """Reads a single `Project` that is related to this `Persona`."""
   project: Project
-
-  """An edge for our `Persona`. May be used by Relay 1."""
-  personaEdge(
-    """The method to use when ordering `Persona`."""
-    orderBy: [PersonasOrderBy!] = [PRIMARY_KEY_ASC]
-  ): PersonasEdge
 }
 
 """All input for the `updatePersonaByNodeId` mutation."""
@@ -3034,12 +3048,6 @@ type DeleteDomainPayload {
 
   """Reads a single `Project` that is related to this `Domain`."""
   project: Project
-
-  """An edge for our `Domain`. May be used by Relay 1."""
-  domainEdge(
-    """The method to use when ordering `Domain`."""
-    orderBy: [DomainsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): DomainsEdge
 }
 
 """All input for the `deleteDomainByNodeId` mutation."""
@@ -3184,12 +3192,6 @@ type DeletePersonaPayload {
 
   """Reads a single `Project` that is related to this `Persona`."""
   project: Project
-
-  """An edge for our `Persona`. May be used by Relay 1."""
-  personaEdge(
-    """The method to use when ordering `Persona`."""
-    orderBy: [PersonasOrderBy!] = [PRIMARY_KEY_ASC]
-  ): PersonasEdge
 }
 
 """All input for the `deletePersonaByNodeId` mutation."""

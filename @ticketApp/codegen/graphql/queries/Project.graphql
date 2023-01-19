@@ -8,3 +8,21 @@ query GetAllProjectsByOrganizationId($organizationId: UUID!) {
     }
   }
 }
+
+query GetProjectById($projectId: UUID!) {
+  project(id: $projectId) {
+    ...ProjectFragment
+    domainsList {
+      ...DomainFragment
+    }
+    personasList {
+      ...PersonaFragment
+    }
+    epicsList {
+      ...EpicFragment
+      userStoriesList {
+        ...UserStoryFragment
+      }
+    }
+  }
+}
