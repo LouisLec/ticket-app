@@ -213,19 +213,27 @@ export const CreateForm: FC<{
       onSubmit={handleSubmit(onSubmit)}
       className={(isLoading || isPending) && "opacity-40 " + "form-grid"}
     >
-      <div className="flex flex-col">
-        <label htmlFor="name">Name</label>
+      <label
+        htmlFor="name"
+        className="flex flex-col px-4 py-2 mt-2 text-xs rounded text-slate-500 bg-slate-800"
+      >
+        name
         <input
           type="text"
+          className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
           id="name"
-          {...register("name", { required: true })}
+          {...register("name", { required: "This field is damn required" })}
         />
-        {errors.name && <span>This field is required</span>}
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="shortName">shortName</label>
+        {errors.name && <span>errors.name</span>}
+      </label>
+      <label
+        htmlFor="shortName"
+        className="flex flex-col px-4 py-2 mt-2 text-xs rounded text-slate-500 bg-slate-800"
+      >
+        shortName
         <input
           type="text"
+          className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
           id="shortName"
           {...register("shortName", {
             required: "This field is damn required",
@@ -233,38 +241,70 @@ export const CreateForm: FC<{
           })}
         />
         {errors.shortName && <span>errors.shortName</span>}
-      </div>
-
-      {/* a color input for the field "color" */}
-      <div className="flex flex-col">
-        <label htmlFor="color">Color</label>
+      </label>
+      <label
+        htmlFor="color"
+        className="flex flex-col px-4 py-2 mt-2 text-xs border-l-4 rounded text-slate-500 bg-slate-800"
+        style={{ borderColor: "#000000" }}
+      >
+        Color
         <input
+          className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
           type="color"
           id="color"
           {...register("color", { required: true })}
         />
         {errors?.color && <span>This field is required</span>}
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="description">Description</label>
+      </label>
+      <label
+        htmlFor="description "
+        className="flex flex-col px-4 py-2 mt-2 text-xs rounded text-slate-500 bg-slate-800"
+      >
+        Description
         <textarea
           rows={3}
+          className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
           id="description"
           {...register("description", { required: true })}
         />
         {errors.description && <span>This field is required</span>}
+      </label>
+      <div className="flex justify-end gap-2 mt-4">
+        <button
+          type="submit"
+          className="px-4 py-2 font-bold text-white bg-teal-500 rounded hover:bg-teal-700"
+        >
+          {isLoading || isPending ? (
+            <svg
+              className="w-5 h-5 mr-3 -ml-1 text-white animate-spin"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v8z"
+              ></path>
+            </svg>
+          ) : null}
+          save
+        </button>
+        <button
+          className="px-4 py-2 text-teal-700 bg-white border-2 border-teal-500 rounded hover:bg-teal-200"
+          onClick={onCanceled}
+        >
+          cancel
+        </button>
       </div>
-
-      <button type="submit">Submit</button>
-
-      <button
-        onClick={() => {
-          onCanceled();
-        }}
-      >
-        cancel
-      </button>
     </form>
   );
 };
