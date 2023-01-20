@@ -3,4 +3,5 @@ fragment DomainFragment on Domain {
   name
   shortName
   color
+  description
 }

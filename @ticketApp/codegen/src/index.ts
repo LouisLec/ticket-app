@@ -2710,7 +2710,7 @@ export type UserStoryPatch = {
   variables?: InputMaybe<Scalars['String']>;
 };
 
-export type DomainFragmentFragment = { __typename?: 'Domain', id: any, name: string, shortName: string, color: string };
+export type DomainFragmentFragment = { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null };
 
 export type EpicFragmentFragment = { __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any };
 
@@ -2727,21 +2727,21 @@ export type CreateDomainMutationVariables = Exact<{
 }>;
 
 
-export type CreateDomainMutation = { __typename?: 'Mutation', createDomain?: { __typename?: 'CreateDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string } | null } | null };
+export type CreateDomainMutation = { __typename?: 'Mutation', createDomain?: { __typename?: 'CreateDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null } | null } | null };
 
 export type DeleteDomainMutationVariables = Exact<{
   input: DeleteDomainInput;
 }>;
 
 
-export type DeleteDomainMutation = { __typename?: 'Mutation', deleteDomain?: { __typename?: 'DeleteDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string } | null } | null };
+export type DeleteDomainMutation = { __typename?: 'Mutation', deleteDomain?: { __typename?: 'DeleteDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null } | null } | null };
 
 export type UpdateDomainMutationVariables = Exact<{
   input: UpdateDomainInput;
 }>;
 
 
-export type UpdateDomainMutation = { __typename?: 'Mutation', updateDomain?: { __typename?: 'UpdateDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string } | null } | null };
+export type UpdateDomainMutation = { __typename?: 'Mutation', updateDomain?: { __typename?: 'UpdateDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null } | null } | null };
 
 export type CreateEpicMutationVariables = Exact<{
   input: CreateEpicInput;
@@ -2830,7 +2830,7 @@ export type GetProjectByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any }> }> } | null };
+export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any }> }> } | null };
 
 export const DomainFragmentFragmentDoc = gql`
     fragment DomainFragment on Domain {
@@ -2838,6 +2838,7 @@ export const DomainFragmentFragmentDoc = gql`
   name
   shortName
   color
+  description
 }
     `;
 export const EpicFragmentFragmentDoc = gql`

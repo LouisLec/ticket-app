@@ -24,6 +24,9 @@ create table publ.domains (
 
 -- RBAC
   grant select on publ.domains to :DATABASE_VISITOR;
+  grant insert (name, short_name, "order", description, project_id, color) on publ.domains to :DATABASE_VISITOR;
+  grant update (name, short_name, "order", description, color) on publ.domains to :DATABASE_VISITOR;
+  grant delete on publ.domains to :DATABASE_VISITOR;
 
 -- triggers
   create trigger _100_timestamps
