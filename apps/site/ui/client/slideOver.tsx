@@ -35,7 +35,7 @@ export const SlideOver: FC<
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="w-screen max-w-lg pointer-events-auto">
-                  <div className="flex flex-col h-full py-6 overflow-y-scroll bg-white shadow-xl dark:bg-slate-700">
+                  <div className="flex flex-col h-full py-6 overflow-y-scroll bg-white shadow-xl dark:bg-slate-800">
                     <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-lg font-medium dark:text-slate-50 text-slate-900">

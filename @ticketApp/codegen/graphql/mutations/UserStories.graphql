@@ -1,0 +1,28 @@
+# mutations to create, delete and update a user story
+
+## create a user story
+mutation CreateUserStory($input: CreateUserStoryInput!) {
+  createUserStory(input: $input) {
+    userStory {
+      ...UserStoryFragment
+    }
+  }
+}
+
+## delete a user story
+mutation DeleteUserStory($input: DeleteUserStoryInput!) {
+  deleteUserStory(input: $input) {
+    userStory {
+      ...UserStoryFragment
+    }
+  }
+}
+
+## update a user story
+mutation UpdateUserStory($input: UpdateUserStoryInput!) {
+  updateUserStory(input: $input) {
+    userStory {
+      ...UserStoryFragment
+    }
+  }
+}

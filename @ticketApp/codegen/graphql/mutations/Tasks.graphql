@@ -1,0 +1,28 @@
+# mutations to create, delete and update a task
+
+## create a user story
+mutation CreateTask($input: CreateTaskInput!) {
+  createTask(input: $input) {
+    task {
+      ...TaskFragment
+    }
+  }
+}
+
+## delete a user story
+mutation DeleteTask($input: DeleteTaskInput!) {
+  deleteTask(input: $input) {
+    task {
+      ...TaskFragment
+    }
+  }
+}
+
+## update a user story
+mutation UpdateTask($input: UpdateTaskInput!) {
+  updateTask(input: $input) {
+    task {
+      ...TaskFragment
+    }
+  }
+}

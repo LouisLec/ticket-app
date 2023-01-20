@@ -1,3 +1,5 @@
+const { fontFamily } = require("tailwindcss/defaultTheme");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./**/*.tsx"],
@@ -9,13 +11,16 @@ module.exports = {
             transform: "translate(0, 0)",
           },
           "25%": {
-            transform: "translate(1px, 2px)",
+            transform:
+              "translate(calc(var(--chaos-amplitude) * 1px)), calc(var(--chaos-amplitude) * 2px)))",
           },
           "50%": {
-            transform: "translate(-2px, 1px)",
+            transform:
+              "translate(calc(var(--chaos-amplitude) * -2px)), calc(var(--chaos-amplitude) * 1px)))",
           },
           "75%": {
-            transform: "translate(1.5px, -2.5px)",
+            transform:
+              "translate(calc(var(--chaos-amplitude) * 1.5px)), calc(var(--chaos-amplitude) * -2.5px)))",
           },
           "100%": {
             transform: "translate(0, 0)",
@@ -47,6 +52,11 @@ module.exports = {
           },
         },
       },
+      fontFamily: {
+        sans: ["var(--font-inter)", ...fontFamily.sans],
+        serif: ["var(--font-cormorant)", ...fontFamily.serif],
+        cal: ["var(--font-cal-sans)", ...fontFamily.sans],
+      },
       animation: {
         "pseudo-random-move": "pseudo-random-move 25s infinite",
         "chaotic-move": "chaotic-move 42s infinite",
@@ -56,6 +66,7 @@ module.exports = {
   plugins: [
     require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
+    require("tailwindcss-hero-patterns"),
     require("@tailwindcss/line-clamp"),
   ],
 };

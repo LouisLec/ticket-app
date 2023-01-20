@@ -219,6 +219,28 @@ type Query implements Node {
     filter: TaskFilter
   ): TasksConnection
 
+  """Reads a set of `Task`."""
+  tasksList(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TaskCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TaskFilter
+  ): [Task!]
+
   """Reads and enables pagination through a set of `UserStory`."""
   userStories(
     """Only read the first `n` values of the set."""
@@ -354,6 +376,62 @@ type Domain implements Node {
 
   """Reads a single `Project` that is related to this `Domain`."""
   project: Project
+
+  """Reads and enables pagination through a set of `Task`."""
+  tasks(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TaskCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TaskFilter
+  ): TasksConnection!
+
+  """Reads and enables pagination through a set of `Task`."""
+  tasksList(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TaskCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TaskFilter
+  ): [Task!]!
 }
 
 """
@@ -949,7 +1027,7 @@ type UserStory implements Node {
   ): [UserStory!]!
 
   """Reads and enables pagination through a set of `Task`."""
-  tasksByStoryId(
+  tasks(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -981,6 +1059,28 @@ type UserStory implements Node {
     """
     filter: TaskFilter
   ): TasksConnection!
+
+  """Reads and enables pagination through a set of `Task`."""
+  tasksList(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TaskCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TaskFilter
+  ): [Task!]!
 }
 
 """A precisely defined action of a persona using the project."""
@@ -993,7 +1093,7 @@ type Epic implements Node {
   name: String!
   order: Int
   description: String!
-  icon: String!
+  icon: String
   projectId: UUID!
   createdAt: Datetime!
   updatedAt: Datetime!
@@ -1158,6 +1258,7 @@ type TasksConnection {
   totalCount: Int!
 }
 
+"""A precisely defined action of a persona using the project."""
 type Task implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -1166,7 +1267,8 @@ type Task implements Node {
   id: UUID!
   name: String!
   description: String!
-  storyId: UUID!
+  userStoryId: UUID!
+  domainId: UUID
   status: TaskStatus
   estimate: Int!
   parentId: UUID
@@ -1175,7 +1277,10 @@ type Task implements Node {
   updatedAt: Datetime!
 
   """Reads a single `UserStory` that is related to this `Task`."""
-  story: UserStory
+  userStory: UserStory
+
+  """Reads a single `Domain` that is related to this `Task`."""
+  domain: Domain
 
   """Reads a single `Task` that is related to this `Task`."""
   parent: Task
@@ -1213,6 +1318,28 @@ type Task implements Node {
     """
     filter: TaskFilter
   ): TasksConnection!
+
+  """Reads and enables pagination through a set of `Task`."""
+  childTasksList(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Skip the first `n` values."""
+    offset: Int
+
+    """The method to use when ordering `Task`."""
+    orderBy: [TasksOrderBy!]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TaskCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TaskFilter
+  ): [Task!]!
 }
 
 enum TaskStatus {
@@ -1240,8 +1367,10 @@ enum TasksOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  STORY_ID_ASC
-  STORY_ID_DESC
+  USER_STORY_ID_ASC
+  USER_STORY_ID_DESC
+  DOMAIN_ID_ASC
+  DOMAIN_ID_DESC
   STATUS_ASC
   STATUS_DESC
   ESTIMATE_ASC
@@ -1265,8 +1394,11 @@ input TaskCondition {
   """Checks for equality with the object’s `id` field."""
   id: UUID
 
-  """Checks for equality with the object’s `storyId` field."""
-  storyId: UUID
+  """Checks for equality with the object’s `userStoryId` field."""
+  userStoryId: UUID
+
+  """Checks for equality with the object’s `domainId` field."""
+  domainId: UUID
 
   """Checks for equality with the object’s `status` field."""
   status: TaskStatus
@@ -1294,8 +1426,11 @@ input TaskFilter {
   """Filter by the object’s `id` field."""
   id: UUIDFilter
 
-  """Filter by the object’s `storyId` field."""
-  storyId: UUIDFilter
+  """Filter by the object’s `userStoryId` field."""
+  userStoryId: UUIDFilter
+
+  """Filter by the object’s `domainId` field."""
+  domainId: UUIDFilter
 
   """Filter by the object’s `status` field."""
   status: TaskStatusFilter
@@ -2238,7 +2373,7 @@ input EpicInput {
   name: String!
   order: Int
   description: String!
-  icon: String!
+  icon: String
   projectId: UUID!
   createdAt: Datetime
   updatedAt: Datetime
@@ -2400,7 +2535,10 @@ type CreateTaskPayload {
   query: Query
 
   """Reads a single `UserStory` that is related to this `Task`."""
-  story: UserStory
+  userStory: UserStory
+
+  """Reads a single `Domain` that is related to this `Task`."""
+  domain: Domain
 
   """Reads a single `Task` that is related to this `Task`."""
   parent: Task
@@ -2429,7 +2567,8 @@ input TaskInput {
   id: UUID
   name: String!
   description: String!
-  storyId: UUID!
+  userStoryId: UUID!
+  domainId: UUID
   status: TaskStatus
   estimate: Int!
   parentId: UUID
@@ -2884,7 +3023,10 @@ type UpdateTaskPayload {
   query: Query
 
   """Reads a single `UserStory` that is related to this `Task`."""
-  story: UserStory
+  userStory: UserStory
+
+  """Reads a single `Domain` that is related to this `Task`."""
+  domain: Domain
 
   """Reads a single `Task` that is related to this `Task`."""
   parent: Task
@@ -2920,7 +3062,8 @@ input TaskPatch {
   id: UUID
   name: String
   description: String
-  storyId: UUID
+  userStoryId: UUID
+  domainId: UUID
   status: TaskStatus
   estimate: Int
   parentId: UUID
@@ -3298,7 +3441,10 @@ type DeleteTaskPayload {
   query: Query
 
   """Reads a single `UserStory` that is related to this `Task`."""
-  story: UserStory
+  userStory: UserStory
+
+  """Reads a single `Domain` that is related to this `Task`."""
+  domain: Domain
 
   """Reads a single `Task` that is related to this `Task`."""
   parent: Task

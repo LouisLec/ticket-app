@@ -1,6 +1,11 @@
 "use client";
 
-import { SquaresPlusIcon, SwatchIcon } from "@heroicons/react/24/outline";
+import { Disclosure } from "@headlessui/react";
+import {
+  ChevronRightIcon,
+  SquaresPlusIcon,
+  SwatchIcon,
+} from "@heroicons/react/24/outline";
 import { DomainFragmentFragment } from "@ticketApp/codegen";
 import { FC, useReducer, useState } from "react";
 import { SlideOver } from "../../../../../../ui/client/slideOver";
@@ -41,51 +46,59 @@ export const Domains: FC<{
   );
 
   return (
-    <div className="relative">
-      <div className="absolute -translate-x-1/2 bg-teal-500 opacity-40 inset-x-1/2 w-96 h-96 animate-pseudo-random-move blur-3xl" />
-      <div className="absolute -translate-x-1/3 opacity-40 bg-cyan-500 inset-x-1/3 w-80 h-80 animate-chaotic-move blur-3xl" />
-      <div className="relative max-w-5xl px-8 mx-auto mt-20 overflow-visible">
-        <div className="flex justify-between">
-          <h2 className="text-2xl tracking-wide uppercase bold dark:text-teal-300">
-            Domains
-          </h2>
-          <button
-            onClick={() => {
-              dispatch({ type: "create", payload: null });
-            }}
-            className="inline-flex items-center gap-2 px-4 py-2 font-bold underline border-2 border-teal-300 rounded dark:bg-slate-900 bg-slate-300 dark:text-teal-300"
-          >
-            <SquaresPlusIcon className="w-6 h-6" /> Ajouter
-          </button>
-        </div>
-        <div className="grid gap-4 mt-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {domains.map(domain => (
-            <div
-              className="flex flex-col p-4 border-l-4 rounded bg-slate-300 dark:bg-slate-900"
-              style={{ borderColor: domain.color }}
-            >
-              <div className="flex items-start justify-between flex-grow">
-                <h3 className="text-lg font-bold dark:text-slate-50">
-                  {domain.name}
-                </h3>
-                <button
-                  onClick={() => {
-                    dispatch({ type: "edit", payload: domain });
-                  }}
-                >
-                  <SwatchIcon className="flex-shrink-0 w-6 h-6 text-teal-300 dark:text-teal-300" />
-                </button>
-              </div>
-              <p className="mt-1 line-clamp-3 text-slate-600 dark:text-slate-300">
-                {domain.description}
-              </p>
+    <>
+      <Disclosure>
+        {({ open }) => (
+          <div className="relative max-w-5xl mx-auto mt-8 overflow-visible">
+            <div className="flex justify-between">
+              <Disclosure.Button className={"inline-flex gap-1 items-center "}>
+                {" "}
+                <ChevronRightIcon
+                  className={
+                    "w-4 h-4 transition-all transform " +
+                    (open ? "rotate-90" : "rotate-0")
+                  }
+                />
+                <h2 className="text-xl tracking-wide uppercase font-cal dark:text-teal-300">
+                  Domains
+                </h2>
+              </Disclosure.Button>
+              <button
+                onClick={() => {
+                  dispatch({ type: "create", payload: null });
+                }}
+                className="inline-flex items-center gap-2 px-2 py-1 text-sm font-bold underline border-2 border-teal-300 rounded dark:bg-slate-900 bg-slate-300 dark:text-teal-300"
+              >
+                <SquaresPlusIcon className="w-4 h-4" /> Ajouter
+              </button>
             </div>
-          ))}
-        </div>
-        <pre className="font-mono text-xs text-slate-600 dark:text-slate-300">
-          {JSON.stringify(state)}
-        </pre>
-      </div>
+            <Disclosure.Panel className="grid gap-1 mt-2 ">
+              {domains.map(domain => (
+                <div
+                  className="flex flex-col px-2 py-1 border-l-8 rounded bg-slate-300 dark:bg-slate-800"
+                  style={{ borderColor: domain.color }}
+                >
+                  <div className="flex items-start justify-between flex-grow">
+                    <h3 className="text-sm font-bold dark:text-slate-50">
+                      {domain.name}
+                    </h3>
+                    <button
+                      onClick={() => {
+                        dispatch({ type: "edit", payload: domain });
+                      }}
+                    >
+                      <SwatchIcon className="flex-shrink-0 w-4 h-4 text-teal-500 dark:text-teal-300" />
+                    </button>
+                  </div>
+                  <p className="text-xs line-clamp-3 text-slate-600 dark:text-slate-300">
+                    {domain.description}
+                  </p>
+                </div>
+              ))}
+            </Disclosure.Panel>
+          </div>
+        )}
+      </Disclosure>
       <SlideOver
         open={state.action === "create"}
         setOpen={() => dispatch({ type: "reset" })}
@@ -109,6 +122,6 @@ export const Domains: FC<{
           onCanceled={() => dispatch({ type: "reset" })}
         />
       </SlideOver>
-    </div>
+    </>
   );
 };

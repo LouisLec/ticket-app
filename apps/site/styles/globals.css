@@ -1,7 +1,8 @@
 :root {
-  --random-x: 1;
-  --random-y: 2;
+  --random-x: 9;
+  --random-y: 9;
   --random-opacity: 0.5;
+  --chaos-amplitude: 100;
 }
 
 @tailwind base;

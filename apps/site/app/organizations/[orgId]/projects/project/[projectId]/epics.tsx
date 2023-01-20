@@ -6,43 +6,43 @@ import {
   SquaresPlusIcon,
   SwatchIcon,
 } from "@heroicons/react/24/outline";
-import { PersonaFragmentFragment } from "@ticketApp/codegen";
+import { EpicFragmentFragment } from "@ticketApp/codegen";
 import { FC, useReducer, useState } from "react";
 import { SlideOver } from "../../../../../../ui/client/slideOver";
-import { CreatePersonaForm, UpdatePersonaForm } from "./forms";
+import { CreateEpicForm, UpdateEpicForm } from "./forms";
 
 interface State {
   isEditting: boolean;
-  selectedPersona: PersonaFragmentFragment | null;
+  selectedEpic: EpicFragmentFragment | null;
   action: "create" | "edit" | "delete" | null;
 }
 
 interface Event {
   type: "edit" | "create" | "reset" | "delete";
-  payload?: PersonaFragmentFragment | null;
+  payload?: EpicFragmentFragment | null;
 }
 
-export const Personas: FC<{
-  personas: PersonaFragmentFragment[];
+export const Epics: FC<{
+  epics: EpicFragmentFragment[];
   projectId: string;
-}> = ({ personas, projectId }) => {
+}> = ({ epics, projectId }) => {
   const [state, dispatch] = useReducer(
     (state: State, event: Event) => {
       switch (event.type) {
         case "edit":
-          return { ...state, selectedPersona: event.payload, action: "edit" };
+          return { ...state, selectedEpic: event.payload, action: "edit" };
         case "create":
-          return { ...state, selectedPersona: null, action: "create" };
+          return { ...state, selectedEpic: null, action: "create" };
         case "reset":
-          return { ...state, selectedPersona: null, action: null };
+          return { ...state, selectedEpic: null, action: null };
         case "delete":
-          return { ...state, selectedPersona: event.payload, action: "delete" };
+          return { ...state, selectedEpic: event.payload, action: "delete" };
 
         default:
           throw new Error();
       }
     },
-    { isEditting: false, selectedPersona: null, action: null }
+    { isEditting: false, selectedEpic: null, action: null }
   );
 
   return (
@@ -60,7 +60,7 @@ export const Personas: FC<{
                   }
                 />
                 <h2 className="text-xl tracking-wide uppercase font-cal dark:text-teal-300">
-                  Personas
+                  Epics
                 </h2>
               </Disclosure.Button>
               <button
@@ -73,22 +73,22 @@ export const Personas: FC<{
               </button>
             </div>
             <Disclosure.Panel className="grid gap-1 mt-2 ">
-              {personas.map(persona => (
+              {epics.map(epic => (
                 <div className="flex flex-col px-2 py-1 rounded bg-slate-300 dark:bg-slate-800">
                   <div className="flex items-start justify-between flex-grow">
                     <h3 className="text-sm font-bold dark:text-slate-50">
-                      {persona.name}
+                      {epic.name}
                     </h3>
                     <button
                       onClick={() => {
-                        dispatch({ type: "edit", payload: persona });
+                        dispatch({ type: "edit", payload: epic });
                       }}
                     >
                       <SwatchIcon className="flex-shrink-0 w-4 h-4 text-teal-500 dark:text-teal-300" />
                     </button>
                   </div>
                   <p className="text-xs line-clamp-3 text-slate-600 dark:text-slate-300">
-                    {persona.description}
+                    {epic.description}
                   </p>
                 </div>
               ))}
@@ -99,9 +99,9 @@ export const Personas: FC<{
       <SlideOver
         open={state.action === "create"}
         setOpen={() => dispatch({ type: "reset" })}
-        title="Ajouter un personae"
+        title="Ajouter un epice"
       >
-        <CreatePersonaForm
+        <CreateEpicForm
           projectId={projectId}
           onSuccess={() => dispatch({ type: "reset" })}
           onCanceled={() => dispatch({ type: "reset" })}
@@ -111,10 +111,10 @@ export const Personas: FC<{
       <SlideOver
         open={state.action === "edit"}
         setOpen={() => dispatch({ type: "reset" })}
-        title="Modifier un personae"
+        title="Modifier un epice"
       >
-        <UpdatePersonaForm
-          initialValues={state.selectedPersona}
+        <UpdateEpicForm
+          initialValues={state.selectedEpic}
           onSuccess={() => dispatch({ type: "reset" })}
           onCanceled={() => dispatch({ type: "reset" })}
         />

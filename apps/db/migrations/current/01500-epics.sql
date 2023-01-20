@@ -8,7 +8,7 @@ create table publ.epics (
     name text not null,    
     "order" int,
     description text not null,
-    icon text not null,
+    icon text,
     project_id uuid not null references publ.projects(id) on delete cascade,
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now()
@@ -43,6 +43,14 @@ create table publ.epics (
 
 -- fixtures
   -- fixtures go here
+  -- insert 4 epics for project Canto
+  insert into publ.epics (id, name, "order", description, project_id) values ('8968fba3-4289-4d56-b254-d3e7b538ce25', 'Authentification', 0, 'Gestion des comptes utilisateur, de leur inscription sur la plateforme et de leurs connexions', (select id from publ.projects where name = 'Canto'));
+  -- publication / gestion des chants
+  insert into publ.epics (id, name, "order", description, project_id) values ('c156e1b6-3d75-4fd9-b197-b67b7d20d352', 'Publication', 1, 'Gestion des chants, de leur publication et de leur modification', (select id from publ.projects where name = 'Canto'));
+  -- contribution utilisateur
+  insert into publ.epics (id, name, "order", description, project_id) values ('b0e3a892-d37e-4138-afaf-4c603814d704', 'Contribution', 2, 'Gestion des contributions des utilisateurs', (select id from publ.projects where name = 'Canto'));
+  -- recherche de chants
+  insert into publ.epics (id, name, "order", description, project_id) values ('480f53cd-7eae-4440-958c-8d92a666a872', 'Recherche', 3, 'Gestion de la recherche de chants, catégorisation avancée, moteur de recherche textuelle', (select id from publ.projects where name = 'Canto'));
 /*
   END TABLE: publ.epics
 */

@@ -23,7 +23,8 @@ create table publ.tasks (
     id uuid not null default uuid_generate_v4() primary key unique, 
     name text not null,
     description text not null,
-    story_id uuid not null references publ.user_stories(id) on delete cascade,
+    user_story_id uuid not null references publ.user_stories(id) on delete cascade,
+    domain_id uuid references publ.domains(id) on delete restrict,
     status text references publ.task_status(type) on delete restrict default 'BACKLOG',
     estimate integer not null,
     parent_id uuid references publ.tasks(id) on delete restrict,
@@ -33,17 +34,22 @@ create table publ.tasks (
 );
 
 -- indexes
-    create index on publ.tasks(story_id);
+    create index on publ.tasks(user_story_id);
     create index on publ.tasks(status);
     create index on publ.tasks(estimate);
     create index on publ.tasks(uncertainty);
     create index on publ.tasks(parent_id);
-
+    create index on publ.tasks(domain_id);
   create index on publ.tasks(created_at);
   create index on publ.tasks(updated_at);
 
 -- RBAC
   grant select on publ.tasks to :DATABASE_VISITOR;
+ grant insert (name, description, user_story_id, domain_id, status, estimate, parent_id, uncertainty) on publ.tasks to :DATABASE_VISITOR;
+ grant update (name, description, user_story_id, domain_id, status, estimate, parent_id, uncertainty) on publ.tasks to :DATABASE_VISITOR;
+  grant delete on publ.tasks to :DATABASE_VISITOR;
+  
+
 
 -- triggers
   create trigger _100_timestamps

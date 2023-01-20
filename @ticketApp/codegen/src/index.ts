@@ -203,16 +203,18 @@ export type CreateTaskPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** Reads a single `Domain` that is related to this `Task`. */
+  domain?: Maybe<Domain>;
   /** Reads a single `Task` that is related to this `Task`. */
   parent?: Maybe<Task>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `UserStory` that is related to this `Task`. */
-  story?: Maybe<UserStory>;
   /** The `Task` that was created by this mutation. */
   task?: Maybe<Task>;
   /** An edge for our `Task`. May be used by Relay 1. */
   taskEdge?: Maybe<TasksEdge>;
+  /** Reads a single `UserStory` that is related to this `Task`. */
+  userStory?: Maybe<UserStory>;
 };
 
 
@@ -548,16 +550,18 @@ export type DeleteTaskPayload = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   deletedTaskNodeId?: Maybe<Scalars['ID']>;
+  /** Reads a single `Domain` that is related to this `Task`. */
+  domain?: Maybe<Domain>;
   /** Reads a single `Task` that is related to this `Task`. */
   parent?: Maybe<Task>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `UserStory` that is related to this `Task`. */
-  story?: Maybe<UserStory>;
   /** The `Task` that was deleted by this mutation. */
   task?: Maybe<Task>;
   /** An edge for our `Task`. May be used by Relay 1. */
   taskEdge?: Maybe<TasksEdge>;
+  /** Reads a single `UserStory` that is related to this `Task`. */
+  userStory?: Maybe<UserStory>;
 };
 
 
@@ -631,7 +635,34 @@ export type Domain = Node & {
   project?: Maybe<Project>;
   projectId: Scalars['UUID'];
   shortName: Scalars['String'];
+  /** Reads and enables pagination through a set of `Task`. */
+  tasks: TasksConnection;
+  /** Reads and enables pagination through a set of `Task`. */
+  tasksList: Array<Task>;
   updatedAt: Scalars['Datetime'];
+};
+
+
+/** An area of the project, such as DB, backend, frontend... */
+export type DomainTasksArgs = {
+  after?: InputMaybe<Scalars['Cursor']>;
+  before?: InputMaybe<Scalars['Cursor']>;
+  condition?: InputMaybe<TaskCondition>;
+  filter?: InputMaybe<TaskFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TasksOrderBy>>;
+};
+
+
+/** An area of the project, such as DB, backend, frontend... */
+export type DomainTasksListArgs = {
+  condition?: InputMaybe<TaskCondition>;
+  filter?: InputMaybe<TaskFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TasksOrderBy>>;
 };
 
 /** A condition to be used against `Domain` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -722,7 +753,7 @@ export type Epic = Node & {
   __typename?: 'Epic';
   createdAt: Scalars['Datetime'];
   description: Scalars['String'];
-  icon: Scalars['String'];
+  icon?: Maybe<Scalars['String']>;
   id: Scalars['UUID'];
   name: Scalars['String'];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -803,7 +834,7 @@ export type EpicFilter = {
 export type EpicInput = {
   createdAt?: InputMaybe<Scalars['Datetime']>;
   description: Scalars['String'];
-  icon: Scalars['String'];
+  icon?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['UUID']>;
   name: Scalars['String'];
   order?: InputMaybe<Scalars['Int']>;
@@ -1667,6 +1698,8 @@ export type Query = Node & {
   taskByNodeId?: Maybe<Task>;
   /** Reads and enables pagination through a set of `Task`. */
   tasks?: Maybe<TasksConnection>;
+  /** Reads a set of `Task`. */
+  tasksList?: Maybe<Array<Task>>;
   /** Reads and enables pagination through a set of `UserStory`. */
   userStories?: Maybe<UserStoriesConnection>;
   /** Reads a set of `UserStory`. */
@@ -1845,6 +1878,16 @@ export type QueryTasksArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryTasksListArgs = {
+  condition?: InputMaybe<TaskCondition>;
+  filter?: InputMaybe<TaskFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TasksOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryUserStoriesArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -1956,12 +1999,18 @@ export type StringFilter = {
   startsWithInsensitive?: InputMaybe<Scalars['String']>;
 };
 
+/** A precisely defined action of a persona using the project. */
 export type Task = Node & {
   __typename?: 'Task';
   /** Reads and enables pagination through a set of `Task`. */
   childTasks: TasksConnection;
+  /** Reads and enables pagination through a set of `Task`. */
+  childTasksList: Array<Task>;
   createdAt: Scalars['Datetime'];
   description: Scalars['String'];
+  /** Reads a single `Domain` that is related to this `Task`. */
+  domain?: Maybe<Domain>;
+  domainId?: Maybe<Scalars['UUID']>;
   estimate: Scalars['Int'];
   id: Scalars['UUID'];
   name: Scalars['String'];
@@ -1971,14 +2020,15 @@ export type Task = Node & {
   parent?: Maybe<Task>;
   parentId?: Maybe<Scalars['UUID']>;
   status?: Maybe<TaskStatus>;
-  /** Reads a single `UserStory` that is related to this `Task`. */
-  story?: Maybe<UserStory>;
-  storyId: Scalars['UUID'];
   uncertainty: Scalars['Int'];
   updatedAt: Scalars['Datetime'];
+  /** Reads a single `UserStory` that is related to this `Task`. */
+  userStory?: Maybe<UserStory>;
+  userStoryId: Scalars['UUID'];
 };
 
 
+/** A precisely defined action of a persona using the project. */
 export type TaskChildTasksArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
@@ -1990,10 +2040,22 @@ export type TaskChildTasksArgs = {
   orderBy?: InputMaybe<Array<TasksOrderBy>>;
 };
 
+
+/** A precisely defined action of a persona using the project. */
+export type TaskChildTasksListArgs = {
+  condition?: InputMaybe<TaskCondition>;
+  filter?: InputMaybe<TaskFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TasksOrderBy>>;
+};
+
 /** A condition to be used against `Task` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type TaskCondition = {
   /** Checks for equality with the object’s `createdAt` field. */
   createdAt?: InputMaybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `domainId` field. */
+  domainId?: InputMaybe<Scalars['UUID']>;
   /** Checks for equality with the object’s `estimate` field. */
   estimate?: InputMaybe<Scalars['Int']>;
   /** Checks for equality with the object’s `id` field. */
@@ -2002,12 +2064,12 @@ export type TaskCondition = {
   parentId?: InputMaybe<Scalars['UUID']>;
   /** Checks for equality with the object’s `status` field. */
   status?: InputMaybe<TaskStatus>;
-  /** Checks for equality with the object’s `storyId` field. */
-  storyId?: InputMaybe<Scalars['UUID']>;
   /** Checks for equality with the object’s `uncertainty` field. */
   uncertainty?: InputMaybe<Scalars['Int']>;
   /** Checks for equality with the object’s `updatedAt` field. */
   updatedAt?: InputMaybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `userStoryId` field. */
+  userStoryId?: InputMaybe<Scalars['UUID']>;
 };
 
 /** A filter to be used against `Task` object types. All fields are combined with a logical ‘and.’ */
@@ -2016,6 +2078,8 @@ export type TaskFilter = {
   and?: InputMaybe<Array<TaskFilter>>;
   /** Filter by the object’s `createdAt` field. */
   createdAt?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `domainId` field. */
+  domainId?: InputMaybe<UuidFilter>;
   /** Filter by the object’s `estimate` field. */
   estimate?: InputMaybe<IntFilter>;
   /** Filter by the object’s `id` field. */
@@ -2028,40 +2092,42 @@ export type TaskFilter = {
   parentId?: InputMaybe<UuidFilter>;
   /** Filter by the object’s `status` field. */
   status?: InputMaybe<TaskStatusFilter>;
-  /** Filter by the object’s `storyId` field. */
-  storyId?: InputMaybe<UuidFilter>;
   /** Filter by the object’s `uncertainty` field. */
   uncertainty?: InputMaybe<IntFilter>;
   /** Filter by the object’s `updatedAt` field. */
   updatedAt?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `userStoryId` field. */
+  userStoryId?: InputMaybe<UuidFilter>;
 };
 
 /** An input for mutations affecting `Task` */
 export type TaskInput = {
   createdAt?: InputMaybe<Scalars['Datetime']>;
   description: Scalars['String'];
+  domainId?: InputMaybe<Scalars['UUID']>;
   estimate: Scalars['Int'];
   id?: InputMaybe<Scalars['UUID']>;
   name: Scalars['String'];
   parentId?: InputMaybe<Scalars['UUID']>;
   status?: InputMaybe<TaskStatus>;
-  storyId: Scalars['UUID'];
   uncertainty: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['Datetime']>;
+  userStoryId: Scalars['UUID'];
 };
 
 /** Represents an update to a `Task`. Fields that are set will be updated. */
 export type TaskPatch = {
   createdAt?: InputMaybe<Scalars['Datetime']>;
   description?: InputMaybe<Scalars['String']>;
+  domainId?: InputMaybe<Scalars['UUID']>;
   estimate?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['UUID']>;
   name?: InputMaybe<Scalars['String']>;
   parentId?: InputMaybe<Scalars['UUID']>;
   status?: InputMaybe<TaskStatus>;
-  storyId?: InputMaybe<Scalars['UUID']>;
   uncertainty?: InputMaybe<Scalars['Int']>;
   updatedAt?: InputMaybe<Scalars['Datetime']>;
+  userStoryId?: InputMaybe<Scalars['UUID']>;
 };
 
 export enum TaskStatus {
@@ -2131,6 +2197,8 @@ export type TasksEdge = {
 export enum TasksOrderBy {
   CreatedAtAsc = 'CREATED_AT_ASC',
   CreatedAtDesc = 'CREATED_AT_DESC',
+  DomainIdAsc = 'DOMAIN_ID_ASC',
+  DomainIdDesc = 'DOMAIN_ID_DESC',
   EstimateAsc = 'ESTIMATE_ASC',
   EstimateDesc = 'ESTIMATE_DESC',
   IdAsc = 'ID_ASC',
@@ -2142,12 +2210,12 @@ export enum TasksOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   StatusAsc = 'STATUS_ASC',
   StatusDesc = 'STATUS_DESC',
-  StoryIdAsc = 'STORY_ID_ASC',
-  StoryIdDesc = 'STORY_ID_DESC',
   UncertaintyAsc = 'UNCERTAINTY_ASC',
   UncertaintyDesc = 'UNCERTAINTY_DESC',
   UpdatedAtAsc = 'UPDATED_AT_ASC',
-  UpdatedAtDesc = 'UPDATED_AT_DESC'
+  UpdatedAtDesc = 'UPDATED_AT_DESC',
+  UserStoryIdAsc = 'USER_STORY_ID_ASC',
+  UserStoryIdDesc = 'USER_STORY_ID_DESC'
 }
 
 /** A filter to be used against UUID fields. All fields are combined with a logical ‘and.’ */
@@ -2449,16 +2517,18 @@ export type UpdateTaskPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** Reads a single `Domain` that is related to this `Task`. */
+  domain?: Maybe<Domain>;
   /** Reads a single `Task` that is related to this `Task`. */
   parent?: Maybe<Task>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `UserStory` that is related to this `Task`. */
-  story?: Maybe<UserStory>;
   /** The `Task` that was updated by this mutation. */
   task?: Maybe<Task>;
   /** An edge for our `Task`. May be used by Relay 1. */
   taskEdge?: Maybe<TasksEdge>;
+  /** Reads a single `UserStory` that is related to this `Task`. */
+  userStory?: Maybe<UserStory>;
 };
 
 
@@ -2589,7 +2659,9 @@ export type UserStory = Node & {
   personaByAsA?: Maybe<Persona>;
   soThat?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `Task`. */
-  tasksByStoryId: TasksConnection;
+  tasks: TasksConnection;
+  /** Reads and enables pagination through a set of `Task`. */
+  tasksList: Array<Task>;
   updatedAt: Scalars['Datetime'];
   validationCriteria?: Maybe<Scalars['String']>;
   variables?: Maybe<Scalars['String']>;
@@ -2620,13 +2692,23 @@ export type UserStoryChildUserStoriesListArgs = {
 
 
 /** A precisely defined action of a persona using the project. */
-export type UserStoryTasksByStoryIdArgs = {
+export type UserStoryTasksArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
   condition?: InputMaybe<TaskCondition>;
   filter?: InputMaybe<TaskFilter>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TasksOrderBy>>;
+};
+
+
+/** A precisely defined action of a persona using the project. */
+export type UserStoryTasksListArgs = {
+  condition?: InputMaybe<TaskCondition>;
+  filter?: InputMaybe<TaskFilter>;
+  first?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<TasksOrderBy>>;
 };
@@ -2712,13 +2794,15 @@ export type UserStoryPatch = {
 
 export type DomainFragmentFragment = { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null };
 
-export type EpicFragmentFragment = { __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any };
+export type EpicFragmentFragment = { __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any };
 
 export type OrganizationFragmentFragment = { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any };
 
 export type PersonaFragmentFragment = { __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any };
 
 export type ProjectFragmentFragment = { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any };
+
+export type TaskFragmentFragment = { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null };
 
 export type UserStoryFragmentFragment = { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any };
 
@@ -2748,21 +2832,21 @@ export type CreateEpicMutationVariables = Exact<{
 }>;
 
 
-export type CreateEpicMutation = { __typename?: 'Mutation', createEpic?: { __typename?: 'CreateEpicPayload', epic?: { __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any } | null } | null };
+export type CreateEpicMutation = { __typename?: 'Mutation', createEpic?: { __typename?: 'CreateEpicPayload', epic?: { __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any } | null } | null };
 
 export type DeleteEpicMutationVariables = Exact<{
   input: DeleteEpicInput;
 }>;
 
 
-export type DeleteEpicMutation = { __typename?: 'Mutation', deleteEpic?: { __typename?: 'DeleteEpicPayload', epic?: { __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any } | null } | null };
+export type DeleteEpicMutation = { __typename?: 'Mutation', deleteEpic?: { __typename?: 'DeleteEpicPayload', epic?: { __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any } | null } | null };
 
 export type UpdateEpicMutationVariables = Exact<{
   input: UpdateEpicInput;
 }>;
 
 
-export type UpdateEpicMutation = { __typename?: 'Mutation', updateEpic?: { __typename?: 'UpdateEpicPayload', epic?: { __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any } | null } | null };
+export type UpdateEpicMutation = { __typename?: 'Mutation', updateEpic?: { __typename?: 'UpdateEpicPayload', epic?: { __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any } | null } | null };
 
 export type CreateOrganizationMutationVariables = Exact<{
   input: CreateOrganizationInput;
@@ -2806,6 +2890,48 @@ export type CreateProjectMutationVariables = Exact<{
 
 export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'CreateProjectPayload', project?: { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any } | null } | null };
 
+export type CreateTaskMutationVariables = Exact<{
+  input: CreateTaskInput;
+}>;
+
+
+export type CreateTaskMutation = { __typename?: 'Mutation', createTask?: { __typename?: 'CreateTaskPayload', task?: { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null } | null } | null };
+
+export type DeleteTaskMutationVariables = Exact<{
+  input: DeleteTaskInput;
+}>;
+
+
+export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask?: { __typename?: 'DeleteTaskPayload', task?: { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null } | null } | null };
+
+export type UpdateTaskMutationVariables = Exact<{
+  input: UpdateTaskInput;
+}>;
+
+
+export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask?: { __typename?: 'UpdateTaskPayload', task?: { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null } | null } | null };
+
+export type CreateUserStoryMutationVariables = Exact<{
+  input: CreateUserStoryInput;
+}>;
+
+
+export type CreateUserStoryMutation = { __typename?: 'Mutation', createUserStory?: { __typename?: 'CreateUserStoryPayload', userStory?: { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any } | null } | null };
+
+export type DeleteUserStoryMutationVariables = Exact<{
+  input: DeleteUserStoryInput;
+}>;
+
+
+export type DeleteUserStoryMutation = { __typename?: 'Mutation', deleteUserStory?: { __typename?: 'DeleteUserStoryPayload', userStory?: { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any } | null } | null };
+
+export type UpdateUserStoryMutationVariables = Exact<{
+  input: UpdateUserStoryInput;
+}>;
+
+
+export type UpdateUserStoryMutation = { __typename?: 'Mutation', updateUserStory?: { __typename?: 'UpdateUserStoryPayload', userStory?: { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any } | null } | null };
+
 export type GetAllOrganizationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2830,7 +2956,7 @@ export type GetProjectByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon: string, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any }> }> } | null };
+export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null } | null }> }> }> } | null };
 
 export const DomainFragmentFragmentDoc = gql`
     fragment DomainFragment on Domain {
@@ -2879,6 +3005,18 @@ export const ProjectFragmentFragmentDoc = gql`
   order
   createdAt
   updatedAt
+}
+    `;
+export const TaskFragmentFragmentDoc = gql`
+    fragment TaskFragment on Task {
+  id
+  name
+  description
+  userStoryId
+  estimate
+  uncertainty
+  parentId
+  status
 }
     `;
 export const UserStoryFragmentFragmentDoc = gql`
@@ -3003,6 +3141,60 @@ export const CreateProjectDocument = gql`
   }
 }
     ${ProjectFragmentFragmentDoc}`;
+export const CreateTaskDocument = gql`
+    mutation CreateTask($input: CreateTaskInput!) {
+  createTask(input: $input) {
+    task {
+      ...TaskFragment
+    }
+  }
+}
+    ${TaskFragmentFragmentDoc}`;
+export const DeleteTaskDocument = gql`
+    mutation DeleteTask($input: DeleteTaskInput!) {
+  deleteTask(input: $input) {
+    task {
+      ...TaskFragment
+    }
+  }
+}
+    ${TaskFragmentFragmentDoc}`;
+export const UpdateTaskDocument = gql`
+    mutation UpdateTask($input: UpdateTaskInput!) {
+  updateTask(input: $input) {
+    task {
+      ...TaskFragment
+    }
+  }
+}
+    ${TaskFragmentFragmentDoc}`;
+export const CreateUserStoryDocument = gql`
+    mutation CreateUserStory($input: CreateUserStoryInput!) {
+  createUserStory(input: $input) {
+    userStory {
+      ...UserStoryFragment
+    }
+  }
+}
+    ${UserStoryFragmentFragmentDoc}`;
+export const DeleteUserStoryDocument = gql`
+    mutation DeleteUserStory($input: DeleteUserStoryInput!) {
+  deleteUserStory(input: $input) {
+    userStory {
+      ...UserStoryFragment
+    }
+  }
+}
+    ${UserStoryFragmentFragmentDoc}`;
+export const UpdateUserStoryDocument = gql`
+    mutation UpdateUserStory($input: UpdateUserStoryInput!) {
+  updateUserStory(input: $input) {
+    userStory {
+      ...UserStoryFragment
+    }
+  }
+}
+    ${UserStoryFragmentFragmentDoc}`;
 export const GetAllOrganizationDocument = gql`
     query GetAllOrganization {
   organizations {
@@ -3052,6 +3244,12 @@ export const GetProjectByIdDocument = gql`
       ...EpicFragment
       userStoriesList {
         ...UserStoryFragment
+        tasksList {
+          ...TaskFragment
+          domain {
+            ...DomainFragment
+          }
+        }
       }
     }
   }
@@ -3060,7 +3258,8 @@ export const GetProjectByIdDocument = gql`
 ${DomainFragmentFragmentDoc}
 ${PersonaFragmentFragmentDoc}
 ${EpicFragmentFragmentDoc}
-${UserStoryFragmentFragmentDoc}`;
+${UserStoryFragmentFragmentDoc}
+${TaskFragmentFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -3104,6 +3303,24 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     CreateProject(variables: CreateProjectMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateProjectMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateProjectMutation>(CreateProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateProject', 'mutation');
+    },
+    CreateTask(variables: CreateTaskMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateTaskMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateTaskMutation>(CreateTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateTask', 'mutation');
+    },
+    DeleteTask(variables: DeleteTaskMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteTaskMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteTaskMutation>(DeleteTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteTask', 'mutation');
+    },
+    UpdateTask(variables: UpdateTaskMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateTaskMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateTaskMutation>(UpdateTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateTask', 'mutation');
+    },
+    CreateUserStory(variables: CreateUserStoryMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserStoryMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserStoryMutation>(CreateUserStoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateUserStory', 'mutation');
+    },
+    DeleteUserStory(variables: DeleteUserStoryMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteUserStoryMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserStoryMutation>(DeleteUserStoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteUserStory', 'mutation');
+    },
+    UpdateUserStory(variables: UpdateUserStoryMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserStoryMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserStoryMutation>(UpdateUserStoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateUserStory', 'mutation');
     },
     GetAllOrganization(variables?: GetAllOrganizationQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAllOrganizationQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetAllOrganizationQuery>(GetAllOrganizationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetAllOrganization', 'query');

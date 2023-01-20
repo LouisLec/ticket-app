@@ -27,6 +27,12 @@
           "simpleCollections": "both"
         }
       },
+      "publ.tasks": {
+        "description": "A precisely defined action of a persona using the project.",
+        "tags": {
+          "simpleCollections": "both"
+        }
+      },
       "publ.organizations": {
         "description": "A company, organization, or institution.",
         "attribute": {

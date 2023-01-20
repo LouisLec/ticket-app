@@ -1,0 +1,10 @@
+fragment TaskFragment on Task {
+  id
+  name
+  description
+  userStoryId
+  estimate
+  uncertainty
+  parentId
+  status
+}
