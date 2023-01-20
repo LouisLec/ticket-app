@@ -1,5 +1,6 @@
 import { sdk } from "../../../../../../utils/sdk";
 import { Domains } from "./domains";
+import { Personas } from "./personas";
 
 const ProjectPage = async ({ params: { projectId } }) => {
   const data = await sdk.GetProjectById({ projectId: projectId });
@@ -14,6 +15,7 @@ const ProjectPage = async ({ params: { projectId } }) => {
         </p>
       </div>
       <Domains domains={data.project.domainsList} projectId={projectId} />
+      <Personas personas={data.project.personasList} projectId={projectId} />
     </main>
   );
 };

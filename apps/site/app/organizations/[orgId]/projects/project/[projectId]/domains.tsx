@@ -4,7 +4,7 @@ import { SquaresPlusIcon, SwatchIcon } from "@heroicons/react/24/outline";
 import { DomainFragmentFragment } from "@ticketApp/codegen";
 import { FC, useReducer, useState } from "react";
 import { SlideOver } from "../../../../../../ui/client/slideOver";
-import { CreateForm, UpdateForm } from "./forms";
+import { CreateDomainForm, UpdateDomainForm } from "./forms";
 
 interface State {
   isEditting: boolean;
@@ -91,7 +91,7 @@ export const Domains: FC<{
         setOpen={() => dispatch({ type: "reset" })}
         title="Ajouter un domaine"
       >
-        <CreateForm
+        <CreateDomainForm
           projectId={projectId}
           onSuccess={() => dispatch({ type: "reset" })}
           onCanceled={() => dispatch({ type: "reset" })}
@@ -103,7 +103,7 @@ export const Domains: FC<{
         setOpen={() => dispatch({ type: "reset" })}
         title="Modifier un domaine"
       >
-        <UpdateForm
+        <UpdateDomainForm
           initialValues={state.selectedDomain}
           onSuccess={() => dispatch({ type: "reset" })}
           onCanceled={() => dispatch({ type: "reset" })}

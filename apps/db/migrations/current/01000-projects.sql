@@ -75,8 +75,9 @@ create table publ.personas (
 
 -- RBAC
   grant select on publ.personas to :DATABASE_VISITOR;
-    grant insert(name, description, project_id) on publ.personas to :DATABASE_VISITOR;
-    grant update(name, description) on publ.personas to :DATABASE_VISITOR;
+    grant insert(name, short_name, description, project_id) on publ.personas to :DATABASE_VISITOR;
+    grant update(name, short_name, description) on publ.personas to :DATABASE_VISITOR;
+    grant delete on publ.personas to :DATABASE_VISITOR;
 
 -- triggers
   create trigger _100_timestamps
