@@ -1,5 +1,5 @@
 import { sdk } from "@/utils/sdk";
-import { EpicSection } from "./epicSection";
+import { EpicSection } from "./EpicSection";
 
 export const Tasks = async ({ params: { organizationSlug, projectSlug } }) => {
   const data = await sdk.GetProjectBySlug({ projectSlug, organizationSlug });
