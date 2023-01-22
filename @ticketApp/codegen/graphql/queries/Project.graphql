@@ -1,6 +1,6 @@
 query GetAllProjectsByOrganizationId($organizationId: UUID!) {
   projects(
-    orderBy: [ORDER_ASC]
+    orderBy: [CREATED_AT_DESC]
     condition: { organizationId: $organizationId }
   ) {
     nodes {

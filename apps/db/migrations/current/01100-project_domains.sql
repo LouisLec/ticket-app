@@ -60,10 +60,27 @@ create table publ.domains (
   END TABLE: publ.domains
 */
 
+
+drop table if exists priv.update_domain_order_log cascade;
+create table priv.update_domain_order_log (
+  id uuid not null default uuid_generate_v4() primary key unique,
+  project_id uuid not null references publ.projects(id) on delete cascade
+);
+
+
 create or replace function publ.update_domain_order() returns trigger as $$
 declare
   max_order int;
 begin
+
+  if 
+    exists (SELECT 1 FROM priv.update_domain_order_log WHERE project_id = NEW.project_id)
+  then
+      return NEW;
+  end if;
+
+  insert into priv.update_domain_order_log (project_id) values (NEW.project_id);
+
   if (TG_OP = 'INSERT') then
     if (NEW."order" is null) then
       -- Get the max "order" value for the organization
@@ -100,6 +117,7 @@ begin
       end if;
     end if;
   end if;
+  delete from priv.update_domain_order_log where project_id = NEW.project_id;
   return NEW;
 end;
 $$ language plpgsql volatile security definer;

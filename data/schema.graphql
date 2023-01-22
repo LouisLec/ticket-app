@@ -458,7 +458,6 @@ type Project implements Node {
   name: String!
   slug: String!
   description: String!
-  order: Int
   organizationId: UUID!
   createdAt: Datetime!
   updatedAt: Datetime!
@@ -671,8 +670,6 @@ enum ProjectsOrderBy {
   NAME_DESC
   SLUG_ASC
   SLUG_DESC
-  ORDER_ASC
-  ORDER_DESC
   ORGANIZATION_ID_ASC
   ORGANIZATION_ID_DESC
   CREATED_AT_ASC
@@ -696,9 +693,6 @@ input ProjectCondition {
   """Checks for equality with the object’s `slug` field."""
   slug: String
 
-  """Checks for equality with the object’s `order` field."""
-  order: Int
-
   """Checks for equality with the object’s `organizationId` field."""
   organizationId: UUID
 
@@ -721,9 +715,6 @@ input ProjectFilter {
 
   """Filter by the object’s `slug` field."""
   slug: StringFilter
-
-  """Filter by the object’s `order` field."""
-  order: IntFilter
 
   """Filter by the object’s `organizationId` field."""
   organizationId: UUIDFilter
@@ -916,48 +907,6 @@ input StringFilter {
 
   """Greater than or equal to the specified value (case-insensitive)."""
   greaterThanOrEqualToInsensitive: String
-}
-
-"""
-A filter to be used against Int fields. All fields are combined with a logical ‘and.’
-"""
-input IntFilter {
-  """
-  Is null (if `true` is specified) or is not null (if `false` is specified).
-  """
-  isNull: Boolean
-
-  """Equal to the specified value."""
-  equalTo: Int
-
-  """Not equal to the specified value."""
-  notEqualTo: Int
-
-  """
-  Not equal to the specified value, treating null like an ordinary value.
-  """
-  distinctFrom: Int
-
-  """Equal to the specified value, treating null like an ordinary value."""
-  notDistinctFrom: Int
-
-  """Included in the specified list."""
-  in: [Int!]
-
-  """Not included in the specified list."""
-  notIn: [Int!]
-
-  """Less than the specified value."""
-  lessThan: Int
-
-  """Less than or equal to the specified value."""
-  lessThanOrEqualTo: Int
-
-  """Greater than the specified value."""
-  greaterThan: Int
-
-  """Greater than or equal to the specified value."""
-  greaterThanOrEqualTo: Int
 }
 
 """
@@ -1393,6 +1342,48 @@ input UserStoryFilter {
 
   """Negates the expression."""
   not: UserStoryFilter
+}
+
+"""
+A filter to be used against Int fields. All fields are combined with a logical ‘and.’
+"""
+input IntFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Int
+
+  """Not equal to the specified value."""
+  notEqualTo: Int
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Int
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Int
+
+  """Included in the specified list."""
+  in: [Int!]
+
+  """Not included in the specified list."""
+  notIn: [Int!]
+
+  """Less than the specified value."""
+  lessThan: Int
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Int
+
+  """Greater than the specified value."""
+  greaterThan: Int
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Int
 }
 
 """A connection to a list of `Task` values."""
@@ -2617,7 +2608,6 @@ input ProjectInput {
   name: String!
   slug: String!
   description: String!
-  order: Int
   organizationId: UUID!
   createdAt: Datetime
   updatedAt: Datetime
@@ -3107,7 +3097,6 @@ input ProjectPatch {
   name: String
   slug: String
   description: String
-  order: Int
   organizationId: UUID
   createdAt: Datetime
   updatedAt: Datetime

@@ -9,7 +9,6 @@ create table publ.projects (
     name text not null,
     slug text not null,
     description text not null,
-  "order" integer,
     organization_id uuid not null references publ.organizations(id) on delete cascade,
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now(),
@@ -21,7 +20,6 @@ create table publ.projects (
     create index on publ.projects(organization_id);
     create index on publ.projects(created_at);
     create index on publ.projects(updated_at);
-    create index on publ.projects("order");
     create index on publ.projects(name);
     create index on publ.projects(slug);
 
@@ -113,56 +111,6 @@ create table publ.personas (
 /*
   END TABLE: publ.personas
 */
-
-
-create or replace function publ.update_project_order() returns trigger as $$
-declare
-  max_order int;
-begin
-  if (TG_OP = 'INSERT') then
-    if (NEW."order" is null) then
-      -- Get the max "order" value for the organization
-      select max("order") INTO max_order
-      from publ.projects
-      where organization_id = NEW.organization_id;
-      if (max_order IS NOT NULL) then
-        NEW."order" = max_order + 1;
-      ELSE
-        NEW."order" = 0;
-      END if;
-    ELSE
-      -- Shift existing projects with higher "order" value
-      update publ.projects
-      set "order" = "order" + 1
-      where organization_id = NEW.organization_id
-        and "order" >= NEW."order";
-    END if;
-  elsif (TG_OP = 'UPDATE') then
-    if (OLD."order" <> NEW."order") then
-      -- Shift existing projects with higher "order" value
-      if (OLD."order" < NEW."order") then
-        update publ.projects
-        set "order" = "order" - 1
-        where organization_id = NEW.organization_id
-          and "order" > OLD."order"
-          and "order" <= NEW."order";
-      else
-        update publ.projects
-        set "order" = "order" + 1
-        where organization_id = NEW.organization_id
-          and "order" >= NEW."order"
-          and "order" < OLD."order";
-      end if;
-    end if;
-  end if;
-  return NEW;
-end;
-$$ language plpgsql volatile security definer;
-
-create trigger update_project_order
-before insert or update ON publ.projects
-FOR EACH ROW
-EXECUTE FUNCTION publ.update_project_order();
 
 create or replace function publ.project_by_slug(project_slug text, organization_slug text) returns publ.projects as $$
   select proj from publ.projects proj
