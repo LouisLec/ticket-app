@@ -87,12 +87,14 @@ importers:
       '@ticketApp/codegen': workspace:*
       '@types/react': ^18.0.27
       autoprefixer: ^10.4.13
+      clsx: ^1.2.1
       graphql-request: ^5.1.0
       next: ^13.1.2
       postcss: ^8.4.21
       react: ^18.2.0
       react-dom: ^18.2.0
       react-hook-form: ^7.42.1
+      tailwind-merge: ^1.8.1
       tailwindcss: ^3.2.4
       tailwindcss-hero-patterns: ^0.0.1
     dependencies:
@@ -101,11 +103,13 @@ importers:
       '@next/font': 13.1.3
       '@ticketApp/codegen': link:../../@ticketApp/codegen
       '@types/react': 18.0.27
+      clsx: 1.2.1
       graphql-request: 5.1.0
       next: 13.1.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.42.1_react@18.2.0
+      tailwind-merge: 1.8.1
     devDependencies:
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
       '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.4
@@ -3396,6 +3400,11 @@ packages:
     engines: {node: '>=0.8'}
     dev: true
 
+  /clsx/1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
+    dev: false
+
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
     dependencies:
@@ -6484,6 +6493,10 @@ packages:
   /symbol-observable/1.2.0:
     resolution: {integrity: sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==}
     engines: {node: '>=0.10.0'}
+
+  /tailwind-merge/1.8.1:
+    resolution: {integrity: sha512-+fflfPxvHFr81hTJpQ3MIwtqgvefHZFUHFiIHpVIRXvG/nX9+gu2P7JNlFu2bfDMJ+uHhi/pUgzaYacMoXv+Ww==}
+    dev: false
 
   /tailwindcss-hero-patterns/0.0.1:
     resolution: {integrity: sha512-eVuQpDLrxQgbb5N6gaJYQgb5cJwkecDb9sdnDGkClj9Ide/ZTHomt7hfASprFtF2ZvZQJGOXKPgXijR+jzKOmw==}
