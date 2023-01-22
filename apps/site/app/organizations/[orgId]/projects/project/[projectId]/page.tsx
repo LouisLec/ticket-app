@@ -13,22 +13,30 @@ const ProjectPage = async ({ params: { projectId } }) => {
       <div className="absolute -translate-x-1/3 opacity-40 bg-cyan-500 inset-x-1/3 w-80 h-80 animate-chaotic-move blur-3xl" />
 
       <div className="relative flex items-start gap-4 dark:bg-black">
-        <aside className="sticky max-w-md px-4 py-2 m-8 border-2 rounded-lg shadow-xl dark:bg-slate-900 top-8 bg-slate-200 border-slate-300 dark:border-slate-700 shadow-teal-500/20">
-          <div className="max-w-5xl px-8 pt-8 mx-auto">
-            <h1 className="text-2xl dark:text-slate-50 font-cal">
-              <span className="text-slate-500">Project:</span>{" "}
-              {data.project.name}
-            </h1>
-            <p className=" text-slate-500 dark:text-slate-300">
-              {data.project.description}
-            </p>
+        <aside className="sticky max-w-md m-8 top-8 ">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-500 blur" />
+            <div className="relative px-4 py-2 rounded-lg shadow-xl bg-slate-200 dark:bg-black ">
+              <div className="max-w-5xl px-8 pt-8 mx-auto">
+                <h1 className="text-2xl dark:text-slate-50 font-cal">
+                  <span className="text-slate-500">Project:</span>{" "}
+                  {data.project.name}
+                </h1>
+                <p className=" text-slate-500 dark:text-slate-300">
+                  {data.project.description}
+                </p>
+              </div>
+              <Domains
+                domains={data.project.domainsList}
+                projectId={projectId}
+              />
+              <Personas
+                personas={data.project.personasList}
+                projectId={projectId}
+              />
+              <Epics epics={data.project.epicsList} projectId={projectId} />
+            </div>
           </div>
-          <Domains domains={data.project.domainsList} projectId={projectId} />
-          <Personas
-            personas={data.project.personasList}
-            projectId={projectId}
-          />
-          <Epics epics={data.project.epicsList} projectId={projectId} />
         </aside>
         <main className="flex-grow mt-8 overflow-auto">
           <EpicSection

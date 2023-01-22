@@ -7,7 +7,8 @@
 drop table if exists publ.organizations cascade;
 create table publ.organizations (
     id uuid not null default uuid_generate_v4() primary key unique, 
-    name text not null,
+    name text unique not null,
+    slug text unique not null,
     description text not null,
     logo_url text not null,
     created_at timestamptz not null default now(),
@@ -17,6 +18,8 @@ create table publ.organizations (
 -- indexes
   create index on publ.organizations(created_at);
   create index on publ.organizations(updated_at);
+  create index on publ.organizations(name);
+  create index on publ.organizations(slug);
 
 -- RBAC
   grant select on publ.organizations to :DATABASE_VISITOR;
@@ -28,6 +31,13 @@ create table publ.organizations (
   before insert or update on publ.organizations
   for each row
   execute procedure priv.tg__timestamps();
+  
+
+
+CREATE TRIGGER generate_slug_trigger
+BEFORE INSERT OR UPDATE ON publ.organizations
+FOR EACH ROW
+EXECUTE FUNCTION publ.generate_slug();
 
 -- RLS
   alter table publ.organizations enable row level security;
@@ -44,3 +54,5 @@ create table publ.organizations (
 /*
   END TABLE: publ.organizations
 */
+
+

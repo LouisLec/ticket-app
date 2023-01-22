@@ -19,7 +19,7 @@ export const SlideOver: FC<
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 transition-opacity bg-opacity-75 bg-slate-900" />
+          <div className="fixed inset-0 transition-opacity bg-opacity-75 bg-slate-900 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">

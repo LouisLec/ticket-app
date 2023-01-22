@@ -28,3 +28,35 @@ end;
 $$ language plpgsql volatile security definer set search_path to pg_catalog, public, pg_temp;
 comment on function priv.tg__add_job() is
   E'Useful shortcut to create a job on insert/update. Pass the task name as the first trigger argument, and optionally the queue name as the second argument. The record id will automatically be available on the JSON payload.';
+
+
+CREATE OR REPLACE FUNCTION public.to_slug(text)
+RETURNS text AS $$
+DECLARE
+  slug text;
+BEGIN
+  slug := translate(lower($1), ' ', '-');
+  slug := translate(slug, '.', '-');
+  slug := translate(slug, '_', '-');
+  slug := translate(slug, '/', '-');
+  slug := translate(slug, '&', 'and');
+  slug := translate(slug, '''', '');
+  slug := translate(slug, '"', '');
+  RETURN slug;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION publ.generate_slug() RETURNS TRIGGER AS $$
+BEGIN
+  NEW.slug := to_slug(NEW.name);
+
+  -- Check if the slug already exists in the table
+  -- If it does, add a random 4 digit suffix
+  -- and check again until a unique slug is found
+  WHILE EXISTS (SELECT 1 FROM publ.organizations WHERE slug = NEW.slug) LOOP
+    NEW.slug := NEW.slug || ('-' || (random() * 10000)::integer)::text;
+  END LOOP;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;

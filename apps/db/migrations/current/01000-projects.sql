@@ -7,12 +7,14 @@ drop table if exists publ.projects cascade;
 create table publ.projects (
     id uuid not null default uuid_generate_v4() primary key unique, 
     name text not null,
+    slug text not null,
     description text not null,
   "order" integer,
     organization_id uuid not null references publ.organizations(id) on delete cascade,
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now(),
-    constraint projects_organization_id_name_key unique (organization_id, name)
+    constraint projects_organization_id_name_key unique (organization_id, name),
+    constraint projects_organization_id_slug_key unique (organization_id, slug)
 );
 
 -- indexes
@@ -20,6 +22,8 @@ create table publ.projects (
     create index on publ.projects(created_at);
     create index on publ.projects(updated_at);
     create index on publ.projects("order");
+    create index on publ.projects(name);
+    create index on publ.projects(slug);
 
 -- RBAC
     grant select on publ.projects to :DATABASE_VISITOR;
@@ -31,6 +35,12 @@ create table publ.projects (
     before insert or update on publ.projects
     for each row
     execute procedure priv.tg__timestamps();
+
+    create trigger _700_generate_slug_trigger
+    before insert or update on publ.projects
+    for each row
+    execute procedure publ.generate_slug();
+
 
 -- RLS
     alter table publ.projects enable row level security;
@@ -153,3 +163,12 @@ create trigger update_project_order
 before insert or update ON publ.projects
 FOR EACH ROW
 EXECUTE FUNCTION publ.update_project_order();
+
+create or replace function publ.project_by_slug(project_slug text, organization_slug text) returns publ.projects as $$
+  select proj from publ.projects proj
+  inner join publ.organizations org on org.id = proj.organization_id
+  where proj.slug = project_slug and org.slug = organization_slug
+  limit 1;
+$$ language sql stable security definer;
+
+grant execute on function publ.project_by_slug(text, text) to :DATABASE_VISITOR;

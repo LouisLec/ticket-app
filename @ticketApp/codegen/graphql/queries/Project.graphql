@@ -32,3 +32,33 @@ query GetProjectById($projectId: UUID!) {
     }
   }
 }
+
+query GetProjectBySlug($projectSlug: String!, $organizationSlug: String!) {
+  projectBySlug(
+    projectSlug: $projectSlug
+    organizationSlug: $organizationSlug
+  ) {
+    organization {
+      ...OrganizationFragment
+    }
+    ...ProjectFragment
+    domainsList {
+      ...DomainFragment
+    }
+    personasList {
+      ...PersonaFragment
+    }
+    epicsList {
+      ...EpicFragment
+      userStoriesList {
+        ...UserStoryFragment
+        tasksList {
+          ...TaskFragment
+          domain {
+            ...DomainFragment
+          }
+        }
+      }
+    }
+  }
+}

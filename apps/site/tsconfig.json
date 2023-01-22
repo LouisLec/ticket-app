@@ -16,11 +16,7 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/ui/*": ["ui/*"],
-      "@/utils/*": ["lib/*"],
-      "@/components/*": ["components/*"],
-      "@/config/*": ["config/*"],
-      "@/styles/*": ["styles/*"]
+      "@/*": ["./*"]
     },
 
     "plugins": [
@@ -29,6 +25,12 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "types.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
   "exclude": ["node_modules"]
 }

@@ -45,3 +45,5 @@ alter default privileges in schema public, publ
 -- And the `visitor` role should be able to call functions too.
 alter default privileges in schema public, publ
   grant execute on functions to :DATABASE_VISITOR;
+
+

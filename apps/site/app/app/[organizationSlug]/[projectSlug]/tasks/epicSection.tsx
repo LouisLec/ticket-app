@@ -14,8 +14,12 @@ import { GetProjectByIdQuery } from "@ticketApp/codegen";
 import { FC, useReducer } from "react";
 import { GenericForm } from "@/components/index";
 import { SlideOver } from "@/ui/client/slideOver";
-import { createTaskFormProps, updateTaskFormProps } from "./forms/taskForms";
+
 import { sdk } from "utils/sdk";
+import { createTaskFormProps, updateTaskFormProps } from "./taskForms";
+import { Typography } from "@/ui/server/typography";
+import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/20/solid";
+import { cn } from "@/utils/classes";
 
 export const EpicSection: FC<{
   projectId: string;
@@ -26,7 +30,7 @@ export const EpicSection: FC<{
   >;
 }> = ({ epics, domains }) => {
   return (
-    <section className="mt-8">
+    <section className="pt-12 mt-8">
       <div className="flex flex-col gap-4">
         {epics.map(epic => (
           <Epic domains={domains} {...epic} key={epic.id} />
@@ -49,21 +53,27 @@ export const Epic: FC<
       <Disclosure as="div" className="flex flex-col gap-2">
         {({ open }) => (
           <>
-            <Disclosure.Button className="flex items-center gap-2">
-              <ChevronRightIcon
-                className={
-                  "w-4 h-4 transition-all transform " +
-                  (open ? "rotate-90" : "rotate-0")
-                }
-              />
+            <Disclosure.Button className="flex items-center w-full max-w-5xl gap-2 mx-auto items-between">
+              <Typography>
+                <ChevronRightIcon
+                  className={
+                    "w-4 h-4 transition-all  transform " +
+                    (open ? "rotate-90" : "rotate-0")
+                  }
+                />
+              </Typography>
               <div className="text-start">
-                <h4 className="text-xl font-cal">{name}</h4>
-                <p className="text-xs text-slate-500">{description}</p>
+                <Typography style="strong" as="h3">
+                  {name}
+                </Typography>
+                <Typography style="small" as="p">
+                  {description}
+                </Typography>
               </div>
             </Disclosure.Button>
 
             {/* <pre>{JSON.stringify(epic, null, 2)}</pre> */}
-            <Disclosure.Panel className="flex flex-col ">
+            <Disclosure.Panel className="flex flex-col mt-8 ">
               {userStoriesList?.map(userStory => (
                 <UserStory
                   domains={domains}
@@ -163,10 +173,10 @@ const UserStory: FC<
     <>
       <div
         key={userStory.id}
-        className="flex items-stretch gap-2 text-slate-600 dark:text-slate-300"
+        className="flex items-stretch w-full max-w-6xl gap-2 mx-auto text-slate-600 dark:text-slate-300"
       >
         <div className="flex flex-col items-center ">
-          <div className="w-4 h-4 border-2 border-white rounded-full bg-cyan-500" />
+          <div className="w-4 h-4 border-2 border-transparent rounded-full bg-cyan-500" />
           <div className="flex-grow w-1 bg-gradient-to-b from-cyan-500 to-teal-500" />
         </div>
         <div className="flex-grow ">
@@ -277,6 +287,47 @@ const UserStory: FC<
                         >
                           <TrashIcon className="w-4 h-4" />
                         </button>
+                        <div className="grid">
+                          <button
+                            onClick={() =>
+                              sdk.UpdateTask({
+                                input: {
+                                  id: task.id,
+                                  patch: { order: task.order - 1 },
+                                },
+                              })
+                            }
+                            disabled={task.order === 0}
+                          >
+                            <ArrowUpIcon
+                              className={cn(
+                                "w-3 h-3",
+                                task.order === 0 && "opacity-20"
+                              )}
+                            />
+                          </button>
+                          <button
+                            onClick={() =>
+                              sdk.UpdateTask({
+                                input: {
+                                  id: task.id,
+                                  patch: { order: task.order + 1 },
+                                },
+                              })
+                            }
+                            disabled={
+                              task.order === userStory.tasksList.length - 1
+                            }
+                          >
+                            <ArrowDownIcon
+                              className={cn(
+                                "w-3 h-3",
+                                task.order === userStory.tasksList.length - 1 &&
+                                  "opacity-20"
+                              )}
+                            />
+                          </button>
+                        </div>
                       </div>
                     </td>
 

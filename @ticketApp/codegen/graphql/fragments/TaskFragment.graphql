@@ -7,4 +7,5 @@ fragment TaskFragment on Task {
   uncertainty
   parentId
   status
+  order
 }

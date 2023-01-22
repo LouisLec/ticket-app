@@ -381,6 +381,16 @@ export type DeleteFilePayload = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
+/** All input for the `deleteOrganizationByName` mutation. */
+export type DeleteOrganizationByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 /** All input for the `deleteOrganizationByNodeId` mutation. */
 export type DeleteOrganizationByNodeIdInput = {
   /**
@@ -390,6 +400,16 @@ export type DeleteOrganizationByNodeIdInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   /** The globally unique `ID` which will identify a single `Organization` to be deleted. */
   nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteOrganizationBySlug` mutation. */
+export type DeleteOrganizationBySlugInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  slug: Scalars['String'];
 };
 
 /** All input for the `deleteOrganization` mutation. */
@@ -483,6 +503,17 @@ export type DeleteProjectByOrganizationIdAndNameInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   organizationId: Scalars['UUID'];
+};
+
+/** All input for the `deleteProjectByOrganizationIdAndSlug` mutation. */
+export type DeleteProjectByOrganizationIdAndSlugInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  organizationId: Scalars['UUID'];
+  slug: Scalars['String'];
 };
 
 /** All input for the `deleteProject` mutation. */
@@ -959,8 +990,12 @@ export type Mutation = {
   deleteFile?: Maybe<DeleteFilePayload>;
   /** Deletes a single `Organization` using a unique key. */
   deleteOrganization?: Maybe<DeleteOrganizationPayload>;
+  /** Deletes a single `Organization` using a unique key. */
+  deleteOrganizationByName?: Maybe<DeleteOrganizationPayload>;
   /** Deletes a single `Organization` using its globally unique id. */
   deleteOrganizationByNodeId?: Maybe<DeleteOrganizationPayload>;
+  /** Deletes a single `Organization` using a unique key. */
+  deleteOrganizationBySlug?: Maybe<DeleteOrganizationPayload>;
   /** Deletes a single `Persona` using a unique key. */
   deletePersona?: Maybe<DeletePersonaPayload>;
   /** Deletes a single `Persona` using its globally unique id. */
@@ -971,6 +1006,8 @@ export type Mutation = {
   deleteProjectByNodeId?: Maybe<DeleteProjectPayload>;
   /** Deletes a single `Project` using a unique key. */
   deleteProjectByOrganizationIdAndName?: Maybe<DeleteProjectPayload>;
+  /** Deletes a single `Project` using a unique key. */
+  deleteProjectByOrganizationIdAndSlug?: Maybe<DeleteProjectPayload>;
   /** Deletes a single `Task` using a unique key. */
   deleteTask?: Maybe<DeleteTaskPayload>;
   /** Deletes a single `Task` using its globally unique id. */
@@ -990,8 +1027,12 @@ export type Mutation = {
   updateEpicByNodeId?: Maybe<UpdateEpicPayload>;
   /** Updates a single `Organization` using a unique key and a patch. */
   updateOrganization?: Maybe<UpdateOrganizationPayload>;
+  /** Updates a single `Organization` using a unique key and a patch. */
+  updateOrganizationByName?: Maybe<UpdateOrganizationPayload>;
   /** Updates a single `Organization` using its globally unique id and a patch. */
   updateOrganizationByNodeId?: Maybe<UpdateOrganizationPayload>;
+  /** Updates a single `Organization` using a unique key and a patch. */
+  updateOrganizationBySlug?: Maybe<UpdateOrganizationPayload>;
   /** Updates a single `Persona` using a unique key and a patch. */
   updatePersona?: Maybe<UpdatePersonaPayload>;
   /** Updates a single `Persona` using its globally unique id and a patch. */
@@ -1002,6 +1043,8 @@ export type Mutation = {
   updateProjectByNodeId?: Maybe<UpdateProjectPayload>;
   /** Updates a single `Project` using a unique key and a patch. */
   updateProjectByOrganizationIdAndName?: Maybe<UpdateProjectPayload>;
+  /** Updates a single `Project` using a unique key and a patch. */
+  updateProjectByOrganizationIdAndSlug?: Maybe<UpdateProjectPayload>;
   /** Updates a single `Task` using a unique key and a patch. */
   updateTask?: Maybe<UpdateTaskPayload>;
   /** Updates a single `Task` using its globally unique id and a patch. */
@@ -1092,8 +1135,20 @@ export type MutationDeleteOrganizationArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrganizationByNameArgs = {
+  input: DeleteOrganizationByNameInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteOrganizationByNodeIdArgs = {
   input: DeleteOrganizationByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrganizationBySlugArgs = {
+  input: DeleteOrganizationBySlugInput;
 };
 
 
@@ -1124,6 +1179,12 @@ export type MutationDeleteProjectByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteProjectByOrganizationIdAndNameArgs = {
   input: DeleteProjectByOrganizationIdAndNameInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteProjectByOrganizationIdAndSlugArgs = {
+  input: DeleteProjectByOrganizationIdAndSlugInput;
 };
 
 
@@ -1188,8 +1249,20 @@ export type MutationUpdateOrganizationArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrganizationByNameArgs = {
+  input: UpdateOrganizationByNameInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateOrganizationByNodeIdArgs = {
   input: UpdateOrganizationByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrganizationBySlugArgs = {
+  input: UpdateOrganizationBySlugInput;
 };
 
 
@@ -1220,6 +1293,12 @@ export type MutationUpdateProjectByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateProjectByOrganizationIdAndNameArgs = {
   input: UpdateProjectByOrganizationIdAndNameInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateProjectByOrganizationIdAndSlugArgs = {
+  input: UpdateProjectByOrganizationIdAndSlugInput;
 };
 
 
@@ -1265,6 +1344,7 @@ export type Organization = Node & {
   nodeId: Scalars['ID'];
   /** Reads and enables pagination through a set of `Project`. */
   projects: ProjectsConnection;
+  slug: Scalars['String'];
   updatedAt: Scalars['Datetime'];
 };
 
@@ -1290,6 +1370,10 @@ export type OrganizationCondition = {
   createdAt?: InputMaybe<Scalars['Datetime']>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['UUID']>;
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']>;
+  /** Checks for equality with the object’s `slug` field. */
+  slug?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `updatedAt` field. */
   updatedAt?: InputMaybe<Scalars['Datetime']>;
 };
@@ -1302,10 +1386,14 @@ export type OrganizationFilter = {
   createdAt?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `name` field. */
+  name?: InputMaybe<StringFilter>;
   /** Negates the expression. */
   not?: InputMaybe<OrganizationFilter>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<OrganizationFilter>>;
+  /** Filter by the object’s `slug` field. */
+  slug?: InputMaybe<StringFilter>;
   /** Filter by the object’s `updatedAt` field. */
   updatedAt?: InputMaybe<DatetimeFilter>;
 };
@@ -1318,6 +1406,7 @@ export type OrganizationInput = {
   /** The URL of the organization's logo. */
   logoUrl: Scalars['String'];
   name: Scalars['String'];
+  slug: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['Datetime']>;
 };
 
@@ -1329,6 +1418,7 @@ export type OrganizationPatch = {
   /** The URL of the organization's logo. */
   logoUrl?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Datetime']>;
 };
 
@@ -1360,9 +1450,13 @@ export enum OrganizationsOrderBy {
   CreatedAtDesc = 'CREATED_AT_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  SlugAsc = 'SLUG_ASC',
+  SlugDesc = 'SLUG_DESC',
   UpdatedAtAsc = 'UPDATED_AT_ASC',
   UpdatedAtDesc = 'UPDATED_AT_DESC'
 }
@@ -1516,6 +1610,7 @@ export type Project = Node & {
   organizationId: Scalars['UUID'];
   /** Reads and enables pagination through a set of `Persona`. */
   personasList: Array<Persona>;
+  slug: Scalars['String'];
   updatedAt: Scalars['Datetime'];
 };
 
@@ -1564,10 +1659,14 @@ export type ProjectCondition = {
   createdAt?: InputMaybe<Scalars['Datetime']>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['UUID']>;
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `order` field. */
   order?: InputMaybe<Scalars['Int']>;
   /** Checks for equality with the object’s `organizationId` field. */
   organizationId?: InputMaybe<Scalars['UUID']>;
+  /** Checks for equality with the object’s `slug` field. */
+  slug?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `updatedAt` field. */
   updatedAt?: InputMaybe<Scalars['Datetime']>;
 };
@@ -1580,6 +1679,8 @@ export type ProjectFilter = {
   createdAt?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `name` field. */
+  name?: InputMaybe<StringFilter>;
   /** Negates the expression. */
   not?: InputMaybe<ProjectFilter>;
   /** Checks for any expressions in this list. */
@@ -1588,6 +1689,8 @@ export type ProjectFilter = {
   order?: InputMaybe<IntFilter>;
   /** Filter by the object’s `organizationId` field. */
   organizationId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `slug` field. */
+  slug?: InputMaybe<StringFilter>;
   /** Filter by the object’s `updatedAt` field. */
   updatedAt?: InputMaybe<DatetimeFilter>;
 };
@@ -1600,6 +1703,7 @@ export type ProjectInput = {
   name: Scalars['String'];
   order?: InputMaybe<Scalars['Int']>;
   organizationId: Scalars['UUID'];
+  slug: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['Datetime']>;
 };
 
@@ -1611,6 +1715,7 @@ export type ProjectPatch = {
   name?: InputMaybe<Scalars['String']>;
   order?: InputMaybe<Scalars['Int']>;
   organizationId?: InputMaybe<Scalars['UUID']>;
+  slug?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Datetime']>;
 };
 
@@ -1642,6 +1747,8 @@ export enum ProjectsOrderBy {
   CreatedAtDesc = 'CREATED_AT_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   OrderAsc = 'ORDER_ASC',
   OrderDesc = 'ORDER_DESC',
@@ -1649,6 +1756,8 @@ export enum ProjectsOrderBy {
   OrganizationIdDesc = 'ORGANIZATION_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  SlugAsc = 'SLUG_ASC',
+  SlugDesc = 'SLUG_DESC',
   UpdatedAtAsc = 'UPDATED_AT_ASC',
   UpdatedAtDesc = 'UPDATED_AT_DESC'
 }
@@ -1673,8 +1782,10 @@ export type Query = Node & {
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
   nodeId: Scalars['ID'];
   organization?: Maybe<Organization>;
+  organizationByName?: Maybe<Organization>;
   /** Reads a single `Organization` using its globally unique `ID`. */
   organizationByNodeId?: Maybe<Organization>;
+  organizationBySlug?: Maybe<Organization>;
   /** Reads and enables pagination through a set of `Organization`. */
   organizations?: Maybe<OrganizationsConnection>;
   persona?: Maybe<Persona>;
@@ -1686,6 +1797,8 @@ export type Query = Node & {
   /** Reads a single `Project` using its globally unique `ID`. */
   projectByNodeId?: Maybe<Project>;
   projectByOrganizationIdAndName?: Maybe<Project>;
+  projectByOrganizationIdAndSlug?: Maybe<Project>;
+  projectBySlug?: Maybe<Project>;
   /** Reads and enables pagination through a set of `Project`. */
   projects?: Maybe<ProjectsConnection>;
   /**
@@ -1780,8 +1893,20 @@ export type QueryOrganizationArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryOrganizationByNameArgs = {
+  name: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryOrganizationByNodeIdArgs = {
   nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrganizationBySlugArgs = {
+  slug: Scalars['String'];
 };
 
 
@@ -1836,6 +1961,20 @@ export type QueryProjectByNodeIdArgs = {
 export type QueryProjectByOrganizationIdAndNameArgs = {
   name: Scalars['String'];
   organizationId: Scalars['UUID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryProjectByOrganizationIdAndSlugArgs = {
+  organizationId: Scalars['UUID'];
+  slug: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryProjectBySlugArgs = {
+  organizationSlug?: InputMaybe<Scalars['String']>;
+  projectSlug?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -2016,6 +2155,7 @@ export type Task = Node & {
   name: Scalars['String'];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
+  order?: Maybe<Scalars['Int']>;
   /** Reads a single `Task` that is related to this `Task`. */
   parent?: Maybe<Task>;
   parentId?: Maybe<Scalars['UUID']>;
@@ -2060,6 +2200,10 @@ export type TaskCondition = {
   estimate?: InputMaybe<Scalars['Int']>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['UUID']>;
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']>;
+  /** Checks for equality with the object’s `order` field. */
+  order?: InputMaybe<Scalars['Int']>;
   /** Checks for equality with the object’s `parentId` field. */
   parentId?: InputMaybe<Scalars['UUID']>;
   /** Checks for equality with the object’s `status` field. */
@@ -2084,10 +2228,14 @@ export type TaskFilter = {
   estimate?: InputMaybe<IntFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `name` field. */
+  name?: InputMaybe<StringFilter>;
   /** Negates the expression. */
   not?: InputMaybe<TaskFilter>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<TaskFilter>>;
+  /** Filter by the object’s `order` field. */
+  order?: InputMaybe<IntFilter>;
   /** Filter by the object’s `parentId` field. */
   parentId?: InputMaybe<UuidFilter>;
   /** Filter by the object’s `status` field. */
@@ -2108,6 +2256,7 @@ export type TaskInput = {
   estimate: Scalars['Int'];
   id?: InputMaybe<Scalars['UUID']>;
   name: Scalars['String'];
+  order?: InputMaybe<Scalars['Int']>;
   parentId?: InputMaybe<Scalars['UUID']>;
   status?: InputMaybe<TaskStatus>;
   uncertainty: Scalars['Int'];
@@ -2123,6 +2272,7 @@ export type TaskPatch = {
   estimate?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['UUID']>;
   name?: InputMaybe<Scalars['String']>;
+  order?: InputMaybe<Scalars['Int']>;
   parentId?: InputMaybe<Scalars['UUID']>;
   status?: InputMaybe<TaskStatus>;
   uncertainty?: InputMaybe<Scalars['Int']>;
@@ -2203,7 +2353,11 @@ export enum TasksOrderBy {
   EstimateDesc = 'ESTIMATE_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
+  OrderAsc = 'ORDER_ASC',
+  OrderDesc = 'ORDER_DESC',
   ParentIdAsc = 'PARENT_ID_ASC',
   ParentIdDesc = 'PARENT_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
@@ -2334,6 +2488,18 @@ export type UpdateEpicPayloadEpicEdgeArgs = {
   orderBy?: InputMaybe<Array<EpicsOrderBy>>;
 };
 
+/** All input for the `updateOrganizationByName` mutation. */
+export type UpdateOrganizationByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  /** An object where the defined keys will be set on the `Organization` being updated. */
+  patch: OrganizationPatch;
+};
+
 /** All input for the `updateOrganizationByNodeId` mutation. */
 export type UpdateOrganizationByNodeIdInput = {
   /**
@@ -2345,6 +2511,18 @@ export type UpdateOrganizationByNodeIdInput = {
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `Organization` being updated. */
   patch: OrganizationPatch;
+};
+
+/** All input for the `updateOrganizationBySlug` mutation. */
+export type UpdateOrganizationBySlugInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `Organization` being updated. */
+  patch: OrganizationPatch;
+  slug: Scalars['String'];
 };
 
 /** All input for the `updateOrganization` mutation. */
@@ -2446,6 +2624,19 @@ export type UpdateProjectByOrganizationIdAndNameInput = {
   organizationId: Scalars['UUID'];
   /** An object where the defined keys will be set on the `Project` being updated. */
   patch: ProjectPatch;
+};
+
+/** All input for the `updateProjectByOrganizationIdAndSlug` mutation. */
+export type UpdateProjectByOrganizationIdAndSlugInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  organizationId: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `Project` being updated. */
+  patch: ProjectPatch;
+  slug: Scalars['String'];
 };
 
 /** All input for the `updateProject` mutation. */
@@ -2792,7 +2983,7 @@ export type UserStoryPatch = {
   variables?: InputMaybe<Scalars['String']>;
 };
 
-export type DomainFragmentFragment = { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null };
+export type DomainFragmentFragment = { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any };
 
 export type EpicFragmentFragment = { __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any };
 
@@ -2802,7 +2993,7 @@ export type PersonaFragmentFragment = { __typename?: 'Persona', id: any, name: s
 
 export type ProjectFragmentFragment = { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any };
 
-export type TaskFragmentFragment = { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null };
+export type TaskFragmentFragment = { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null };
 
 export type UserStoryFragmentFragment = { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any };
 
@@ -2811,21 +3002,21 @@ export type CreateDomainMutationVariables = Exact<{
 }>;
 
 
-export type CreateDomainMutation = { __typename?: 'Mutation', createDomain?: { __typename?: 'CreateDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null } | null } | null };
+export type CreateDomainMutation = { __typename?: 'Mutation', createDomain?: { __typename?: 'CreateDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null } | null };
 
 export type DeleteDomainMutationVariables = Exact<{
   input: DeleteDomainInput;
 }>;
 
 
-export type DeleteDomainMutation = { __typename?: 'Mutation', deleteDomain?: { __typename?: 'DeleteDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null } | null } | null };
+export type DeleteDomainMutation = { __typename?: 'Mutation', deleteDomain?: { __typename?: 'DeleteDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null } | null };
 
 export type UpdateDomainMutationVariables = Exact<{
   input: UpdateDomainInput;
 }>;
 
 
-export type UpdateDomainMutation = { __typename?: 'Mutation', updateDomain?: { __typename?: 'UpdateDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null } | null } | null };
+export type UpdateDomainMutation = { __typename?: 'Mutation', updateDomain?: { __typename?: 'UpdateDomainPayload', domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null } | null };
 
 export type CreateEpicMutationVariables = Exact<{
   input: CreateEpicInput;
@@ -2895,21 +3086,29 @@ export type CreateTaskMutationVariables = Exact<{
 }>;
 
 
-export type CreateTaskMutation = { __typename?: 'Mutation', createTask?: { __typename?: 'CreateTaskPayload', task?: { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null } | null } | null };
+export type CreateTaskMutation = { __typename?: 'Mutation', createTask?: { __typename?: 'CreateTaskPayload', task?: { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null } | null } | null };
 
 export type DeleteTaskMutationVariables = Exact<{
   input: DeleteTaskInput;
 }>;
 
 
-export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask?: { __typename?: 'DeleteTaskPayload', task?: { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null } | null } | null };
+export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask?: { __typename?: 'DeleteTaskPayload', task?: { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null } | null } | null };
 
 export type UpdateTaskMutationVariables = Exact<{
   input: UpdateTaskInput;
 }>;
 
 
-export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask?: { __typename?: 'UpdateTaskPayload', task?: { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null } | null } | null };
+export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask?: { __typename?: 'UpdateTaskPayload', task?: { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null } | null } | null };
+
+export type ChangeTaskOrderMutationVariables = Exact<{
+  newOrder: Scalars['Int'];
+  taskId: Scalars['UUID'];
+}>;
+
+
+export type ChangeTaskOrderMutation = { __typename?: 'Mutation', updateTask?: { __typename?: 'UpdateTaskPayload', task?: { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null } | null } | null };
 
 export type CreateUserStoryMutationVariables = Exact<{
   input: CreateUserStoryInput;
@@ -2956,7 +3155,15 @@ export type GetProjectByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null } | null }> }> }> } | null };
+export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }> }> }> } | null };
+
+export type GetProjectBySlugQueryVariables = Exact<{
+  projectSlug: Scalars['String'];
+  organizationSlug: Scalars['String'];
+}>;
+
+
+export type GetProjectBySlugQuery = { __typename?: 'Query', projectBySlug?: { __typename?: 'Project', id: any, name: string, description: string, order?: number | null, createdAt: any, updatedAt: any, organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any } | null, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }> }> }> } | null };
 
 export const DomainFragmentFragmentDoc = gql`
     fragment DomainFragment on Domain {
@@ -2965,6 +3172,7 @@ export const DomainFragmentFragmentDoc = gql`
   shortName
   color
   description
+  projectId
 }
     `;
 export const EpicFragmentFragmentDoc = gql`
@@ -3017,6 +3225,7 @@ export const TaskFragmentFragmentDoc = gql`
   uncertainty
   parentId
   status
+  order
 }
     `;
 export const UserStoryFragmentFragmentDoc = gql`
@@ -3168,6 +3377,15 @@ export const UpdateTaskDocument = gql`
   }
 }
     ${TaskFragmentFragmentDoc}`;
+export const ChangeTaskOrderDocument = gql`
+    mutation ChangeTaskOrder($newOrder: Int!, $taskId: UUID!) {
+  updateTask(input: {id: $taskId, patch: {order: $newOrder}}) {
+    task {
+      ...TaskFragment
+    }
+  }
+}
+    ${TaskFragmentFragmentDoc}`;
 export const CreateUserStoryDocument = gql`
     mutation CreateUserStory($input: CreateUserStoryInput!) {
   createUserStory(input: $input) {
@@ -3260,6 +3478,40 @@ ${PersonaFragmentFragmentDoc}
 ${EpicFragmentFragmentDoc}
 ${UserStoryFragmentFragmentDoc}
 ${TaskFragmentFragmentDoc}`;
+export const GetProjectBySlugDocument = gql`
+    query GetProjectBySlug($projectSlug: String!, $organizationSlug: String!) {
+  projectBySlug(projectSlug: $projectSlug, organizationSlug: $organizationSlug) {
+    organization {
+      ...OrganizationFragment
+    }
+    ...ProjectFragment
+    domainsList {
+      ...DomainFragment
+    }
+    personasList {
+      ...PersonaFragment
+    }
+    epicsList {
+      ...EpicFragment
+      userStoriesList {
+        ...UserStoryFragment
+        tasksList {
+          ...TaskFragment
+          domain {
+            ...DomainFragment
+          }
+        }
+      }
+    }
+  }
+}
+    ${OrganizationFragmentFragmentDoc}
+${ProjectFragmentFragmentDoc}
+${DomainFragmentFragmentDoc}
+${PersonaFragmentFragmentDoc}
+${EpicFragmentFragmentDoc}
+${UserStoryFragmentFragmentDoc}
+${TaskFragmentFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -3313,6 +3565,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     UpdateTask(variables: UpdateTaskMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateTaskMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateTaskMutation>(UpdateTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateTask', 'mutation');
     },
+    ChangeTaskOrder(variables: ChangeTaskOrderMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ChangeTaskOrderMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ChangeTaskOrderMutation>(ChangeTaskOrderDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ChangeTaskOrder', 'mutation');
+    },
     CreateUserStory(variables: CreateUserStoryMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserStoryMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserStoryMutation>(CreateUserStoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateUserStory', 'mutation');
     },
@@ -3333,6 +3588,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetProjectById(variables: GetProjectByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProjectByIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetProjectByIdQuery>(GetProjectByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetProjectById', 'query');
+    },
+    GetProjectBySlug(variables: GetProjectBySlugQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProjectBySlugQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetProjectBySlugQuery>(GetProjectBySlugDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetProjectBySlug', 'query');
     }
   };
 }

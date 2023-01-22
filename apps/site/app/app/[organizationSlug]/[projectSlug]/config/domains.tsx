@@ -1,5 +1,6 @@
 "use client";
 
+import { SlideOver } from "@/ui/client/slideOver";
 import { Disclosure } from "@headlessui/react";
 import {
   ChevronRightIcon,
@@ -8,7 +9,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { DomainFragmentFragment } from "@ticketApp/codegen";
 import { FC, useReducer, useState } from "react";
-import { SlideOver } from "../../../../../../ui/client/slideOver";
 import { CreateDomainForm, UpdateDomainForm } from "./forms";
 
 interface State {
@@ -47,10 +47,10 @@ export const Domains: FC<{
 
   return (
     <>
-      <Disclosure>
+      <Disclosure defaultOpen>
         {({ open }) => (
           <div className="relative max-w-5xl mx-auto mt-8 overflow-visible">
-            <div className="flex justify-between py-1 border-b dark:border-teal-400/50 ">
+            <div className="flex justify-between py-1 ">
               <Disclosure.Button
                 className={"inline-flex gap-1 items-center  dark:text-teal-300"}
               >

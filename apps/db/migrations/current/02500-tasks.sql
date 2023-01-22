@@ -23,6 +23,7 @@ create table publ.tasks (
     id uuid not null default uuid_generate_v4() primary key unique, 
     name text not null,
     description text not null,
+    "order" int,
     user_story_id uuid not null references publ.user_stories(id) on delete cascade,
     domain_id uuid references publ.domains(id) on delete restrict,
     status text references publ.task_status(type) on delete restrict default 'BACKLOG',
@@ -40,13 +41,15 @@ create table publ.tasks (
     create index on publ.tasks(uncertainty);
     create index on publ.tasks(parent_id);
     create index on publ.tasks(domain_id);
+    create index on publ.tasks(name);
+    create index on publ.tasks("order");
   create index on publ.tasks(created_at);
   create index on publ.tasks(updated_at);
 
 -- RBAC
   grant select on publ.tasks to :DATABASE_VISITOR;
- grant insert (name, description, user_story_id, domain_id, status, estimate, parent_id, uncertainty) on publ.tasks to :DATABASE_VISITOR;
- grant update (name, description, user_story_id, domain_id, status, estimate, parent_id, uncertainty) on publ.tasks to :DATABASE_VISITOR;
+ grant insert (name, description, user_story_id, domain_id, "order", status, estimate, parent_id, uncertainty) on publ.tasks to :DATABASE_VISITOR;
+ grant update (name, description, user_story_id, domain_id, "order", status, estimate, parent_id, uncertainty) on publ.tasks to :DATABASE_VISITOR;
   grant delete on publ.tasks to :DATABASE_VISITOR;
   
 
@@ -71,3 +74,53 @@ create table publ.tasks (
 /*
   END TABLE: publ.tasks
 */
+
+
+create or replace function publ.update_task_order() returns trigger as $$
+declare
+  max_order int;
+begin
+  if (TG_OP = 'INSERT') then
+    if (NEW."order" is null) then
+      -- Get the max "order" value for the organization
+      select max("order") INTO max_order
+      from publ.tasks
+      where user_story_id = NEW.user_story_id;
+      if (max_order IS NOT NULL) then
+        NEW."order" = max_order + 1;
+      ELSE
+        NEW."order" = 0;
+      END if;
+    ELSE
+      -- Shift existing tasks with higher "order" value
+      update publ.tasks
+      set "order" = "order" + 1
+      where user_story_id = NEW.user_story_id
+        and "order" >= NEW."order";
+    END if;
+  elsif (TG_OP = 'UPDATE') then
+    if (OLD."order" <> NEW."order") then
+      -- Shift existing tasks with higher "order" value
+      if (OLD."order" < NEW."order") then
+        update publ.tasks
+        set "order" = "order" - 1
+        where user_story_id = NEW.user_story_id
+          and "order" > OLD."order"
+          and "order" <= NEW."order";
+      else
+        update publ.tasks
+        set "order" = "order" + 1
+        where user_story_id = NEW.user_story_id
+          and "order" >= NEW."order"
+          and "order" < OLD."order";
+      end if;
+    end if;
+  end if;
+  return NEW;
+end;
+$$ language plpgsql volatile security definer;
+
+create trigger update_task_order
+before insert or update ON publ.tasks
+FOR EACH ROW
+EXECUTE FUNCTION publ.update_task_order();

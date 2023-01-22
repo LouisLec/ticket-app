@@ -26,3 +26,11 @@ mutation UpdateTask($input: UpdateTaskInput!) {
     }
   }
 }
+
+mutation ChangeTaskOrder($newOrder: Int!, $taskId: UUID!) {
+  updateTask(input: { id: $taskId, patch: { order: $newOrder } }) {
+    task {
+      ...TaskFragment
+    }
+  }
+}

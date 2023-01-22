@@ -1,3 +1,4 @@
+import { cn } from "@/utils/classes";
 import { CreateTaskInput } from "@ticketApp/codegen";
 import { useRouter } from "next/navigation";
 import { FC, useState, useTransition } from "react";
@@ -16,7 +17,7 @@ export interface GenericFormProps<InputType> {
 export interface Field<T> {
   name: FieldPath<T>;
   label: string;
-  initialValue?: string;
+  initialValue?: string | number | boolean | null;
   type: "text" | "textarea" | "select" | "boolean" | "number" | "color";
   options?: { label: string; value: string }[];
   required?: boolean;
@@ -77,17 +78,23 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmitHandler)}
-      className={(isLoading || isPending) && "opacity-40 " + "form-grid"}
+      className={cn((isLoading || isPending) && "opacity-40 ")}
     >
       {fields.map(field => (
         <label
           htmlFor={field.name as string}
-          className="flex flex-col px-4 py-2 mt-2 text-xs rounded text-slate-500 bg-slate-900"
+          className={cn(
+            "flex flex-col px-4 py-2 mt-2 text-xs rounded text-slate-500 bg-slate-900",
+            field.hidden && "opacity-50"
+          )}
         >
           {field.label}
           {field.hidden && (
             <input
-              defaultValue={field.initialValue || field.defaultValue || null}
+              disabled
+              defaultValue={
+                (field.initialValue || field.defaultValue || null) as any
+              }
               type="hidden"
               id={field.name as string}
               {...register(field.name as string, {
@@ -101,7 +108,9 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
 
           {field.type === "text" && (
             <input
-              defaultValue={field.initialValue || field.defaultValue || null}
+              defaultValue={
+                (field.initialValue || field.defaultValue || null) as any
+              }
               type="text"
               className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
               id={field.name as string}
@@ -116,7 +125,9 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
           {field.type === "textarea" && (
             <textarea
               rows={3}
-              defaultValue={field.initialValue || field.defaultValue || null}
+              defaultValue={
+                (field.initialValue || field.defaultValue || null) as any
+              }
               className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
               id={field.name as string}
               {...register(field.name as string, {
@@ -129,7 +140,9 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
           )}
           {field.type === "select" && (
             <select
-              defaultValue={field.initialValue || field.defaultValue || null}
+              defaultValue={
+                (field.initialValue || field.defaultValue || null) as any
+              }
               className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
               id={field.name as string}
               {...register(field.name as string, {
@@ -149,7 +162,9 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
           {field.type === "boolean" && (
             <div className="flex items-center gap-2">
               <input
-                defaultValue={field.initialValue || field.defaultValue || null}
+                defaultValue={
+                  (field.initialValue || field.defaultValue || null) as any
+                }
                 type="radio"
                 id="true"
                 name={field.name as string}
@@ -161,7 +176,9 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
               <label htmlFor="true">true</label>
 
               <input
-                defaultValue={field.initialValue || field.defaultValue || null}
+                defaultValue={
+                  (field.initialValue || field.defaultValue || null) as any
+                }
                 type="radio"
                 id="false"
                 name={field.name as string}
@@ -175,7 +192,9 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
           )}
           {field.type === "number" && (
             <input
-              defaultValue={field.initialValue || field.defaultValue || null}
+              defaultValue={
+                (field.initialValue || field.defaultValue || null) as any
+              }
               type="number"
               className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
               id={field.name as string}
@@ -190,7 +209,9 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
           )}
           {field.type === "color" && (
             <input
-              defaultValue={field.initialValue || field.defaultValue || null}
+              defaultValue={
+                (field.initialValue || field.defaultValue || null) as any
+              }
               type="color"
               className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
               id={field.name as string}
@@ -202,7 +223,7 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
               })}
             />
           )}
-          {errors[field.name as string] && (
+          {errors[field.name as string] ? (
             <span className="text-xs text-red-500">
               {errors[field.name as string].type === "required" &&
                 "This field is required"}
@@ -213,7 +234,7 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
               {errors[field.name as string].type === "pattern" &&
                 "This field is invalid"}
             </span>
-          )}
+          ) : null}
         </label>
       ))}
       <div className="flex items-center justify-end gap-2">

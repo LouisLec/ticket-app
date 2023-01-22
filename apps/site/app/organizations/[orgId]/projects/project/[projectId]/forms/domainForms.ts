@@ -1,4 +1,4 @@
-import { Field, GenericFormProps } from "@/components/index";
+/* import { Field, GenericFormProps } from "@/components/index";
 import {
   CreateTaskInput,
   GetProjectByIdQuery,
@@ -28,16 +28,11 @@ export const createTaskFormProps: (input: {
     >,
     "tasksList"
   >;
-}) => /* 
-Omit :
-onCanceled
-onDelete
-onSuccess
-*/
-Omit<
-  GenericFormProps<CreateTaskInput>,
-  "onCanceled" | "onDelete" | "onSuccess"
-> = ({ domains, userStoryId, existingTasks }) => {
+}) => Partial<GenericFormProps<CreateTaskInput>> = ({
+  domains,
+  userStoryId,
+  existingTasks,
+}) => {
   return {
     async onSubmit(data) {
       await sdk.CreateTask({ input: data });
@@ -135,21 +130,19 @@ export const updateTaskFormProps: (input: {
     >,
     "tasksList"
   >;
-}) => Omit<
-  GenericFormProps<UpdateTaskInput>,
-  "onCanceled" | "onDelete" | "onSuccess"
-> = ({
+}) => Partial<GenericFormProps<UpdateTaskInput>> = ({
   domains,
 
   task,
   existingTasks,
 }) => {
-  const fields: Field<UpdateTaskInput>[] = [
+  const fields: Field<UpdateTaskInput> = [
     {
       name: "id",
       type: "text",
       hidden: true,
       label: "Id",
+      disabled: true,
       initialValue: task.id,
     },
     {
@@ -228,5 +221,97 @@ export const updateTaskFormProps: (input: {
     },
     action: "update",
     fields,
+  };
+};
+ */
+
+import { GenericFormProps } from "@/components/index";
+import {
+  CreateDomainInput,
+  GetProjectByIdQuery,
+  UpdateDomainInput,
+} from "@ticketApp/codegen";
+import { sdk } from "utils/sdk";
+
+export const createDomainFormProps: (input: {
+  projectId: string;
+}) => Partial<GenericFormProps<CreateDomainInput>> = ({ projectId }) => {
+  return {
+    async onSubmit(data) {
+      await sdk.CreateDomain({ input: data });
+    },
+    action: "create",
+    fields: [
+      {
+        name: "domain.projectId",
+        type: "text",
+        hidden: true,
+        label: "Project",
+        initialValue: projectId,
+      },
+      {
+        name: "domain.name",
+        label: "Name",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "domain.color",
+        label: "Color",
+        type: "color",
+        required: true,
+      },
+      {
+        name: "domain.description",
+        label: "Description",
+        type: "text",
+        required: true,
+      },
+    ],
+  };
+};
+
+export const updateDomainFormProps: (input: {
+  domain: ExtractArrayType<
+    ExtractType<GetProjectByIdQuery, "project">,
+    "domainsList"
+  >;
+}) => Partial<GenericFormProps<UpdateDomainInput>> = ({ domain }) => {
+  return {
+    async onSubmit(data) {
+      await sdk.UpdateDomain({ input: data });
+    },
+    action: "update",
+    fields: [
+      {
+        name: "id",
+        type: "text",
+        hidden: true,
+        label: "Id",
+        disabled: true,
+        initialValue: domain.id,
+      },
+      {
+        name: "patch.projectId",
+        type: "text",
+        hidden: true,
+        label: "Project",
+        initialValue: domain.projectId,
+      },
+      {
+        name: "patch.name",
+        label: "Name",
+        type: "text",
+        required: true,
+        initialValue: domain.name,
+      },
+      {
+        name: "patch.description",
+        label: "Description",
+        type: "text",
+        required: true,
+        initialValue: domain.description,
+      },
+    ],
   };
 };

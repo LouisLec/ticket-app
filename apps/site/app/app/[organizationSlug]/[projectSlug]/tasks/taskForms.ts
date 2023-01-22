@@ -28,13 +28,7 @@ export const createTaskFormProps: (input: {
     >,
     "tasksList"
   >;
-}) => /* 
-Omit :
-onCanceled
-onDelete
-onSuccess
-*/
-Omit<
+}) => Omit<
   GenericFormProps<CreateTaskInput>,
   "onCanceled" | "onDelete" | "onSuccess"
 > = ({ domains, userStoryId, existingTasks }) => {
@@ -101,10 +95,13 @@ Omit<
         label: "Parent  task",
         type: "select",
         required: false,
-        options: existingTasks?.map(task => ({
-          label: task.name,
-          value: task.id,
-        })),
+        options: [
+          { label: "None", value: "" },
+          ...existingTasks?.map(task => ({
+            label: task.name,
+            value: task.id,
+          })),
+        ],
       },
     ],
   };
@@ -215,10 +212,13 @@ export const updateTaskFormProps: (input: {
       label: "Parent  task",
       type: "select",
       required: false,
-      options: existingTasks?.map(task => ({
-        label: task.name,
-        value: task.id,
-      })),
+      options: [
+        { label: "None", value: "" },
+        ...existingTasks?.map(task => ({
+          label: task.name,
+          value: task.id,
+        })),
+      ],
       initialValue: task?.parentId,
     },
   ];
