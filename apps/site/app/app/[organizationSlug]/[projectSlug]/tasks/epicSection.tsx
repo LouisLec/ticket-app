@@ -18,7 +18,11 @@ import { SlideOver } from "@/ui/client/slideOver";
 import { sdk } from "utils/sdk";
 import { createTaskFormProps, updateTaskFormProps } from "./taskForms";
 import { Typography } from "@/ui/server/typography";
-import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/20/solid";
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  LinkIcon,
+} from "@heroicons/react/20/solid";
 import { cn } from "@/utils/classes";
 
 export const EpicSection: FC<{
@@ -333,6 +337,23 @@ const UserStory: FC<
 
                     <td className="px-2 py-1 text-sm border border-slate-300 dark:border-slate-700 ">
                       {task.name}
+                      {task.parentId ? (
+                        <Typography
+                          as="div"
+                          style="super-small"
+                          soften
+                          className="flex items-baseline gap-px"
+                        >
+                          <LinkIcon className="w-3 h-3 " />{" "}
+                          <Typography as="strong" style="strong">
+                            {
+                              userStory.tasksList.find(
+                                t => t.id === task.parentId
+                              )?.name
+                            }
+                          </Typography>
+                        </Typography>
+                      ) : null}
                     </td>
                     <td className="px-2 py-1 text-sm border border-slate-300 dark:border-slate-700 ">
                       {task.status}

@@ -52,7 +52,7 @@ query GetProjectBySlug($projectSlug: String!, $organizationSlug: String!) {
       ...EpicFragment
       userStoriesList {
         ...UserStoryFragment
-        tasksList {
+        tasksList(orderBy: [ORDER_ASC]) {
           ...TaskFragment
           domain {
             ...DomainFragment

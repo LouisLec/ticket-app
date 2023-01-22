@@ -3495,7 +3495,7 @@ export const GetProjectBySlugDocument = gql`
       ...EpicFragment
       userStoriesList {
         ...UserStoryFragment
-        tasksList {
+        tasksList(orderBy: [ORDER_ASC]) {
           ...TaskFragment
           domain {
             ...DomainFragment

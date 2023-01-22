@@ -75,11 +75,25 @@ create table publ.tasks (
   END TABLE: publ.tasks
 */
 
+drop table if exists priv.update_task_order_log cascade;
+create table priv.update_task_order_log (
+  id uuid not null default uuid_generate_v4() primary key unique,
+  user_story_id uuid not null references publ.user_stories(id) on delete cascade
+);
+
 
 create or replace function publ.update_task_order() returns trigger as $$
 declare
   max_order int;
 begin
+
+  if 
+    exists (SELECT 1 FROM priv.update_task_order_log WHERE user_story_id = NEW.user_story_id)
+  then
+      return NEW;
+  end if;
+
+  insert into priv.update_task_order_log (user_story_id) values (NEW.user_story_id);
   if (TG_OP = 'INSERT') then
     if (NEW."order" is null) then
       -- Get the max "order" value for the organization
@@ -91,7 +105,7 @@ begin
       ELSE
         NEW."order" = 0;
       END if;
-    ELSE
+    ELSE  
       -- Shift existing tasks with higher "order" value
       update publ.tasks
       set "order" = "order" + 1
@@ -116,6 +130,7 @@ begin
       end if;
     end if;
   end if;
+  delete from priv.update_task_order_log where user_story_id = NEW.user_story_id;
   return NEW;
 end;
 $$ language plpgsql volatile security definer;
