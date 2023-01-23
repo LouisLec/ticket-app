@@ -30,6 +30,9 @@ create table publ.user_stories (
 
 -- RBAC
   grant select on publ.user_stories to :DATABASE_VISITOR;
+    grant insert(name, "order", as_a, i_want, so_that, epic_id, validation_criteria, comments, variables, parent_id) on publ.user_stories to :DATABASE_VISITOR;
+    grant update(name, "order", as_a, i_want, so_that, epic_id, validation_criteria, comments, variables, parent_id) on publ.user_stories to :DATABASE_VISITOR;
+    grant delete on publ.user_stories to :DATABASE_VISITOR;
 
 -- triggers
   create trigger _100_timestamps

@@ -61,8 +61,8 @@ const getPostgraphileOptions = (rootPgPool: Pool): PostGraphileOptions => {
     enableQueryBatching: true,
     legacyRelations: "omit",
     pgDefaultRole: process.env.DATABASE_VISITOR,
-    // jwtPgTypeIdentifier: "publ.jwt",
-    // jwtSecret: process.env.JWT_SECRET,
+    jwtPgTypeIdentifier: "publ.jwt",
+    jwtSecret: process.env.JWT_SECRET,
     additionalGraphQLContextFromRequest: async (
       req,
       res
