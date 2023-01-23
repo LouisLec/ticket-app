@@ -6,7 +6,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { GetProjectByIdQuery, TaskStatus } from "@ticketApp/codegen";
-import { FC } from "react";
+import { FC, useState, useTransition } from "react";
 
 import { sdk } from "utils/sdk";
 import { Typography } from "@/ui/server/typography";
@@ -16,6 +16,7 @@ import {
   LinkIcon,
 } from "@heroicons/react/20/solid";
 import { cn } from "@/utils/classes";
+import { useRouter } from "next/navigation";
 
 export const TaskTable: FC<
   ExtractArrayType<
@@ -25,8 +26,15 @@ export const TaskTable: FC<
     dispatch: any;
   }
 > = ({ dispatch, ...userStory }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isTransitioning, startTransition] = useTransition();
+  const router = useRouter();
   return (
-    <>
+    <div
+      className={cn(
+        isTransitioning || isLoading ? "animate-pulse pointer-events-none" : ""
+      )}
+    >
       {userStory.tasksList.length ? (
         <table className="w-full mt-2 table-auto">
           <thead>
@@ -71,24 +79,34 @@ export const TaskTable: FC<
                     </button>
                     <button
                       className="p-1 rounded-full hover:bg-slate-100"
-                      onClick={() =>
+                      onClick={() => {
+                        setIsLoading(true);
                         window.confirm(
                           "Are you sure you want to delete this?"
-                        ) && sdk.DeleteTask({ input: { id: task.id } })
-                      }
+                        ) && sdk.DeleteTask({ input: { id: task.id } });
+                        setIsLoading(false);
+                        startTransition(() => {
+                          router.refresh();
+                        });
+                      }}
                     >
                       <TrashIcon className="w-4 h-4" />
                     </button>
                     <div className="grid">
                       <button
-                        onClick={() =>
+                        onClick={() => {
+                          setIsLoading(true);
                           sdk.UpdateTask({
                             input: {
                               id: task.id,
                               patch: { order: task.order - 1 },
                             },
-                          })
-                        }
+                          });
+                          setIsLoading(false);
+                          startTransition(() => {
+                            router.refresh();
+                          });
+                        }}
                         disabled={task.order === 0}
                       >
                         <ArrowUpIcon
@@ -99,14 +117,19 @@ export const TaskTable: FC<
                         />
                       </button>
                       <button
-                        onClick={() =>
+                        onClick={() => {
+                          setIsLoading(true);
                           sdk.UpdateTask({
                             input: {
                               id: task.id,
                               patch: { order: task.order + 1 },
                             },
-                          })
-                        }
+                          });
+                          setIsLoading(false);
+                          startTransition(() => {
+                            router.refresh();
+                          });
+                        }}
                         disabled={task.order === userStory.tasksList.length - 1}
                       >
                         <ArrowDownIcon
@@ -141,10 +164,10 @@ export const TaskTable: FC<
                   ) : null}
                 </td>
 
-                <td className="px-2 py-1 text-sm border border-slate-300 dark:border-slate-700 ">
+                <td className="px-2 py-1 text-sm text-right border border-slate-300 dark:border-slate-700 ">
                   {task.estimate}
                 </td>
-                <td className="px-2 py-1 text-sm border border-slate-300 dark:border-slate-700 ">
+                <td className="px-2 py-1 text-sm text-right border border-slate-300 dark:border-slate-700 ">
                   {task.uncertainty}
                 </td>
                 <td className="px-2 py-1 text-sm border border-slate-300 dark:border-slate-700">
@@ -179,6 +202,6 @@ export const TaskTable: FC<
         </table>
       ) : null}
       <div className="h-20" />
-    </>
+    </div>
   );
 };
