@@ -39,7 +39,7 @@ export const ProjectLayout = async ({
         <div className="h-10" />
       </div>
 
-      <div className="bg-slate-900">{children}</div>
+      <div className="dark:bg-slate-900">{children}</div>
     </>
   );
 };

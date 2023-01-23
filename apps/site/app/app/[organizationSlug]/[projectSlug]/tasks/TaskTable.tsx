@@ -36,7 +36,7 @@ export const TaskTable: FC<
       )}
     >
       {userStory.tasksList.length ? (
-        <table className="w-full mt-2 table-auto">
+        <table className="w-full table-auto">
           <thead>
             <tr className="odd:bg-slate-200 bg-slate-50 dark:bg-slate-900 odd:dark:bg-slate-800 ">
               <th className="border border-slate-300 dark:border-slate-700">
@@ -200,8 +200,11 @@ export const TaskTable: FC<
             ))}
           </tbody>
         </table>
-      ) : null}
-      <div className="h-20" />
+      ) : (
+        <>
+          <Typography style="code">Pas encore de tâches</Typography>
+        </>
+      )}
     </div>
   );
 };

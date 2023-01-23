@@ -7,9 +7,7 @@ const ProjectHomepage = async ({
   const data = await sdk.GetProjectBySlug({ projectSlug, organizationSlug });
 
   return (
-    <div className="bg-slate-900">
-      <div className="min-h-screen mx-20 dark:bg-black rounded-t-3xl"></div>
-    </div>
+    <div className="min-h-screen pt-12 mx-20 bg-white border dark:bg-black rounded-t-3xl dark:border-slate-800 border-slate-200"></div>
   );
 };
 

@@ -534,6 +534,17 @@ export type DeleteOrganizationMembershipByNodeIdInput = {
   nodeId: Scalars['ID'];
 };
 
+/** All input for the `deleteOrganizationMembershipByOrganizationIdAndUserId` mutation. */
+export type DeleteOrganizationMembershipByOrganizationIdAndUserIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  organizationId: Scalars['UUID'];
+  userId: Scalars['UUID'];
+};
+
 /** All input for the `deleteOrganizationMembership` mutation. */
 export type DeleteOrganizationMembershipInput = {
   /**
@@ -1231,6 +1242,8 @@ export type Mutation = {
   deleteOrganizationMembership?: Maybe<DeleteOrganizationMembershipPayload>;
   /** Deletes a single `OrganizationMembership` using its globally unique id. */
   deleteOrganizationMembershipByNodeId?: Maybe<DeleteOrganizationMembershipPayload>;
+  /** Deletes a single `OrganizationMembership` using a unique key. */
+  deleteOrganizationMembershipByOrganizationIdAndUserId?: Maybe<DeleteOrganizationMembershipPayload>;
   /** Deletes a single `Persona` using a unique key. */
   deletePersona?: Maybe<DeletePersonaPayload>;
   /** Deletes a single `Persona` using its globally unique id. */
@@ -1280,6 +1293,8 @@ export type Mutation = {
   updateOrganizationMembership?: Maybe<UpdateOrganizationMembershipPayload>;
   /** Updates a single `OrganizationMembership` using its globally unique id and a patch. */
   updateOrganizationMembershipByNodeId?: Maybe<UpdateOrganizationMembershipPayload>;
+  /** Updates a single `OrganizationMembership` using a unique key and a patch. */
+  updateOrganizationMembershipByOrganizationIdAndUserId?: Maybe<UpdateOrganizationMembershipPayload>;
   /** Updates a single `Persona` using a unique key and a patch. */
   updatePersona?: Maybe<UpdatePersonaPayload>;
   /** Updates a single `Persona` using its globally unique id and a patch. */
@@ -1426,6 +1441,12 @@ export type MutationDeleteOrganizationMembershipArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteOrganizationMembershipByNodeIdArgs = {
   input: DeleteOrganizationMembershipByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrganizationMembershipByOrganizationIdAndUserIdArgs = {
+  input: DeleteOrganizationMembershipByOrganizationIdAndUserIdInput;
 };
 
 
@@ -1582,6 +1603,12 @@ export type MutationUpdateOrganizationMembershipArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateOrganizationMembershipByNodeIdArgs = {
   input: UpdateOrganizationMembershipByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrganizationMembershipByOrganizationIdAndUserIdArgs = {
+  input: UpdateOrganizationMembershipByOrganizationIdAndUserIdInput;
 };
 
 
@@ -2295,6 +2322,7 @@ export type Query = Node & {
   organizationMembership?: Maybe<OrganizationMembership>;
   /** Reads a single `OrganizationMembership` using its globally unique `ID`. */
   organizationMembershipByNodeId?: Maybe<OrganizationMembership>;
+  organizationMembershipByOrganizationIdAndUserId?: Maybe<OrganizationMembership>;
   /** Reads and enables pagination through a set of `OrganizationMembership`. */
   organizationMemberships?: Maybe<OrganizationMembershipsConnection>;
   /** Reads and enables pagination through a set of `Organization`. */
@@ -2436,6 +2464,13 @@ export type QueryOrganizationMembershipArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryOrganizationMembershipByNodeIdArgs = {
   nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrganizationMembershipByOrganizationIdAndUserIdArgs = {
+  organizationId: Scalars['UUID'];
+  userId: Scalars['UUID'];
 };
 
 
@@ -3148,6 +3183,19 @@ export type UpdateOrganizationMembershipByNodeIdInput = {
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `OrganizationMembership` being updated. */
   patch: OrganizationMembershipPatch;
+};
+
+/** All input for the `updateOrganizationMembershipByOrganizationIdAndUserId` mutation. */
+export type UpdateOrganizationMembershipByOrganizationIdAndUserIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  organizationId: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `OrganizationMembership` being updated. */
+  patch: OrganizationMembershipPatch;
+  userId: Scalars['UUID'];
 };
 
 /** All input for the `updateOrganizationMembership` mutation. */

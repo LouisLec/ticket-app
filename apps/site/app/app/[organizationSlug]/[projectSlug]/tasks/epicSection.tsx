@@ -11,12 +11,16 @@ export const EpicSection: FC<{
     ExtractType<GetProjectByIdQuery, "project">,
     "domainsList"
   >;
-}> = ({ epics, domains }) => {
+  personas: ExtractType<
+    ExtractType<GetProjectByIdQuery, "project">,
+    "personasList"
+  >;
+}> = ({ epics, domains, personas }) => {
   return (
     <section className="mt-8 ">
       <div className="flex flex-col gap-4">
         {epics.map(epic => (
-          <Epic domains={domains} {...epic} key={epic.id} />
+          <Epic domains={domains} {...epic} key={epic.id} personas={personas} />
         ))}
       </div>
     </section>

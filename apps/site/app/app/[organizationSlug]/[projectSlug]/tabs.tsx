@@ -9,8 +9,9 @@ const tabs = (slug: string) => [
   { name: "présentation", href: slug + "" },
   { name: "configuration", href: slug + "/config" },
   { name: "Taches", href: slug + "/tasks" },
+  { name: "Architecture", href: slug + "/archi" },
+  { name: "Hebergement", href: slug + "/hosting" },
   { name: "devis", href: slug + "/devis" },
-  { name: "factures", href: slug + "/factures" },
   {
     name: "documents",
     href: slug + "/documents",
@@ -51,10 +52,11 @@ export const Tabs: FC<{ slug: string }> = ({ slug }) => {
               >
                 <Typography
                   style="upper-detail"
+                  soften={isCurrent}
                   className={cn(
                     isCurrent
-                      ? "border-teal-500 text-teal-600"
-                      : "border-transparent  hover:text-slate-700 hover:border-slate-300",
+                      ? "border-teal-500 text-teal-600 "
+                      : "border-transparent  ",
                     "whitespace-nowrap px-1 border-b-2"
                   )}
                 >

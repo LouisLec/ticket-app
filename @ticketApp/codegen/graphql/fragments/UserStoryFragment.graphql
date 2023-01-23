@@ -2,11 +2,18 @@ fragment UserStoryFragment on UserStory {
   id
   name
   asA
+  personaByAsA {
+    id
+    name
+  }
   iWant
   soThat
   validationCriteria
   variables
   comments
+  order
+  epicId
+  parentId
   createdAt
   updatedAt
 }

@@ -18,11 +18,11 @@ query GetProjectById($projectId: UUID!) {
     personasList {
       ...PersonaFragment
     }
-    epicsList {
+    epicsList(orderBy: [ORDER_ASC]) {
       ...EpicFragment
-      userStoriesList {
+      userStoriesList(orderBy: [ORDER_ASC]) {
         ...UserStoryFragment
-        tasksList {
+        tasksList(orderBy: [ORDER_ASC]) {
           ...TaskFragment
           domain {
             ...DomainFragment
@@ -48,9 +48,9 @@ query GetProjectBySlug($projectSlug: String!, $organizationSlug: String!) {
     personasList {
       ...PersonaFragment
     }
-    epicsList {
+    epicsList(orderBy: [ORDER_ASC]) {
       ...EpicFragment
-      userStoriesList {
+      userStoriesList(orderBy: [ORDER_ASC]) {
         ...UserStoryFragment
         tasksList(orderBy: [ORDER_ASC]) {
           ...TaskFragment
