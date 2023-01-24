@@ -42,7 +42,7 @@ const ProjectsPerOrgPage = async ({ params }) => {
                 <td>
                   {" "}
                   <span className="font-mono text-xs font-bold font-slate-600">
-                    #{project.order}
+                    #{project.id}
                   </span>{" "}
                   {project.name}
                 </td>
