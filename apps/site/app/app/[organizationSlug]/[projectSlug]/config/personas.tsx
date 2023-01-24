@@ -76,7 +76,10 @@ export const Personas: FC<{
             </div>
             <Disclosure.Panel className="grid gap-1 mt-2 ">
               {personas?.map(persona => (
-                <div className="flex flex-col px-2 py-1 rounded bg-slate-300 dark:bg-slate-800">
+                <div
+                  className="flex flex-col px-2 py-1 rounded bg-slate-300 dark:bg-slate-800"
+                  key={persona.id}
+                >
                   <div className="flex items-start justify-between flex-grow">
                     <h3 className="text-sm font-bold dark:text-slate-50">
                       {persona.name}
