@@ -191,7 +191,12 @@ export const TaskTable: FC<
                   </div>
                 </td>
                 <td className="px-2 py-1 text-sm border border-slate-300 dark:border-slate-700 ">
-                  {task?.domain?.name}
+                  <span
+                    className="rounded border-2 px-1 py-0.5 text-xs font-mono"
+                    style={{ borderColor: task?.domain?.color }}
+                  >
+                    {task?.domain?.name}
+                  </span>
                 </td>
                 <td className="px-2 py-1 text-sm border border-slate-300 dark:border-slate-700 ">
                   {task.description}

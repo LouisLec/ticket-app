@@ -11,7 +11,7 @@ export const ProjectLayout = async ({
 
   return (
     <>
-      <div className="pt-10 pb-5 -mb-10 border-b border-slate-200 sm:pb-0 dark:bg-slate-900">
+      <div className="pt-10 pb-5 -mb-10 border-b print:hidden border-slate-200 sm:pb-0 dark:bg-slate-900">
         <div className="max-w-5xl mx-auto ">
           <Breadcrumbs
             pages={[
@@ -36,7 +36,7 @@ export const ProjectLayout = async ({
         <div className="h-10" />
       </div>
 
-      <div className="dark:bg-slate-900">{children}</div>
+      <div className="dark:bg-slate-900 print:bg-none">{children}</div>
     </>
   );
 };

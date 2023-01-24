@@ -145,11 +145,12 @@ export const updateUserStoryFormProps: (input: {
       initialValue: userStory.name,
     },
     {
+      initialValue: userStory.asA,
       name: "patch.asA",
       label: "En tant que",
-      type: "text",
+      type: "select",
       required: true,
-      initialValue: userStory.asA,
+      options: personas?.map(x => ({ label: x.name, value: x.id })),
     },
     {
       name: "patch.iWant",
