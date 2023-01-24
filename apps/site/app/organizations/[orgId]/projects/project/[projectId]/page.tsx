@@ -1,4 +1,3 @@
-import { SwatchIcon } from "@heroicons/react/24/outline";
 import { sdk } from "../../../../../../utils/sdk";
 import { Domains } from "./domains";
 import { Epics } from "./epics";
