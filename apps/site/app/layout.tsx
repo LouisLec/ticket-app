@@ -36,13 +36,28 @@ const RootLayout = ({ children }) => {
         {/* favicon */}
         <link rel="icon" href="/favicon.ico" />
         {/* title and description */}
-        <meta name="description" content="Napol.io" />
         <meta
-          name="og:title"
+          name="description"
           content="Gestion de projet en mode campagne Napoléonienne"
         />
-        <meta name="og:description" content="description" />
+        <meta name="og:title" content="Napol.io" />
+        <meta
+          name="og:description"
+          content="Gestion de projet en mode campagne Napoléonienne"
+        />
         <meta name="og:image" content="/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:url" content="https://napol.io" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Napol.io" />
+        <meta
+          name="twitter:description"
+          content="Gestion de projet en mode campagne Napoléonienne"
+        />
+        <meta name="twitter:image" content="/og-image.png" />
+        <meta name="twitter:site" content="@LecsLouis" />
 
         {/* fonts */}
       </head>
