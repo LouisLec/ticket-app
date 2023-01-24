@@ -33,6 +33,18 @@ const RootLayout = ({ children }) => {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        {/* favicon */}
+        <link rel="icon" href="/favicon.ico" />
+        {/* title and description */}
+        <meta name="description" content="Napol.io" />
+        <meta
+          name="og:title"
+          content="Gestion de projet en mode campagne Napoléonienne"
+        />
+        <meta name="og:description" content="description" />
+        <meta name="og:image" content="/og-image.png" />
+
+        {/* fonts */}
       </head>
       <body className="h-full">{children}</body>
     </html>
