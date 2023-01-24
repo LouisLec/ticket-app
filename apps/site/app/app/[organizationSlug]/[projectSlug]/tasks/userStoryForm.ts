@@ -74,7 +74,7 @@ export const createUserStoryFormProps: (input: {
     {
       name: "userStory.comments",
       label: "Commentaires",
-      type: "text",
+      type: "textarea",
     },
     {
       name: "userStory.parentId",
@@ -168,7 +168,7 @@ export const updateUserStoryFormProps: (input: {
     {
       name: "patch.comments",
       label: "Commentaires",
-      type: "text",
+      type: "textarea",
       initialValue: userStory.comments,
     },
     {
