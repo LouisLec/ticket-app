@@ -25,3 +25,5 @@ const Config = async ({ params: { organizationSlug, projectSlug } }) => {
 };
 
 export default Config;
+
+export const fetchCache = "default-no-store";

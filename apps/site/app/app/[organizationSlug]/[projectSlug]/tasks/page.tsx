@@ -16,3 +16,5 @@ const Tasks = async ({ params: { organizationSlug, projectSlug } }) => {
 };
 
 export default Tasks;
+
+export const fetchCache = "default-no-store";

@@ -42,3 +42,5 @@ export const ProjectLayout = async ({
 };
 
 export default ProjectLayout;
+
+export const fetchCache = "default-no-store";
