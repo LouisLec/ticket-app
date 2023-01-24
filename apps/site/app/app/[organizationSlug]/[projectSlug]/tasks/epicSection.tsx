@@ -19,7 +19,7 @@ export const EpicSection: FC<{
   return (
     <section className="mt-8 ">
       <div className="flex flex-col gap-4">
-        {epics.map(epic => (
+        {epics?.map(epic => (
           <Epic domains={domains} {...epic} key={epic.id} personas={personas} />
         ))}
       </div>

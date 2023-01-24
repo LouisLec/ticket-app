@@ -61,7 +61,7 @@ export const createTaskFormProps: (input: {
         name: "task.status",
         label: "Status",
         type: "select",
-        options: Object.values(TaskStatus).map(status => ({
+        options: Object.values(TaskStatus)?.map(status => ({
           label: status,
           value: status,
         })),
@@ -174,7 +174,7 @@ export const updateTaskFormProps: (input: {
       name: "patch.status",
       label: "Status",
       type: "select",
-      options: Object.values(TaskStatus).map(status => ({
+      options: Object.values(TaskStatus)?.map(status => ({
         label: status,
         value: status,
       })),

@@ -31,7 +31,7 @@ export const Breadcrumbs: FC<{
                   // and the current element slug
                   array
                     .slice(0, index + 1)
-                    .map(({ slug }) => slug)
+                    ?.map(({ slug }) => slug)
                     .join("/")
                 }
                 aria-current={index === array.length - 1 ? "page" : undefined}

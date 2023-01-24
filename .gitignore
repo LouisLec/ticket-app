@@ -4,3 +4,4 @@ dist
 .next
 .vercel
 turbo-build.log
+.jojo

@@ -77,7 +77,7 @@ export const UpdateDomainForm: FC<{
             required: "This field is damn required",
           })}
         />
-        {errors.name && <span>errors.name</span>}
+        {errors?.name && <span>errors.name</span>}
       </label>{" "}
       <label
         htmlFor="shortName"

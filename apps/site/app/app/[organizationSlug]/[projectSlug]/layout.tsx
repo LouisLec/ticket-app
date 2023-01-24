@@ -3,9 +3,6 @@ import { Typography } from "@/ui/server/typography";
 import { sdk } from "@/utils/sdk";
 import { Tabs } from "./tabs";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 export const ProjectLayout = async ({
   children,
   params: { organizationSlug, projectSlug },
@@ -19,18 +16,18 @@ export const ProjectLayout = async ({
           <Breadcrumbs
             pages={[
               {
-                name: data.projectBySlug.organization.name,
+                name: data.projectBySlug?.organization?.name,
                 slug: organizationSlug,
               },
               { name: "Projets", slug: "projects" },
-              { name: data.projectBySlug.name, slug: projectSlug },
+              { name: data.projectBySlug?.name, slug: projectSlug },
             ]}
           />
           <div className="mt-8">
             <Typography as="h1" style="big-x">
-              <Typography soften>Projet</Typography> {data.projectBySlug.name}
+              <Typography soften>Projet</Typography> {data.projectBySlug?.name}
             </Typography>
-            <Typography as="p">{data.projectBySlug.description}</Typography>
+            <Typography as="p">{data.projectBySlug?.description}</Typography>
           </div>
 
           <Tabs slug={`/app/${organizationSlug}/${projectSlug}`} />

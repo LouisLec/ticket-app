@@ -57,7 +57,7 @@ export const createUserStoryFormProps: (input: {
       label: "En tant que",
       type: "select",
       required: true,
-      options: personas.map(x => ({ label: x.name, value: x.id })),
+      options: personas?.map(x => ({ label: x.name, value: x.id })),
     },
     {
       name: "userStory.iWant",

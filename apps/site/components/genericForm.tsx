@@ -80,7 +80,7 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
       onSubmit={handleSubmit(onSubmitHandler)}
       className={cn((isLoading || isPending) && "opacity-40 ")}
     >
-      {fields.map(field => (
+      {fields?.map(field => (
         <label
           htmlFor={field.name as string}
           className={cn(

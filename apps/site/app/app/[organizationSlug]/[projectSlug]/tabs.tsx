@@ -34,14 +34,14 @@ export const Tabs: FC<{ slug: string }> = ({ slug }) => {
           }
           className="block w-full py-2 pl-3 pr-10 text-base rounded-md border-slate-300 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm"
         >
-          {tabs(slug).map(tab => (
+          {tabs(slug)?.map(tab => (
             <option key={tab.name}>{tab.name}</option>
           ))}
         </select>
       </div>
       <div className="hidden sm:block">
         <nav className="flex -mb-px space-x-8">
-          {tabs(slug).map((tab, index) => {
+          {tabs(slug)?.map((tab, index) => {
             const isCurrent = pathname === tab.href;
             return (
               <Link

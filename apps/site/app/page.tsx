@@ -10,15 +10,15 @@ const LoginPage = () => {
       </main>
       {jo.data.__schema.types?.map(x => {
         return (
-          <div key={x.name}>
-            <h2>{x.name}</h2>
-            <p>{x.description}</p>
+          <div key={x?.name}>
+            <h2>{x?.name}</h2>
+            <p>{x?.description}</p>
             <ul>
               {x.fields?.map(y => {
                 return (
-                  <li key={y.name}>
-                    <h3>{y.name}</h3>
-                    <p>{y.description}</p>
+                  <li key={y?.name}>
+                    <h3>{y?.name}</h3>
+                    <p>{y?.description}</p>
                   </li>
                 );
               })}
