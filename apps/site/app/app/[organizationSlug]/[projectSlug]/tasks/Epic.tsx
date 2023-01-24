@@ -82,7 +82,7 @@ export const Epic: FC<
                 />
               </Typography>
               <div className="text-start">
-                <Disclosure.Button>
+                <Disclosure.Button className="block w-full text-left">
                   <Typography style="strong" as="h3">
                     {name}
                   </Typography>
