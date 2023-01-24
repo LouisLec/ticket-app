@@ -9,7 +9,7 @@
     "ruru": "./scripts/with-env.sh npx -p http-proxy -p ruru ruru -SPe 'http://localhost:8000/graphql'",
     "gm": "./scripts/with-env.sh  pnpm --filter db gm ",
     "build": "./scripts/with-env.sh turbo build",
-    "server:start": "./scripts/with-env.sh pnpm --filter server start"
+    "server:start": "./scripts/with-env.sh pnpm --filter api start"
   },
   "repository": {
     "type": "git",
