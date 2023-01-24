@@ -1,3 +1,4 @@
+"use client";
 import {
   DomainFragmentFragment,
   EpicFragmentFragment,
@@ -46,7 +47,7 @@ export const UpdateDomainForm: FC<{
 
     sdk.UpdateDomain({
       input: {
-        id: initialValues.id,
+        id: initialValues?.id,
         patch: dropUnchangedKeys(initialValues, data),
       },
     });
@@ -160,8 +161,8 @@ export const UpdateDomainForm: FC<{
           onClick={() => {
             setIsLoading(true);
             window.confirm(
-              `Are you sure you want to delete ${initialValues.name}?`
-            ) && sdk.DeleteDomain({ input: { id: initialValues.id } });
+              `Are you sure you want to delete ${initialValues?.name}?`
+            ) && sdk.DeleteDomain({ input: { id: initialValues?.id } });
             setIsLoading(false);
             startTransition(() => {
               onSuccess();
@@ -347,7 +348,7 @@ export const UpdatePersonaForm: FC<{
 
     sdk.UpdatePersona({
       input: {
-        id: initialValues.id,
+        id: initialValues?.id,
         patch: dropUnchangedKeys(initialValues, data),
       },
     });
@@ -448,8 +449,8 @@ export const UpdatePersonaForm: FC<{
           onClick={() => {
             setIsLoading(true);
             window.confirm(
-              `Are you sure you want to delete ${initialValues.name}?`
-            ) && sdk.DeletePersona({ input: { id: initialValues.id } });
+              `Are you sure you want to delete ${initialValues?.name}?`
+            ) && sdk.DeletePersona({ input: { id: initialValues?.id } });
             setIsLoading(false);
             startTransition(() => {
               onSuccess();
@@ -602,16 +603,14 @@ export const UpdateEpicForm: FC<{
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EpicFragmentFragment>({
-    defaultValues: initialValues,
-  });
+  } = useForm<EpicFragmentFragment>({});
 
   const onSubmit = (data: EpicFragmentFragment) => {
     setIsLoading(true);
 
     sdk.UpdateEpic({
       input: {
-        id: initialValues.id,
+        id: initialValues?.id,
         patch: dropUnchangedKeys(initialValues, data),
       },
     });
@@ -638,6 +637,7 @@ export const UpdateEpicForm: FC<{
           type="text"
           className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
           id="name"
+          defaultValue={initialValues?.name}
           {...register("name", { required: "This field is damn required" })}
         />
         {errors.name && <span>errors.name</span>}
@@ -651,10 +651,8 @@ export const UpdateEpicForm: FC<{
           type="text"
           className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
           id="icon"
-          {...register("icon", {
-            required: "This field is damn required",
-            maxLength: { value: 10, message: "Max length is 10" },
-          })}
+          defaultValue={initialValues?.icon}
+          {...register("icon", {})}
         />
         {errors.icon && <span>{errors.icon.message}</span>}
       </label>
@@ -668,6 +666,7 @@ export const UpdateEpicForm: FC<{
           rows={3}
           className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
           id="description"
+          defaultValue={initialValues?.description}
           {...register("description", { required: true })}
         />
         {errors.description && <span>This field is required</span>}
@@ -712,8 +711,8 @@ export const UpdateEpicForm: FC<{
           onClick={() => {
             setIsLoading(true);
             window.confirm(
-              `Are you sure you want to delete ${initialValues.name}?`
-            ) && sdk.DeleteEpic({ input: { id: initialValues.id } });
+              `Are you sure you want to delete ${initialValues?.name}?`
+            ) && sdk.DeleteEpic({ input: { id: initialValues?.id } });
             setIsLoading(false);
             startTransition(() => {
               onSuccess();
