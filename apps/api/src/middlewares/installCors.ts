@@ -14,10 +14,10 @@ export const installCors = (app: Express) => {
         "http://localhost:7802",
         "http://localhost:7803",
         "http://localhost:7804",
-        "https://jojo-git-development-jojo.vercel.app",
-        /\.jojo\.com$/,
-        // regexp for jojo + anything + 'vercel.app'
-        /https:\/\/jojo.*\.vercel\.app$/,
+        "https://ticket-app-git-development-ticket-app.vercel.app",
+        /\.ticket-app\.com$/,
+        // regexp for ticket-app + anything + 'vercel.app'
+        /https:\/\/ticket-app.*\.vercel\.app$/,
       ],
       credentials: true,
     })
