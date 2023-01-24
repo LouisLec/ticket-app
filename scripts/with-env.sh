@@ -20,8 +20,7 @@ if [ -f "$script_dir/../.env" ]; then
   export $(sed '/^#/d' "$script_dir/../.env" | xargs)
   echo "Environment variables loaded."
 else
-  echo "Error: .env file not found."
-  exit 1
+  echo "Warning: .env file not found."
 fi
 
 # check for missing base environment variables
@@ -33,8 +32,7 @@ required_vars=(DATABASE_NAME DATABASE_OWNER_PASSWORD DATABASE_HOST JWT_SECRET)
 for var in "${required_vars[@]}"
 do
   if [ -z "${!var:-}" ]; then
-    echo "Error: Missing required environment variable $var"
-    exit 1
+    echo "Warning: Missing required environment variable $var"
   fi
 done
 
