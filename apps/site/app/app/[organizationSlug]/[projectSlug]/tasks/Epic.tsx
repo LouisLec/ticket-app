@@ -72,7 +72,7 @@ export const Epic: FC<
       <Disclosure defaultOpen as="div" className="flex flex-col gap-2 mb-12">
         {({ open }) => (
           <>
-            <Disclosure.Button className="flex items-center w-full max-w-5xl gap-2 mx-auto items-between">
+            <div className="flex items-center w-full max-w-5xl gap-2 mx-auto items-between">
               <Typography>
                 <ChevronRightIcon
                   className={
@@ -82,12 +82,14 @@ export const Epic: FC<
                 />
               </Typography>
               <div className="text-start">
-                <Typography style="strong" as="h3">
-                  {name}
-                </Typography>
-                <Typography style="small" as="p">
-                  {description}
-                </Typography>
+                <Disclosure.Button>
+                  <Typography style="strong" as="h3">
+                    {name}
+                  </Typography>
+                  <Typography style="small" as="p">
+                    {description}
+                  </Typography>
+                </Disclosure.Button>
                 <button
                   type="button"
                   className="inline-flex items-center gap-2 px-2 py-1 mt-4 text-sm font-bold underline bg-teal-200 decoration-offset decoration-2 dark:bg-transparent dark:p-0 dark:text-teal-300 dark:border-teal-300"
@@ -98,7 +100,7 @@ export const Epic: FC<
                   <SquaresPlusIcon className="w-4 h-4 " /> Ajouter une US
                 </button>
               </div>
-            </Disclosure.Button>
+            </div>
 
             {/* <pre>{JSON.stringify(epic, null, 2)}</pre> */}
             <Disclosure.Panel className="flex flex-col mt-8 ">
