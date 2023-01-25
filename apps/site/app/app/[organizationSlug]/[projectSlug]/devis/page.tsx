@@ -67,7 +67,7 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                           <th className="px-4 py-2">Nom</th>
                           <th className="px-4 py-2">Description</th>
                           <th className="px-4 py-2">Estimation</th>
-                          <th className="px-4 py-2">Prix</th>
+                          <th>Incertitude</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -78,10 +78,10 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                               {task.description}
                             </td>
                             <td className="px-4 py-2 border">
-                              {task.estimate}
+                              {task.estimate} points
                             </td>
                             <td className="px-4 py-2 border">
-                              {task.estimate * 100}
+                              {task.uncertainty} points
                             </td>
                           </tr>
                         ))}
@@ -118,7 +118,8 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
             <tr>
               <th>US</th>
               <th>Estimation</th>
-              <th>Prix</th>
+              <th>Prix bas</th>
+              <th>Prix haut</th>
             </tr>
           </thead>
           <tbody>
@@ -127,12 +128,15 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                 {epic.userStoriesList.map(us => (
                   <Fragment key={us.id}>
                     <tr>
-                      <td>{us.name}</td>
+                      <td>
+                        {epic.name} - {us.name}
+                      </td>
                       <td>
                         {us.tasksList.reduce(
                           (acc, task) => acc + task.estimate,
                           0
-                        )}
+                        )}{" "}
+                        points
                       </td>
                       <td>
                         {(
@@ -148,11 +152,106 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                           currency: "EUR",
                         })}
                       </td>
+                      <td>
+                        {(
+                          (us.tasksList.reduce(
+                            (acc, task) =>
+                              acc + task.uncertainty + task.estimate,
+                            0
+                          ) *
+                            data.projectBySlug?.coeffLuidgy *
+                            data.projectBySlug?.dailyRate) /
+                          data.projectBySlug?.pointsPerDay
+                        ).toLocaleString("fr-FR", {
+                          style: "currency",
+                          currency: "EUR",
+                        })}
+                      </td>
                     </tr>
                   </Fragment>
                 ))}
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
               </Fragment>
             ))}
+            <tr>
+              <td>
+                <strong>Total</strong>
+              </td>
+              <td>
+                <strong>
+                  {data.projectBySlug?.epicsList
+                    .map(epic =>
+                      epic.userStoriesList.reduce(
+                        (acc, us) =>
+                          acc +
+                          us.tasksList.reduce(
+                            (acc, task) => acc + task.estimate,
+                            0
+                          ),
+                        0
+                      )
+                    )
+                    .reduce((acc, us) => acc + us, 0)}{" "}
+                  points
+                </strong>
+              </td>
+              <td>
+                <strong>
+                  {(
+                    (data.projectBySlug?.epicsList
+                      .map(epic =>
+                        epic.userStoriesList.reduce(
+                          (acc, us) =>
+                            acc +
+                            us.tasksList.reduce(
+                              (acc, task) => acc + task.estimate,
+                              0
+                            ),
+                          0
+                        )
+                      )
+                      .reduce((acc, us) => acc + us, 0) *
+                      data.projectBySlug?.coeffLuidgy *
+                      data.projectBySlug?.dailyRate) /
+                    data.projectBySlug?.pointsPerDay
+                  ).toLocaleString("fr-FR", {
+                    style: "currency",
+                    currency: "EUR",
+                  })}
+                </strong>
+              </td>
+              <td>
+                <strong>
+                  {(
+                    (data.projectBySlug?.epicsList
+                      .map(epic =>
+                        epic.userStoriesList.reduce(
+                          (acc, us) =>
+                            acc +
+                            us.tasksList.reduce(
+                              (acc, task) =>
+                                acc + task.uncertainty + task.estimate,
+                              0
+                            ),
+                          0
+                        )
+                      )
+                      .reduce((acc, us) => acc + us, 0) *
+                      data.projectBySlug?.coeffLuidgy *
+                      data.projectBySlug?.dailyRate) /
+                    data.projectBySlug?.pointsPerDay
+                  ).toLocaleString("fr-FR", {
+                    style: "currency",
+                    currency: "EUR",
+                  })}
+                </strong>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
