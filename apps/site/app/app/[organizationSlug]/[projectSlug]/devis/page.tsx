@@ -1,16 +1,19 @@
-import { ClientOnly } from "@/components/ClientOnly";
 import { sdk } from "@/utils/sdk";
 import { Fragment } from "react";
-import { ProjectDiagram } from "./jo";
-import { TreeView } from "./Mermaid";
+import { ProjectDiagram } from "./Tree";
 
 const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
   const data = await sdk.GetProjectBySlug({ projectSlug, organizationSlug });
   return (
     <div className="min-h-screen pt-12 mx-20 bg-white border dark:bg-black rounded-t-3xl dark:border-slate-800 border-slate-200 print:m-0 print:p-0 print:bg-white print:rounded-none print:border-none">
+      <div className="px-8 py-6 mx-auto font-mono leading-none rounded-md max-w-prose bg-slate-800 text-slate-100">
+        <ProjectDiagram
+          projectName={data?.projectBySlug?.name}
+          epics={data?.projectBySlug?.epicsList}
+        />
+      </div>
       <div className="mx-auto prose">
         {/* <TreeView epics={data.projectBySlug?.epicsList} /> */}
-        <ProjectDiagram epics={data.projectBySlug?.epicsList} />
 
         <h1>Devis</h1>
         {data.projectBySlug?.epicsList.map(epic => (
