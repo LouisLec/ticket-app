@@ -109,6 +109,52 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
           ))}
         </ul>
         <h3>Architecture de la solution envisagée</h3>
+
+        <h2>Proposition chifrée</h2>
+
+        <h3>Rappel des user stories et couts associés</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>US</th>
+              <th>Estimation</th>
+              <th>Prix</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.projectBySlug?.epicsList.map(epic => (
+              <Fragment key={epic.id}>
+                {epic.userStoriesList.map(us => (
+                  <Fragment key={us.id}>
+                    <tr>
+                      <td>{us.name}</td>
+                      <td>
+                        {us.tasksList.reduce(
+                          (acc, task) => acc + task.estimate,
+                          0
+                        )}
+                      </td>
+                      <td>
+                        {(
+                          (us.tasksList.reduce(
+                            (acc, task) => acc + task.estimate,
+                            0
+                          ) *
+                            data.projectBySlug?.coeffLuidgy *
+                            data.projectBySlug?.dailyRate) /
+                          data.projectBySlug?.pointsPerDay
+                        ).toLocaleString("fr-FR", {
+                          style: "currency",
+                          currency: "EUR",
+                        })}
+                      </td>
+                    </tr>
+                  </Fragment>
+                ))}
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
