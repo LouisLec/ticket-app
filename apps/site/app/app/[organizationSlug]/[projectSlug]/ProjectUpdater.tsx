@@ -9,30 +9,32 @@ import { Field, GenericForm, GenericFormProps } from "@/components";
 import { SlideOver } from "@/ui/client/slideOver";
 import { sdk } from "@/utils/sdk";
 import { CogIcon } from "@heroicons/react/20/solid";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 export const ProjectUpdater: FC<GetProjectBySlugQuery> = project => {
+  const [open, setOpen] = useState(false);
   return (
     <>
       <button
         className="flex items-center justify-center w-8 h-8 ml-2 rounded-full text-slate-500 bg-slate-100 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-slate-500"
         aria-label="Settings"
+        onClick={function (): void {
+          setOpen(true);
+        }}
       >
         <CogIcon className="w-6 h-6 text-slate-500" aria-hidden="true" />
       </button>
-      <SlideOver title="Update Project" open={false} setOpen={undefined}>
+      <SlideOver title="Update Project" open={open} setOpen={setOpen}>
         <GenericForm
           onCanceled={function (): void {
-            throw new Error("Function not implemented.");
+            setOpen(false);
           }}
           onSuccess={function (): void {
-            throw new Error("Function not implemented.");
+            console.log("success");
+            setOpen(false);
           }}
-          action={"create"}
-          fields={[]}
-          onSubmit={function (data: any): Promise<void> {
-            throw new Error("Function not implemented.");
-          }}
+          action={"update"}
+          {...updateTaskFormProps({ queryResult: project })}
         />
       </SlideOver>
     </>
@@ -40,11 +42,12 @@ export const ProjectUpdater: FC<GetProjectBySlugQuery> = project => {
 };
 
 export const updateTaskFormProps: (input: {
-  project: ExtractType<GetProjectByIdQuery, "project">;
+  queryResult: GetProjectBySlugQuery;
 }) => Omit<
   GenericFormProps<UpdateProjectInput>,
   "onCanceled" | "onDelete" | "onSuccess"
-> = ({ project }) => {
+> = ({ queryResult }) => {
+  const { projectBySlug: project } = queryResult;
   const fields: Field<UpdateProjectInput>[] = [
     {
       name: "id",
@@ -106,7 +109,7 @@ export const updateTaskFormProps: (input: {
   ];
   return {
     async onSubmit(data) {
-      await sdk.UpdateTask({ input: data });
+      await sdk.UpdateProject({ input: data });
     },
     action: "update",
     fields,

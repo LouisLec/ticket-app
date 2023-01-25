@@ -82,6 +82,7 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
     >
       {fields?.map(field => (
         <label
+          key={field.name as string}
           htmlFor={field.name as string}
           className={cn(
             "flex flex-col px-4 py-2 mt-2 text-xs rounded text-slate-500 bg-slate-900",
@@ -162,32 +163,13 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
           {field.type === "boolean" && (
             <div className="flex items-center gap-2">
               <input
-                defaultValue={
+                defaultChecked={
                   (field.initialValue || field.defaultValue || null) as any
                 }
-                type="radio"
-                id="true"
-                name={field.name as string}
-                value="true"
-                {...register(field.name as string, {
-                  required: field.required,
-                })}
+                type="checkbox"
+                id={field.name as string}
+                {...register(field.name as string, {})}
               />
-              <label htmlFor="true">true</label>
-
-              <input
-                defaultValue={
-                  (field.initialValue || field.defaultValue || null) as any
-                }
-                type="radio"
-                id="false"
-                name={field.name as string}
-                value="false"
-                {...register(field.name as string, {
-                  required: field.required,
-                })}
-              />
-              <label htmlFor="false">false</label>
             </div>
           )}
           {field.type === "number" && (
