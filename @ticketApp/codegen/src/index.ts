@@ -2130,7 +2130,9 @@ export enum PersonasOrderBy {
 
 export type Project = Node & {
   __typename?: 'Project';
+  coeffLuidgy?: Maybe<Scalars['Int']>;
   createdAt: Scalars['Datetime'];
+  dailyRate?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
   /** Reads and enables pagination through a set of `Domain`. */
   domainsList: Array<Domain>;
@@ -2139,6 +2141,8 @@ export type Project = Node & {
   /** Reads and enables pagination through a set of `Epic`. */
   epicsList: Array<Epic>;
   id: Scalars['UUID'];
+  initialContext?: Maybe<Scalars['String']>;
+  isNgo?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
@@ -2147,6 +2151,7 @@ export type Project = Node & {
   organizationId: Scalars['UUID'];
   /** Reads and enables pagination through a set of `Persona`. */
   personasList: Array<Persona>;
+  pointsPerDay?: Maybe<Scalars['Int']>;
   slug: Scalars['String'];
   updatedAt: Scalars['Datetime'];
 };
@@ -2230,22 +2235,32 @@ export type ProjectFilter = {
 
 /** An input for mutations affecting `Project` */
 export type ProjectInput = {
+  coeffLuidgy?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['Datetime']>;
+  dailyRate?: InputMaybe<Scalars['Int']>;
   description: Scalars['String'];
   id?: InputMaybe<Scalars['UUID']>;
+  initialContext?: InputMaybe<Scalars['String']>;
+  isNgo?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
   organizationId: Scalars['UUID'];
+  pointsPerDay?: InputMaybe<Scalars['Int']>;
   slug: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['Datetime']>;
 };
 
 /** Represents an update to a `Project`. Fields that are set will be updated. */
 export type ProjectPatch = {
+  coeffLuidgy?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['Datetime']>;
+  dailyRate?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['UUID']>;
+  initialContext?: InputMaybe<Scalars['String']>;
+  isNgo?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   organizationId?: InputMaybe<Scalars['UUID']>;
+  pointsPerDay?: InputMaybe<Scalars['Int']>;
   slug?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Datetime']>;
 };
@@ -3871,7 +3886,7 @@ export type OrganizationFragmentFragment = { __typename?: 'Organization', id: an
 
 export type PersonaFragmentFragment = { __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any };
 
-export type ProjectFragmentFragment = { __typename?: 'Project', id: any, name: string, description: string, createdAt: any, updatedAt: any };
+export type ProjectFragmentFragment = { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any };
 
 export type TaskFragmentFragment = { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null };
 
@@ -3959,7 +3974,21 @@ export type CreateProjectMutationVariables = Exact<{
 }>;
 
 
-export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'CreateProjectPayload', project?: { __typename?: 'Project', id: any, name: string, description: string, createdAt: any, updatedAt: any } | null } | null };
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: { __typename?: 'CreateProjectPayload', project?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any } | null } | null };
+
+export type UpdateProjectMutationVariables = Exact<{
+  input: UpdateProjectInput;
+}>;
+
+
+export type UpdateProjectMutation = { __typename?: 'Mutation', updateProject?: { __typename?: 'UpdateProjectPayload', project?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any } | null } | null };
+
+export type DeleteProjectMutationVariables = Exact<{
+  input: DeleteProjectInput;
+}>;
+
+
+export type DeleteProjectMutation = { __typename?: 'Mutation', deleteProject?: { __typename?: 'DeleteProjectPayload', project?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any } | null } | null };
 
 export type CreateTaskMutationVariables = Exact<{
   input: CreateTaskInput;
@@ -4021,21 +4050,21 @@ export type GetOrganizationByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetOrganizationByIdQuery = { __typename?: 'Query', organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any, projects: { __typename?: 'ProjectsConnection', totalCount: number, nodes: Array<{ __typename?: 'Project', id: any, name: string, description: string, createdAt: any, updatedAt: any }> } } | null };
+export type GetOrganizationByIdQuery = { __typename?: 'Query', organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any, projects: { __typename?: 'ProjectsConnection', totalCount: number, nodes: Array<{ __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any }> } } | null };
 
 export type GetAllProjectsByOrganizationIdQueryVariables = Exact<{
   organizationId: Scalars['UUID'];
 }>;
 
 
-export type GetAllProjectsByOrganizationIdQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectsConnection', nodes: Array<{ __typename?: 'Project', id: any, name: string, description: string, createdAt: any, updatedAt: any }> } | null };
+export type GetAllProjectsByOrganizationIdQuery = { __typename?: 'Query', projects?: { __typename?: 'ProjectsConnection', nodes: Array<{ __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any }> } | null };
 
 export type GetProjectByIdQueryVariables = Exact<{
   projectId: Scalars['UUID'];
 }>;
 
 
-export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
+export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
 
 export type GetProjectBySlugQueryVariables = Exact<{
   projectSlug: Scalars['String'];
@@ -4043,7 +4072,7 @@ export type GetProjectBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectBySlugQuery = { __typename?: 'Query', projectBySlug?: { __typename?: 'Project', id: any, name: string, description: string, createdAt: any, updatedAt: any, organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any } | null, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
+export type GetProjectBySlugQuery = { __typename?: 'Query', projectBySlug?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any, organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any } | null, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
 
 export const DomainFragmentFragmentDoc = gql`
     fragment DomainFragment on Domain {
@@ -4090,6 +4119,12 @@ export const ProjectFragmentFragmentDoc = gql`
   id
   name
   description
+  slug
+  initialContext
+  coeffLuidgy
+  pointsPerDay
+  isNgo
+  dailyRate
   createdAt
   updatedAt
 }
@@ -4230,6 +4265,24 @@ export const UpdatePersonaDocument = gql`
 export const CreateProjectDocument = gql`
     mutation CreateProject($input: CreateProjectInput!) {
   createProject(input: $input) {
+    project {
+      ...ProjectFragment
+    }
+  }
+}
+    ${ProjectFragmentFragmentDoc}`;
+export const UpdateProjectDocument = gql`
+    mutation UpdateProject($input: UpdateProjectInput!) {
+  updateProject(input: $input) {
+    project {
+      ...ProjectFragment
+    }
+  }
+}
+    ${ProjectFragmentFragmentDoc}`;
+export const DeleteProjectDocument = gql`
+    mutation DeleteProject($input: DeleteProjectInput!) {
+  deleteProject(input: $input) {
     project {
       ...ProjectFragment
     }
@@ -4444,6 +4497,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     CreateProject(variables: CreateProjectMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateProjectMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateProjectMutation>(CreateProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateProject', 'mutation');
+    },
+    UpdateProject(variables: UpdateProjectMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateProjectMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateProjectMutation>(UpdateProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateProject', 'mutation');
+    },
+    DeleteProject(variables: DeleteProjectMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteProjectMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteProjectMutation>(DeleteProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'DeleteProject', 'mutation');
     },
     CreateTask(variables: CreateTaskMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateTaskMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateTaskMutation>(CreateTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateTask', 'mutation');

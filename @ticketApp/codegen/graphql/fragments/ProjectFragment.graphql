@@ -2,6 +2,12 @@ fragment ProjectFragment on Project {
   id
   name
   description
+  slug
+  initialContext
+  coeffLuidgy
+  pointsPerDay
+  isNgo
+  dailyRate
   createdAt
   updatedAt
 }

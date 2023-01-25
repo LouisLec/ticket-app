@@ -557,6 +557,11 @@ type Project implements Node {
   organizationId: UUID!
   createdAt: Datetime!
   updatedAt: Datetime!
+  initialContext: String
+  dailyRate: Int
+  pointsPerDay: Int
+  coeffLuidgy: Int
+  isNgo: Boolean
 
   """Reads a single `Organization` that is related to this `Project`."""
   organization: Organization
@@ -3299,6 +3304,11 @@ input ProjectInput {
   organizationId: UUID!
   createdAt: Datetime
   updatedAt: Datetime
+  initialContext: String
+  dailyRate: Int
+  pointsPerDay: Int
+  coeffLuidgy: Int
+  isNgo: Boolean
 }
 
 """The output of our create `Task` mutation."""
@@ -3932,6 +3942,11 @@ input ProjectPatch {
   organizationId: UUID
   createdAt: Datetime
   updatedAt: Datetime
+  initialContext: String
+  dailyRate: Int
+  pointsPerDay: Int
+  coeffLuidgy: Int
+  isNgo: Boolean
 }
 
 """All input for the `updateProject` mutation."""

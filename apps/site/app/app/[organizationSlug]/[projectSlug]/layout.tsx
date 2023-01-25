@@ -1,6 +1,7 @@
 import { Breadcrumbs } from "@/ui/server/breadcrumbs";
 import { Typography } from "@/ui/server/typography";
 import { sdk } from "@/utils/sdk";
+import { ProjectUpdater } from "./ProjectUpdater";
 import { Tabs } from "./tabs";
 
 export const ProjectLayout = async ({
@@ -24,9 +25,14 @@ export const ProjectLayout = async ({
             ]}
           />
           <div className="mt-8">
-            <Typography as="h1" style="big-x">
-              <Typography soften>Projet</Typography> {data.projectBySlug?.name}
-            </Typography>
+            <div className="flex gap2">
+              <Typography as="h1" style="big-x">
+                <Typography soften>Projet</Typography>{" "}
+                {data.projectBySlug?.name}
+              </Typography>
+              <ProjectUpdater projectBySlug={data?.projectBySlug} />
+            </div>
+
             <Typography as="p">{data.projectBySlug?.description}</Typography>
           </div>
 

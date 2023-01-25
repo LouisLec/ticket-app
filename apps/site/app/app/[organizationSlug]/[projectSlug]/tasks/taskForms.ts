@@ -54,7 +54,7 @@ export const createTaskFormProps: (input: {
       {
         name: "task.description",
         label: "Description",
-        type: "text",
+        type: "textarea",
         required: true,
       },
       {
@@ -166,7 +166,7 @@ export const updateTaskFormProps: (input: {
     {
       name: "patch.description",
       label: "Description",
-      type: "text",
+      type: "textarea",
       required: true,
       initialValue: task.description,
     },

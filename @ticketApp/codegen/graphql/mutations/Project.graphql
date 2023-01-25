@@ -5,3 +5,19 @@ mutation CreateProject($input: CreateProjectInput!) {
     }
   }
 }
+
+mutation UpdateProject($input: UpdateProjectInput!) {
+  updateProject(input: $input) {
+    project {
+      ...ProjectFragment
+    }
+  }
+}
+
+mutation DeleteProject($input: DeleteProjectInput!) {
+  deleteProject(input: $input) {
+    project {
+      ...ProjectFragment
+    }
+  }
+}
