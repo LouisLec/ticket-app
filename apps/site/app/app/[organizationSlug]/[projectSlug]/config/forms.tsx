@@ -45,7 +45,7 @@ export const UpdateDomainForm: FC<{
   const onSubmit = (data: DomainFragmentFragment) => {
     setIsLoading(true);
 
-    sdk.UpdateDomain({
+    sdk().UpdateDomain({
       input: {
         id: initialValues?.id,
         patch: dropUnchangedKeys(initialValues, data),
@@ -162,7 +162,7 @@ export const UpdateDomainForm: FC<{
             setIsLoading(true);
             window.confirm(
               `Are you sure you want to delete ${initialValues?.name}?`
-            ) && sdk.DeleteDomain({ input: { id: initialValues?.id } });
+            ) && sdk().DeleteDomain({ input: { id: initialValues?.id } });
             setIsLoading(false);
             startTransition(() => {
               onSuccess();
@@ -195,7 +195,7 @@ export const CreateDomainForm: FC<{
   const onSubmit = (data: DomainFragmentFragment) => {
     setIsLoading(true);
 
-    sdk.CreateDomain({
+    sdk().CreateDomain({
       input: {
         domain: {
           projectId,
@@ -346,7 +346,7 @@ export const UpdatePersonaForm: FC<{
   const onSubmit = (data: PersonaFragmentFragment) => {
     setIsLoading(true);
 
-    sdk.UpdatePersona({
+    sdk().UpdatePersona({
       input: {
         id: initialValues?.id,
         patch: dropUnchangedKeys(initialValues, data),
@@ -450,7 +450,7 @@ export const UpdatePersonaForm: FC<{
             setIsLoading(true);
             window.confirm(
               `Are you sure you want to delete ${initialValues?.name}?`
-            ) && sdk.DeletePersona({ input: { id: initialValues?.id } });
+            ) && sdk().DeletePersona({ input: { id: initialValues?.id } });
             setIsLoading(false);
             startTransition(() => {
               onSuccess();
@@ -483,7 +483,7 @@ export const CreatePersonaForm: FC<{
   const onSubmit = (data: PersonaFragmentFragment) => {
     setIsLoading(true);
 
-    sdk.CreatePersona({
+    sdk().CreatePersona({
       input: {
         persona: {
           projectId,
@@ -608,7 +608,7 @@ export const UpdateEpicForm: FC<{
   const onSubmit = (data: EpicFragmentFragment) => {
     setIsLoading(true);
 
-    sdk.UpdateEpic({
+    sdk().UpdateEpic({
       input: {
         id: initialValues?.id,
         patch: dropUnchangedKeys(initialValues, data),
@@ -712,7 +712,7 @@ export const UpdateEpicForm: FC<{
             setIsLoading(true);
             window.confirm(
               `Are you sure you want to delete ${initialValues?.name}?`
-            ) && sdk.DeleteEpic({ input: { id: initialValues?.id } });
+            ) && sdk().DeleteEpic({ input: { id: initialValues?.id } });
             setIsLoading(false);
             startTransition(() => {
               onSuccess();
@@ -745,7 +745,7 @@ export const CreateEpicForm: FC<{
   const onSubmit = (data: EpicFragmentFragment) => {
     setIsLoading(true);
 
-    sdk.CreateEpic({
+    sdk().CreateEpic({
       input: {
         epic: {
           projectId,

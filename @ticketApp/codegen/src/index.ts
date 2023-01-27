@@ -3892,6 +3892,14 @@ export type TaskFragmentFragment = { __typename?: 'Task', id: any, name: string,
 
 export type UserStoryFragmentFragment = { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null };
 
+export type LoginMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'LoginPayload', jwt?: any | null } | null };
+
 export type CreateDomainMutationVariables = Exact<{
   input: CreateDomainInput;
 }>;
@@ -4161,6 +4169,13 @@ export const UserStoryFragmentFragmentDoc = gql`
   parentId
   createdAt
   updatedAt
+}
+    `;
+export const LoginDocument = gql`
+    mutation Login($email: String!, $password: String!) {
+  login(input: {email: $email, password: $password}) {
+    jwt
+  }
 }
     `;
 export const CreateDomainDocument = gql`
@@ -4462,6 +4477,9 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    Login(variables: LoginMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LoginMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<LoginMutation>(LoginDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Login', 'mutation');
+    },
     CreateDomain(variables: CreateDomainMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateDomainMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateDomainMutation>(CreateDomainDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateDomain', 'mutation');
     },

@@ -34,7 +34,7 @@ export const createTaskFormProps: (input: {
 > = ({ domains, userStoryId, existingTasks }) => {
   return {
     async onSubmit(data) {
-      await sdk.CreateTask({ input: data });
+      await sdk().CreateTask({ input: data });
     },
     action: "create",
     fields: [
@@ -224,7 +224,7 @@ export const updateTaskFormProps: (input: {
   ];
   return {
     async onSubmit(data) {
-      await sdk.UpdateTask({ input: data });
+      await sdk().UpdateTask({ input: data });
     },
     action: "update",
     fields,

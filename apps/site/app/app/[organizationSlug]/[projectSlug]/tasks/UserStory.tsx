@@ -116,7 +116,7 @@ export const UserStory: FC<
                   type="button"
                   onClick={async () => {
                     setIsLoading(true);
-                    await sdk.UpdateUserStory({
+                    await sdk().UpdateUserStory({
                       input: {
                         id: userStory.id,
                         patch: { order: userStory.order - 1 },
@@ -133,7 +133,7 @@ export const UserStory: FC<
                     type="button"
                     onClick={async () => {
                       setIsLoading(true);
-                      await sdk.UpdateUserStory({
+                      await sdk().UpdateUserStory({
                         input: {
                           id: userStory.id,
                           patch: { order: userStory.order + 1 },
@@ -191,7 +191,7 @@ export const UserStory: FC<
           onDelete={() =>
             window.confirm(
               "Are you sure you want to delete " + state.selectedTask.name + "?"
-            ) && sdk.DeleteTask({ input: { id: state.selectedTask.id } })
+            ) && sdk().DeleteTask({ input: { id: state.selectedTask.id } })
           }
           onSuccess={() => dispatch({ type: "reset", payload: null })}
           {...(state.action === "edit"

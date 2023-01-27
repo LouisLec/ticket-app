@@ -1,31 +1,30 @@
 import Link from "next/link";
-import jo from "../../../data/schema.json";
+import { useRouter } from "next/navigation";
+import { LoginForm } from "./loginFormProps";
 
 const LoginPage = () => {
   return (
     <>
       <main className="container">
-        <h1 className="">Login</h1>
-        <Link href={"/organizations"}>Login</Link>
-      </main>
-      {jo.data.__schema.types?.map(x => {
-        return (
-          <div key={x?.name}>
-            <h2>{x?.name}</h2>
-            <p>{x?.description}</p>
-            <ul>
-              {x.fields?.map(y => {
-                return (
-                  <li key={y?.name}>
-                    <h3>{y?.name}</h3>
-                    <p>{y?.description}</p>
-                  </li>
-                );
-              })}
-            </ul>
+        <div className="max-w-lg mx-auto rounded">
+          <div className="p-4">
+            <h1 className="text-2xl font-bold">Connexion</h1>
+            <p className="text-sm text-gray-500">
+              Connectez-vous à votre compte pour accéder à vos projets.
+            </p>
+
+            <LoginForm />
+            <div className="flex items-center justify-between mt-4">
+              <Link href="/signup" className="text-sm text-gray-500">
+                Créer un compte
+              </Link>
+              <Link href="/forgot-password" className="text-sm text-gray-500">
+                Mot de passe oublié ?
+              </Link>
+            </div>
           </div>
-        );
-      })}
+        </div>
+      </main>
     </>
   );
 };

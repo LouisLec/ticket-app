@@ -109,7 +109,7 @@ export const updateTaskFormProps: (input: {
   ];
   return {
     async onSubmit(data) {
-      await sdk.UpdateProject({ input: data });
+      await sdk().UpdateProject({ input: data });
     },
     action: "update",
     fields,

@@ -92,7 +92,7 @@ export const createUserStoryFormProps: (input: {
   ];
   return {
     async onSubmit(data) {
-      await sdk.CreateUserStory({ input: data });
+      await sdk().CreateUserStory({ input: data });
     },
     action: "create",
     fields,
@@ -189,7 +189,7 @@ export const updateUserStoryFormProps: (input: {
   ];
   return {
     async onSubmit(data) {
-      await sdk.UpdateUserStory({ input: data });
+      await sdk().UpdateUserStory({ input: data });
     },
     action: "update",
     fields,

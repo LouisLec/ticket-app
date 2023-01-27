@@ -1,5 +1,5 @@
+"use client";
 import { cn } from "@/utils/classes";
-import { CreateTaskInput } from "@ticketApp/codegen";
 import { useRouter } from "next/navigation";
 import { FC, useState, useTransition } from "react";
 import { FieldPath, useForm } from "react-hook-form";
@@ -18,7 +18,15 @@ export interface Field<T> {
   name: FieldPath<T>;
   label: string;
   initialValue?: string | number | boolean | null;
-  type: "text" | "textarea" | "select" | "boolean" | "number" | "color";
+  type:
+    | "text"
+    | "textarea"
+    | "select"
+    | "boolean"
+    | "number"
+    | "color"
+    | "email"
+    | "password";
   options?: { label: string; value: string }[];
   required?: boolean;
   maxLength?: number;
@@ -186,6 +194,26 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
                 minLength: field.minLength,
                 pattern: field.pattern,
                 valueAsNumber: true,
+              })}
+            />
+          )}
+          {field.type === "password" && (
+            <input
+              type="password"
+              className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
+              id={field.name as string}
+              {...register(field.name as string, {
+                required: field.required,
+              })}
+            />
+          )}
+          {field.type === "email" && (
+            <input
+              type="email"
+              className="p-0 mt-1 font-mono text-xs text-white bg-transparent border-none outline-none resize-none ring-0 "
+              id={field.name as string}
+              {...register(field.name as string, {
+                required: field.required,
               })}
             />
           )}

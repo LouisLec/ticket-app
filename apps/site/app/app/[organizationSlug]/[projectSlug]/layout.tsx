@@ -1,6 +1,7 @@
 import { Breadcrumbs } from "@/ui/server/breadcrumbs";
 import { Typography } from "@/ui/server/typography";
 import { sdk } from "@/utils/sdk";
+import { cookies } from "next/headers";
 import { ProjectUpdater } from "./ProjectUpdater";
 import { Tabs } from "./tabs";
 
@@ -8,7 +9,12 @@ export const ProjectLayout = async ({
   children,
   params: { organizationSlug, projectSlug },
 }) => {
-  const data = await sdk.GetProjectBySlug({ projectSlug, organizationSlug });
+  const nextCookies = cookies();
+  console.log(nextCookies.getAll());
+  const token = nextCookies.get("jwt");
+  const data = await sdk({
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  }).GetProjectBySlug({ projectSlug, organizationSlug });
 
   return (
     <>

@@ -1,18 +1,31 @@
 import { sdk } from "@/utils/sdk";
 import { Fragment } from "react";
 import { ProjectDiagram } from "./Tree";
+import { cookies } from "next/headers";
 
 const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
-  const data = await sdk.GetProjectBySlug({ projectSlug, organizationSlug });
+  const nextCookies = cookies();
+  const token = nextCookies.get("jwt");
+  const data = await sdk({
+    headers:
+      token !== undefined
+        ? {
+            Authorization: `Bearer ${token}`,
+          }
+        : {},
+  }).GetProjectBySlug({
+    projectSlug,
+    organizationSlug,
+  });
   return (
-    <div className="min-h-screen pt-12 mx-20 bg-white border dark:bg-black rounded-t-3xl dark:border-slate-800 border-slate-200 print:m-0 print:p-0 print:bg-white print:rounded-none print:border-none">
+    <div className="print:bg-[url('/draft2.png')] min-h-screen pt-12 mx-20 bg-white border  bg-opacity-10 dark:bg-black rounded-t-3xl dark:border-slate-800 border-slate-200 print:m-0 print:p-0 print:bg-white print:rounded-none print:border-none">
       <div className="px-8 py-6 mx-auto mb-12 font-mono leading-none rounded-md max-w-prose bg-slate-800 text-slate-100 print:hidden">
         <ProjectDiagram
           projectName={data?.projectBySlug?.name}
           epics={data?.projectBySlug?.epicsList}
         />
       </div>
-      <div className="mx-auto prose dark:prose-invert">
+      <div className="mx-auto prose dark:prose-invert ">
         {/* <TreeView epics={data.projectBySlug?.epicsList} /> */}
 
         <h1>

@@ -130,7 +130,7 @@ export const Epic: FC<
                 state.selectedUserStory.name +
                 "?"
             ) &&
-            sdk.DeleteUserStory({ input: { id: state.selectedUserStory.id } })
+            sdk().DeleteUserStory({ input: { id: state.selectedUserStory.id } })
           }
           onSuccess={() => dispatch({ type: "reset", payload: null })}
           {...(state.action === "edit"

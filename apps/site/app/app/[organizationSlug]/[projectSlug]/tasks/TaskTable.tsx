@@ -83,7 +83,7 @@ export const TaskTable: FC<
                         setIsLoading(true);
                         window.confirm(
                           "Are you sure you want to delete this?"
-                        ) && sdk.DeleteTask({ input: { id: task.id } });
+                        ) && sdk().DeleteTask({ input: { id: task.id } });
                         setIsLoading(false);
                         startTransition(() => {
                           router.refresh();
@@ -96,7 +96,7 @@ export const TaskTable: FC<
                       <button
                         onClick={() => {
                           setIsLoading(true);
-                          sdk.UpdateTask({
+                          sdk().UpdateTask({
                             input: {
                               id: task.id,
                               patch: { order: task.order - 1 },
@@ -119,7 +119,7 @@ export const TaskTable: FC<
                       <button
                         onClick={() => {
                           setIsLoading(true);
-                          sdk.UpdateTask({
+                          sdk().UpdateTask({
                             input: {
                               id: task.id,
                               patch: { order: task.order + 1 },
