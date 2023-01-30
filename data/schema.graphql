@@ -1440,6 +1440,7 @@ type UserStory implements Node {
   parentId: UUID
   createdAt: Datetime!
   updatedAt: Datetime!
+  roughEstimate: Int
 
   """Reads a single `Persona` that is related to this `UserStory`."""
   personaByAsA: Persona
@@ -3430,6 +3431,7 @@ input UserStoryInput {
   parentId: UUID
   createdAt: Datetime
   updatedAt: Datetime
+  roughEstimate: Int
 }
 
 """The output of our create `User` mutation."""
@@ -4146,6 +4148,7 @@ input UserStoryPatch {
   parentId: UUID
   createdAt: Datetime
   updatedAt: Datetime
+  roughEstimate: Int
 }
 
 """All input for the `updateUserStory` mutation."""

@@ -8,6 +8,7 @@ fragment UserStoryFragment on UserStory {
   }
   iWant
   soThat
+  roughEstimate
   validationCriteria
   variables
   comments

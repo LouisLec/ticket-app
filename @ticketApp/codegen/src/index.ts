@@ -3706,6 +3706,7 @@ export type UserStory = Node & {
   parentId?: Maybe<Scalars['UUID']>;
   /** Reads a single `Persona` that is related to this `UserStory`. */
   personaByAsA?: Maybe<Persona>;
+  roughEstimate?: Maybe<Scalars['Int']>;
   soThat?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `Task`. */
   tasks: TasksConnection;
@@ -3818,6 +3819,7 @@ export type UserStoryInput = {
   name?: InputMaybe<Scalars['String']>;
   order?: InputMaybe<Scalars['Int']>;
   parentId?: InputMaybe<Scalars['UUID']>;
+  roughEstimate?: InputMaybe<Scalars['Int']>;
   soThat?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Datetime']>;
   validationCriteria?: InputMaybe<Scalars['String']>;
@@ -3835,6 +3837,7 @@ export type UserStoryPatch = {
   name?: InputMaybe<Scalars['String']>;
   order?: InputMaybe<Scalars['Int']>;
   parentId?: InputMaybe<Scalars['UUID']>;
+  roughEstimate?: InputMaybe<Scalars['Int']>;
   soThat?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Datetime']>;
   validationCriteria?: InputMaybe<Scalars['String']>;
@@ -3890,7 +3893,7 @@ export type ProjectFragmentFragment = { __typename?: 'Project', id: any, name: s
 
 export type TaskFragmentFragment = { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null };
 
-export type UserStoryFragmentFragment = { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null };
+export type UserStoryFragmentFragment = { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -4032,21 +4035,21 @@ export type CreateUserStoryMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserStoryMutation = { __typename?: 'Mutation', createUserStory?: { __typename?: 'CreateUserStoryPayload', userStory?: { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null } | null } | null };
+export type CreateUserStoryMutation = { __typename?: 'Mutation', createUserStory?: { __typename?: 'CreateUserStoryPayload', userStory?: { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null } | null } | null };
 
 export type DeleteUserStoryMutationVariables = Exact<{
   input: DeleteUserStoryInput;
 }>;
 
 
-export type DeleteUserStoryMutation = { __typename?: 'Mutation', deleteUserStory?: { __typename?: 'DeleteUserStoryPayload', userStory?: { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null } | null } | null };
+export type DeleteUserStoryMutation = { __typename?: 'Mutation', deleteUserStory?: { __typename?: 'DeleteUserStoryPayload', userStory?: { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null } | null } | null };
 
 export type UpdateUserStoryMutationVariables = Exact<{
   input: UpdateUserStoryInput;
 }>;
 
 
-export type UpdateUserStoryMutation = { __typename?: 'Mutation', updateUserStory?: { __typename?: 'UpdateUserStoryPayload', userStory?: { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null } | null } | null };
+export type UpdateUserStoryMutation = { __typename?: 'Mutation', updateUserStory?: { __typename?: 'UpdateUserStoryPayload', userStory?: { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null } | null } | null };
 
 export type GetAllOrganizationQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4072,7 +4075,7 @@ export type GetProjectByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
+export type GetProjectByIdQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
 
 export type GetProjectBySlugQueryVariables = Exact<{
   projectSlug: Scalars['String'];
@@ -4080,7 +4083,7 @@ export type GetProjectBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectBySlugQuery = { __typename?: 'Query', projectBySlug?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any, organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any } | null, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
+export type GetProjectBySlugQuery = { __typename?: 'Query', projectBySlug?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any, organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any } | null, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
 
 export const DomainFragmentFragmentDoc = gql`
     fragment DomainFragment on Domain {
@@ -4161,6 +4164,7 @@ export const UserStoryFragmentFragmentDoc = gql`
   }
   iWant
   soThat
+  roughEstimate
   validationCriteria
   variables
   comments

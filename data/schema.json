@@ -6210,6 +6210,18 @@
               "deprecationReason": null
             },
             {
+              "name": "roughEstimate",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "personaByAsA",
               "description": "Reads a single `Persona` that is related to this `UserStory`.",
               "args": [],
@@ -14107,6 +14119,16 @@
                 "ofType": null
               },
               "defaultValue": null
+            },
+            {
+              "name": "roughEstimate",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -16876,6 +16898,16 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Datetime",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "roughEstimate",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
                 "ofType": null
               },
               "defaultValue": null

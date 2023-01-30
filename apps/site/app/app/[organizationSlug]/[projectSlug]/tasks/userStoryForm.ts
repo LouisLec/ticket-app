@@ -39,6 +39,11 @@ export const createUserStoryFormProps: (input: {
       type: "text",
       required: true,
     },
+    {
+      name: "userStory.roughEstimate",
+      label: "Estimation",
+      type: "number",
+    },
     /*   {
         name: "task.parentId",
         label: "Parent  task",
@@ -143,6 +148,12 @@ export const updateUserStoryFormProps: (input: {
       type: "text",
       required: true,
       initialValue: userStory.name,
+    },
+    {
+      name: "patch.roughEstimate",
+      label: "Estimation",
+      type: "number",
+      initialValue: userStory.roughEstimate,
     },
     {
       initialValue: userStory.asA,

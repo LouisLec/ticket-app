@@ -74,32 +74,58 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                   <h3>{us.name}</h3>
 
                   <div>
-                    <table className="table-auto">
-                      <thead>
-                        <tr>
-                          <th className="px-4 py-2">Nom</th>
-                          <th className="px-4 py-2">Description</th>
-                          <th className="px-4 py-2">Estimation</th>
-                          <th>Incertitude</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {us.tasksList.map(task => (
-                          <tr key={task.id}>
-                            <td className="px-4 py-2 border">{task.name}</td>
-                            <td className="px-4 py-2 border">
-                              {task.description}
-                            </td>
-                            <td className="px-4 py-2 border">
-                              {task.estimate} points
-                            </td>
-                            <td className="px-4 py-2 border">
-                              {task.uncertainty} points
-                            </td>
+                    {us.tasksList.length > 0 ? (
+                      <table className="table-auto">
+                        <thead>
+                          <tr>
+                            <th className="px-4 py-2">Nom</th>
+                            <th className="px-4 py-2">Description</th>
+                            <th className="px-4 py-2">Estimation</th>
+                            <th>Incertitude</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {us.tasksList.map(task => (
+                            <tr key={task.id}>
+                              <td className="px-4 py-2 border">{task.name}</td>
+                              <td className="px-4 py-2 border">
+                                {task.description}
+                              </td>
+                              <td className="px-4 py-2 border">
+                                {task.estimate} points
+                              </td>
+                              <td className="px-4 py-2 border">
+                                {task.uncertainty} points
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    ) : (
+                      <>
+                        <blockquote>
+                          <small>
+                            Pas de tâches associées <br /> Estimation :{" "}
+                            {us?.roughEstimate} points, soit{" "}
+                            {(
+                              (us?.roughEstimate *
+                                data?.projectBySlug?.coeffLuidgy *
+                                data?.projectBySlug?.dailyRate) /
+                              data?.projectBySlug?.pointsPerDay
+                            ).toLocaleString("fr-FR", {
+                              style: "currency",
+                              currency: "EUR",
+                            })}
+                          </small>
+                        </blockquote>
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              us?.comments?.replace(/\n/g, "<br />") || "",
+                          }}
+                        />
+                      </>
+                    )}
                   </div>
                 </Fragment>
               ))}
@@ -145,18 +171,22 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                         {epic.name} - {us.name}
                       </td>
                       <td>
-                        {us.tasksList.reduce(
-                          (acc, task) => acc + task.estimate,
-                          0
-                        )}{" "}
+                        {(us.tasksList.length > 0 ? 0 : us.roughEstimate) +
+                          us.tasksList.reduce(
+                            (acc, task) => acc + task.estimate,
+                            0
+                          )}{" "}
                         points
                       </td>
                       <td>
                         {(
-                          (us.tasksList.reduce(
-                            (acc, task) => acc + task.estimate,
-                            0
-                          ) *
+                          (((us.tasksList.length > 0
+                            ? 0
+                            : us.roughEstimate * 0.8) +
+                            us.tasksList.reduce(
+                              (acc, task) => acc + task.estimate,
+                              0
+                            )) *
                             data.projectBySlug?.coeffLuidgy *
                             data.projectBySlug?.dailyRate) /
                           data.projectBySlug?.pointsPerDay
@@ -167,11 +197,14 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                       </td>
                       <td>
                         {(
-                          (us.tasksList.reduce(
-                            (acc, task) =>
-                              acc + task.uncertainty + task.estimate,
-                            0
-                          ) *
+                          (((us.tasksList.length > 0
+                            ? 0
+                            : us.roughEstimate * 1.2) +
+                            us.tasksList.reduce(
+                              (acc, task) =>
+                                acc + task.uncertainty + task.estimate,
+                              0
+                            )) *
                             data.projectBySlug?.coeffLuidgy *
                             data.projectBySlug?.dailyRate) /
                           data.projectBySlug?.pointsPerDay
@@ -202,6 +235,7 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                       epic.userStoriesList.reduce(
                         (acc, us) =>
                           acc +
+                          (us.tasksList.length > 0 ? 0 : us.roughEstimate) +
                           us.tasksList.reduce(
                             (acc, task) => acc + task.estimate,
                             0
@@ -221,6 +255,9 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                         epic.userStoriesList.reduce(
                           (acc, us) =>
                             acc +
+                            (us.tasksList.length > 0
+                              ? 0
+                              : us.roughEstimate * 0.8) +
                             us.tasksList.reduce(
                               (acc, task) => acc + task.estimate,
                               0
@@ -246,6 +283,9 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                         epic.userStoriesList.reduce(
                           (acc, us) =>
                             acc +
+                            (us.tasksList.length > 0
+                              ? 0
+                              : us.roughEstimate * 1.2) +
                             us.tasksList.reduce(
                               (acc, task) =>
                                 acc + task.uncertainty + task.estimate,

@@ -11,13 +11,7 @@ const fetchWrapper = args => {
       cache: "no-store" || options.cache,
       ...options,
     };
-    console.log();
-    console.log();
-    console.log();
     console.log("fetchWrapper", { url, options, defaultOptions });
-    console.log();
-    console.log();
-    console.log();
     return fetch(url, defaultOptions);
   };
 };
