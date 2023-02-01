@@ -9,9 +9,9 @@ const Config = async ({ params: { organizationSlug, projectSlug } }) => {
   const token = nextCookies.get("jwt");
   const data = await sdk({
     headers:
-      token !== undefined
+      token?.value !== undefined
         ? {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token?.value}`,
           }
         : {},
   }).GetProjectBySlug({

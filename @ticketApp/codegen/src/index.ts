@@ -4085,6 +4085,11 @@ export type GetProjectBySlugQueryVariables = Exact<{
 
 export type GetProjectBySlugQuery = { __typename?: 'Query', projectBySlug?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any, organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any } | null, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
 
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: any, firstname: string } | null };
+
 export const DomainFragmentFragmentDoc = gql`
     fragment DomainFragment on Domain {
   id
@@ -4473,6 +4478,14 @@ ${PersonaFragmentFragmentDoc}
 ${EpicFragmentFragmentDoc}
 ${UserStoryFragmentFragmentDoc}
 ${TaskFragmentFragmentDoc}`;
+export const GetCurrentUserDocument = gql`
+    query GetCurrentUser {
+  currentUser {
+    id
+    firstname
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -4561,6 +4574,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetProjectBySlug(variables: GetProjectBySlugQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProjectBySlugQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetProjectBySlugQuery>(GetProjectBySlugDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetProjectBySlug', 'query');
+    },
+    GetCurrentUser(variables?: GetCurrentUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCurrentUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCurrentUserQuery>(GetCurrentUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetCurrentUser', 'query');
     }
   };
 }

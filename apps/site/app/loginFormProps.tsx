@@ -2,7 +2,6 @@
 
 import { LoginInput } from "@/../../@ticketApp/codegen/dist";
 import { GenericForm, GenericFormProps } from "@/components";
-import { sdk } from "@/utils/sdk";
 import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {

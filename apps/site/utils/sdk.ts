@@ -2,14 +2,18 @@ import { getSdk } from "@ticketApp/codegen";
 import { GraphQLClient } from "graphql-request";
 
 const fetchWrapper = args => {
-  return (url, options = {} as any) => {
-    const headers = { "Content-Type": "application/json" };
+  return (url, options: any) => {
+    const headers = {
+      ...{ "Content-Type": "application/json" },
+      ...options.headers,
+      ...args?.headers,
+    };
     const defaultOptions = {
       method: "GET",
       credentials: "include",
-      headers: { ...headers, ...options.headers, ...args?.headers },
-      cache: "no-store" || options.cache,
       ...options,
+      headers,
+      cache: "no-store" || options.cache,
     };
     console.log("fetchWrapper", { url, options, defaultOptions });
     return fetch(url, defaultOptions);

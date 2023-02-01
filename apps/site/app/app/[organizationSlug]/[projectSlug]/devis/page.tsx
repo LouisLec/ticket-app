@@ -8,9 +8,9 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
   const token = nextCookies.get("jwt");
   const data = await sdk({
     headers:
-      token !== undefined
+      token?.value !== undefined
         ? {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token?.value}`,
           }
         : {},
   }).GetProjectBySlug({
@@ -73,6 +73,20 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                 <Fragment key={us.id}>
                   <h3>{us.name}</h3>
 
+                  <dl className="py-3 pl-4 text-sm border border-b-4 border-black rounded-md">
+                    <div className="flex gap-2">
+                      <dt className="text-sm italic opacity-70">En tant que</dt>
+                      <dd>{us.personaByAsA?.name}</dd>
+                    </div>
+                    <div className="flex gap-2">
+                      <dt className="text-sm italic opacity-70">Je veux</dt>
+                      <dd>{us.iWant}</dd>
+                    </div>
+                    <div className="flex gap-2">
+                      <dt className="text-sm italic opacity-70">Afin de</dt>
+                      <dd>{us.soThat}</dd>
+                    </div>
+                  </dl>
                   <div>
                     {us.tasksList.length > 0 ? (
                       <table className="table-auto">

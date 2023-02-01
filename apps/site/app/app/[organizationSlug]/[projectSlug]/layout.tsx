@@ -10,10 +10,9 @@ export const ProjectLayout = async ({
   params: { organizationSlug, projectSlug },
 }) => {
   const nextCookies = cookies();
-  console.log(nextCookies.getAll());
   const token = nextCookies.get("jwt");
   const data = await sdk({
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    headers: token?.value ? { Authorization: `Bearer ${token?.value}` } : {},
   }).GetProjectBySlug({ projectSlug, organizationSlug });
 
   return (

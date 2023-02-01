@@ -1,6 +1,11 @@
 import "../styles/globals.css";
 import localFont from "@next/font/local";
 import { Inter, Cormorant } from "@next/font/google";
+import { cookies } from "next/headers";
+import { sdk } from "@/utils/sdk";
+import { ThemeProvider } from "@/components/theme-provider";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { cn } from "@/utils/classes";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -17,7 +22,15 @@ const localFontSans = localFont({
   variable: "--font-cal-sans",
 });
 
-const RootLayout = ({ children }) => {
+const RootLayout = async ({ children }) => {
+  const nextCookies = cookies();
+  const jwt = nextCookies.get("jwt");
+  const currentUser = await sdk({
+    ...(jwt?.value
+      ? { headers: { authorization: `bearer ${jwt.value}` } }
+      : {}),
+  }).GetCurrentUser();
+
   return (
     <html
       lang="fr"
@@ -58,10 +71,22 @@ const RootLayout = ({ children }) => {
         />
         <meta name="twitter:image" content="/og-image.png" />
         <meta name="twitter:site" content="@LecsLouis" />
-
-        {/* fonts */}
       </head>
-      <body className="h-full">{children}</body>
+      <body
+        className={cn(
+          "min-h-screen bg-white font-sans text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-50",
+          fontSans.variable
+        )}
+      >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="flex flex-col min-h-screen">
+            {/* header */}
+            <div className="container flex-1">{children}</div>
+            {/* footer */}
+          </div>
+          <TailwindIndicator />
+        </ThemeProvider>
+      </body>
     </html>
   );
 };
