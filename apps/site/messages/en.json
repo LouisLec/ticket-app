@@ -1,0 +1,8 @@
+{
+  "Index": {
+    "title": "Hello world!"
+  },
+  "Dashboard": {
+    "greeting": "Hello {name}, hope you're doing OK!"
+  }
+}

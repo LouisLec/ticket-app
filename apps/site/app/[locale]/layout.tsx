@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "@/styles/globals.css";
 import localFont from "@next/font/local";
 import { Inter, Cormorant } from "@next/font/google";
 import { cookies } from "next/headers";
@@ -6,6 +6,9 @@ import { sdk } from "@/utils/sdk";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { cn } from "@/utils/classes";
+import { useLocale } from "next-intl";
+import { notFound } from "next/navigation";
+import { ReactNode } from "react";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -14,32 +17,31 @@ const fontSans = Inter({
 const localFontSans = localFont({
   src: [
     {
-      path: "../public/fonts/CalSans-SemiBold.woff2",
+      path: "../../public/fonts/CalSans-SemiBold.woff2",
       weight: "700",
       style: "normal",
     },
   ],
   variable: "--font-cal-sans",
 });
+type Props = {
+  children: ReactNode;
+  params: { locale: string };
+};
 
-const RootLayout = async ({ children }) => {
-  const nextCookies = cookies();
-  const jwt = nextCookies.get("jwt");
-  const currentUser = await sdk({
-    ...(jwt?.value
-      ? { headers: { authorization: `bearer ${jwt.value}` } }
-      : {}),
-  }).GetCurrentUser();
+const RootLayout = async ({ children, params }: Props) => {
+  const locale = useLocale();
+
+  // Show a 404 error if the user requests an unknown locale
+  if (params.locale !== locale) {
+    notFound();
+  }
 
   return (
     <html
-      lang="fr"
-      className={
-        " font-sans text-slate-900 antialiased h-full bg-slate-100 caret-teal-500 selection:text-teal-500 selection:bg-slate-800 " +
-        fontSans.variable +
-        " " +
-        localFontSans.variable
-      }
+      lang={locale}
+      suppressHydrationWarning
+      className={fontSans.variable + " " + localFontSans.variable}
     >
       <head>
         <meta charSet="UTF-8" />
@@ -74,14 +76,13 @@ const RootLayout = async ({ children }) => {
       </head>
       <body
         className={cn(
-          "min-h-screen bg-white font-sans text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-50",
-          fontSans.variable
+          "min-h-screen bg-white font-sans text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-50"
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex flex-col min-h-screen">
             {/* header */}
-            <div className="container flex-1">{children}</div>
+            <div className="container flex-1 mx-auto">{children}</div>
             {/* footer */}
           </div>
           <TailwindIndicator />

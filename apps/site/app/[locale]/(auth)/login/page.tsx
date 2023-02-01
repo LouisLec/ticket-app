@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { LoginForm } from "./loginFormProps";
+import { LoginForm } from "./LoginForm";
 
 const LoginPage = () => {
   return (

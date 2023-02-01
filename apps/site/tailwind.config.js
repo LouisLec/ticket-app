@@ -3,6 +3,8 @@ const { fontFamily } = require("tailwindcss/defaultTheme");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./**/*.tsx"],
+  darkMode: ["class", '[data-theme="dark"]'],
+
   theme: {
     extend: {
       keyframes: {
