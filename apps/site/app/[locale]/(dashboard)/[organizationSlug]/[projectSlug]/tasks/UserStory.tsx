@@ -13,7 +13,7 @@ import { FC, useReducer, useState, useTransition } from "react";
 import { GenericForm } from "@/components/index";
 import { SlideOver } from "@/ui/client/slideOver";
 
-import { sdk } from "utils/sdk";
+import { sdk } from "@/utils/sdk/sdk";
 import { createTaskFormProps, updateTaskFormProps } from "./taskForms";
 
 import { UserStoryTable } from "./UserStoryTable";

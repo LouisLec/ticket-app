@@ -25,7 +25,7 @@ import {
   Trash,
   Twitter,
   User,
-  AtSignIcon,
+  AtSign,
   X,
   type Icon as LucideIcon,
 } from "lucide-react";
@@ -53,7 +53,7 @@ export const Icons = {
   trash: Trash,
   post: FileText,
   page: File,
-  sign: AtSignIcon,
+  sign: AtSign,
   media: Image,
   settings: Settings,
   billing: CreditCard,

@@ -12,8 +12,8 @@ import {
   createUserStoryFormProps,
   updateUserStoryFormProps,
 } from "./userStoryForm";
-import { sdk } from "@/utils/sdk";
 import { GenericForm } from "@/components/genericForm";
+import { sdk } from "@/utils/sdk/sdk";
 
 interface UserStoryState {
   isEditing: boolean;
@@ -130,7 +130,9 @@ export const Epic: FC<
                 state.selectedUserStory.name +
                 "?"
             ) &&
-            sdk().DeleteUserStory({ input: { id: state.selectedUserStory.id } })
+            sdk().DeleteUserStory({
+              input: { id: state.selectedUserStory.id },
+            })
           }
           onSuccess={() => dispatch({ type: "reset", payload: null })}
           {...(state.action === "edit"

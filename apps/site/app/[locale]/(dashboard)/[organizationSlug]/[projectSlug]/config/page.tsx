@@ -1,4 +1,4 @@
-import { sdk } from "@/utils/sdk";
+import { sdk } from "@/utils/sdk/sdk";
 import { Domains } from "./domains";
 import { Epics } from "./epics";
 import { Personas } from "./personas";

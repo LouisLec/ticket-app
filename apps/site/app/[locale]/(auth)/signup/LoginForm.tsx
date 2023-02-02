@@ -20,7 +20,7 @@ export const LoginForm = () => {
       });
     },
     onSuccess: () => {
-      router.push("/app/the-organisation/canto/tasks");
+      router.push("/the-organisation/canto/tasks");
     },
     fields: [
       {

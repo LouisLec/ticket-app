@@ -7,7 +7,7 @@ import {
 import { useRouter } from "next/navigation";
 import { FC, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { sdk } from "@/utils/sdk";
+import { sdk } from "@/utils/sdk/sdk";
 
 const dropUnchangedKeys = (
   initialValues:

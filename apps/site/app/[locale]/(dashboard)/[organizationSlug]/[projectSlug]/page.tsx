@@ -1,5 +1,5 @@
 import { Typography } from "@/ui/server/typography";
-import { sdk } from "@/utils/sdk";
+import { sdk } from "@/utils/sdk/sdk";
 
 const ProjectHomepage = async ({
   params: { organizationSlug, projectSlug },

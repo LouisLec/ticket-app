@@ -1,6 +1,6 @@
 import { Breadcrumbs } from "@/ui/server/breadcrumbs";
 import { Typography } from "@/ui/server/typography";
-import { sdk } from "@/utils/sdk";
+import { sdk } from "@/utils/sdk/sdk";
 import { cookies } from "next/headers";
 import { ProjectUpdater } from "./ProjectUpdater";
 import { Tabs } from "./tabs";
@@ -41,7 +41,7 @@ export const ProjectLayout = async ({
             <Typography as="p">{data.projectBySlug?.description}</Typography>
           </div>
 
-          <Tabs slug={`/app/${organizationSlug}/${projectSlug}`} />
+          <Tabs slug={`/${organizationSlug}/${projectSlug}`} />
         </div>
 
         <div className="h-10" />

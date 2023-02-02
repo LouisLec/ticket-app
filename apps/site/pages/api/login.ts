@@ -1,4 +1,4 @@
-import { sdk } from "@/utils/sdk";
+import { sdk } from "@/utils/sdk/sdk";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

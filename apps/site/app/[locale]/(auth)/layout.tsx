@@ -1,4 +1,4 @@
-export const AuthLayout = ({ children }) => {
+const AuthLayout = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* header */}
@@ -8,3 +8,5 @@ export const AuthLayout = ({ children }) => {
     </div>
   );
 };
+
+export default AuthLayout;

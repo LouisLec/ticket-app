@@ -10,11 +10,11 @@ export const translate = (
   const disctionary = lang === "en" ? en : fr;
   const path = [...(namespace ? namespace.split(".") : []), ...key.split(".")];
   const template = path.reduce((acc, key) => {
-    return acc[key];
+    return acc?.[key];
   }, disctionary);
 
   if (!template) {
-    return key;
+    return `${namespace}.${key}(${(values && JSON.stringify(values)) || ""})`;
   }
   return template.replace(/{(\w+)}/g, (match, key) => {
     return values[key] || match;

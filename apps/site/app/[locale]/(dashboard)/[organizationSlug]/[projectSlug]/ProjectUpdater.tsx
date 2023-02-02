@@ -1,15 +1,11 @@
 "use client";
 
-import {
-  GetProjectByIdQuery,
-  GetProjectBySlugQuery,
-  UpdateProjectInput,
-} from "@ticketApp/codegen";
+import { GetProjectBySlugQuery, UpdateProjectInput } from "@ticketApp/codegen";
 import { Field, GenericForm, GenericFormProps } from "@/components";
 import { SlideOver } from "@/ui/client/slideOver";
-import { sdk } from "@/utils/sdk";
 import { CogIcon } from "@heroicons/react/20/solid";
 import { FC, useState } from "react";
+import { sdk } from "@/utils/sdk/sdk";
 
 export const ProjectUpdater: FC<GetProjectBySlugQuery> = project => {
   const [open, setOpen] = useState(false);

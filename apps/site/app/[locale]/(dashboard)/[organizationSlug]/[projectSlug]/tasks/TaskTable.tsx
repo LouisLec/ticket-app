@@ -8,7 +8,7 @@ import {
 import { GetProjectByIdQuery, TaskStatus } from "@ticketApp/codegen";
 import { FC, useState, useTransition } from "react";
 
-import { sdk } from "utils/sdk";
+import { sdk } from "@/utils/sdk/sdk";
 import { Typography } from "@/ui/server/typography";
 import {
   ArrowDownIcon,

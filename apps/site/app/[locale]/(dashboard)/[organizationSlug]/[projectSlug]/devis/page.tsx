@@ -1,4 +1,4 @@
-import { sdk } from "@/utils/sdk";
+import { sdk } from "@/utils/sdk/sdk";
 import { Fragment } from "react";
 import { ProjectDiagram } from "./Tree";
 import { cookies } from "next/headers";

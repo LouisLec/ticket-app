@@ -192,7 +192,6 @@ export const GenericForm: FC<GenericFormProps<any>> = ({
                 required: field.required,
                 maxLength: field.maxLength,
                 minLength: field.minLength,
-                pattern: field.pattern,
                 valueAsNumber: true,
               })}
             />

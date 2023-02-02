@@ -1,10 +1,8 @@
-import { getCurrentUser } from "@/utils/getCurrentUser";
-import { sdk } from "@/utils/sdk";
+import { sdk } from "@/utils/sdk/sdk";
 import { translate } from "@/utils/t";
-import { cookies } from "next/headers";
 
 const DashboardPage = async ({ params: { locale } }) => {
-  const { currentUser } = await getCurrentUser();
+  const { currentUser } = await sdk().GetCurrentUser();
 
   const t = (key, values = {}) => translate(locale, key, values, "Dashboard");
   return (

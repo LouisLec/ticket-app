@@ -2,7 +2,6 @@ import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { translate } from "@/utils/t";
 import { LocalizedLink, useTranslations } from "next-intl";
-import { useMemo } from "react";
 import { HeroSvg } from "./HeroSvg";
 
 const LandingPage = async ({ params: { locale } }) => {
@@ -18,8 +17,12 @@ const LandingPage = async ({ params: { locale } }) => {
             {t("description")}
           </p>
         </div>
-        <div className="mt-12">
-          <HeroSvg />
+        <div className="relative mt-12">
+          <div className="absolute inset-0 rounded-full blur-2xl bg-slate-500/50" />
+
+          <div className="relative">
+            <HeroSvg />
+          </div>
         </div>
         <div className="flex gap-4">
           <LocalizedLink

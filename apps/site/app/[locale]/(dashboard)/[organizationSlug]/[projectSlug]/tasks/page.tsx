@@ -1,4 +1,4 @@
-import { sdk } from "@/utils/sdk";
+import { sdk } from "@/utils/sdk/sdk";
 import { cookies } from "next/headers";
 import { EpicSection } from "./EpicSection";
 
