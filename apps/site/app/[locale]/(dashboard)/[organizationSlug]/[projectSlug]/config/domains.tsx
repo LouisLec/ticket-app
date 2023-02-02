@@ -7,23 +7,23 @@ import {
   SquaresPlusIcon,
   SwatchIcon,
 } from "@heroicons/react/24/outline";
-import { DomainFragmentFragment } from "@ticketApp/codegen";
+import { MyDomainFragment } from "@ticketApp/codegen";
 import { FC, useReducer, useState } from "react";
 import { CreateDomainForm, UpdateDomainForm } from "./forms";
 
 interface State {
   isEditting: boolean;
-  selectedDomain: DomainFragmentFragment | null;
+  selectedDomain: MyDomainFragment | null;
   action: "create" | "edit" | "delete" | null;
 }
 
 interface Event {
   type: "edit" | "create" | "reset" | "delete";
-  payload?: DomainFragmentFragment | null;
+  payload?: MyDomainFragment | null;
 }
 
 export const Domains: FC<{
-  domains: DomainFragmentFragment[];
+  domains: MyDomainFragment[];
   projectId: string;
 }> = ({ domains, projectId }) => {
   const [state, dispatch] = useReducer(

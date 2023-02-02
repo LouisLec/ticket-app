@@ -7,23 +7,23 @@ import {
   SquaresPlusIcon,
   SwatchIcon,
 } from "@heroicons/react/24/outline";
-import { EpicFragmentFragment } from "@ticketApp/codegen";
+import { MyEpicFragment } from "@ticketApp/codegen";
 import { FC, useReducer, useState } from "react";
 import { CreateEpicForm, UpdateEpicForm } from "./forms";
 
 interface State {
   isEditting: boolean;
-  selectedEpic: EpicFragmentFragment | null;
+  selectedEpic: MyEpicFragment | null;
   action: "create" | "edit" | "delete" | null;
 }
 
 interface Event {
   type: "edit" | "create" | "reset" | "delete";
-  payload?: EpicFragmentFragment | null;
+  payload?: MyEpicFragment | null;
 }
 
 export const Epics: FC<{
-  epics: EpicFragmentFragment[];
+  epics: MyEpicFragment[];
   projectId: string;
 }> = ({ epics, projectId }) => {
   const [state, dispatch] = useReducer(

@@ -6,24 +6,24 @@ import {
   SquaresPlusIcon,
   SwatchIcon,
 } from "@heroicons/react/24/outline";
-import { PersonaFragmentFragment } from "@ticketApp/codegen";
+import { MyPersonaFragment } from "@ticketApp/codegen";
 import { FC, useReducer, useState } from "react";
 import { SlideOver } from "@/ui/client/slideOver";
 import { CreatePersonaForm, UpdatePersonaForm } from "./forms";
 
 interface State {
   isEditting: boolean;
-  selectedPersona: PersonaFragmentFragment | null;
+  selectedPersona: MyPersonaFragment | null;
   action: "create" | "edit" | "delete" | null;
 }
 
 interface Event {
   type: "edit" | "create" | "reset" | "delete";
-  payload?: PersonaFragmentFragment | null;
+  payload?: MyPersonaFragment | null;
 }
 
 export const Personas: FC<{
-  personas: PersonaFragmentFragment[];
+  personas: MyPersonaFragment[];
   projectId: string;
 }> = ({ personas, projectId }) => {
   const [state, dispatch] = useReducer(

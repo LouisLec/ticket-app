@@ -1,8 +1,8 @@
 "use client";
 import {
-  DomainFragmentFragment,
-  EpicFragmentFragment,
-  PersonaFragmentFragment,
+  MyDomainFragment,
+  MyEpicFragment,
+  MyPersonaFragment,
 } from "@ticketApp/codegen";
 import { useRouter } from "next/navigation";
 import { FC, useState, useTransition } from "react";
@@ -10,11 +10,8 @@ import { useForm } from "react-hook-form";
 import { sdk } from "@/utils/sdk/sdk";
 
 const dropUnchangedKeys = (
-  initialValues:
-    | DomainFragmentFragment
-    | PersonaFragmentFragment
-    | EpicFragmentFragment,
-  data: DomainFragmentFragment | PersonaFragmentFragment | EpicFragmentFragment
+  initialValues: MyDomainFragment | MyPersonaFragment | MyEpicFragment,
+  data: MyDomainFragment | MyPersonaFragment | MyEpicFragment
 ) => {
   const result = {};
   Object.keys(data).forEach(key => {
@@ -26,7 +23,7 @@ const dropUnchangedKeys = (
 };
 
 export const UpdateDomainForm: FC<{
-  initialValues: DomainFragmentFragment;
+  initialValues: MyDomainFragment;
   onSuccess: () => void;
   onCanceled: () => void;
 }> = ({ initialValues, onCanceled, onSuccess }) => {
@@ -38,11 +35,11 @@ export const UpdateDomainForm: FC<{
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<DomainFragmentFragment>({
+  } = useForm<MyDomainFragment>({
     defaultValues: initialValues,
   });
 
-  const onSubmit = (data: DomainFragmentFragment) => {
+  const onSubmit = (data: MyDomainFragment) => {
     setIsLoading(true);
 
     sdk().UpdateDomain({
@@ -190,9 +187,9 @@ export const CreateDomainForm: FC<{
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<DomainFragmentFragment>();
+  } = useForm<MyDomainFragment>();
 
-  const onSubmit = (data: DomainFragmentFragment) => {
+  const onSubmit = (data: MyDomainFragment) => {
     setIsLoading(true);
 
     sdk().CreateDomain({
@@ -317,7 +314,7 @@ export const CreateDomainForm: FC<{
 };
 
 /* 
-type PersonaFragmentFragment = {
+type MyPersonaFragment = {
     id: any;
     name: string;
     shortName: string;
@@ -327,7 +324,7 @@ type PersonaFragmentFragment = {
 */
 
 export const UpdatePersonaForm: FC<{
-  initialValues: PersonaFragmentFragment;
+  initialValues: MyPersonaFragment;
   onSuccess: () => void;
   onCanceled: () => void;
 }> = ({ initialValues, onCanceled, onSuccess }) => {
@@ -339,11 +336,11 @@ export const UpdatePersonaForm: FC<{
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PersonaFragmentFragment>({
+  } = useForm<MyPersonaFragment>({
     defaultValues: initialValues,
   });
 
-  const onSubmit = (data: PersonaFragmentFragment) => {
+  const onSubmit = (data: MyPersonaFragment) => {
     setIsLoading(true);
 
     sdk().UpdatePersona({
@@ -478,9 +475,9 @@ export const CreatePersonaForm: FC<{
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PersonaFragmentFragment>();
+  } = useForm<MyPersonaFragment>();
 
-  const onSubmit = (data: PersonaFragmentFragment) => {
+  const onSubmit = (data: MyPersonaFragment) => {
     setIsLoading(true);
 
     sdk().CreatePersona({
@@ -591,7 +588,7 @@ export const CreatePersonaForm: FC<{
 };
 
 export const UpdateEpicForm: FC<{
-  initialValues: EpicFragmentFragment;
+  initialValues: MyEpicFragment;
   onSuccess: () => void;
   onCanceled: () => void;
 }> = ({ initialValues, onCanceled, onSuccess }) => {
@@ -603,9 +600,9 @@ export const UpdateEpicForm: FC<{
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EpicFragmentFragment>({});
+  } = useForm<MyEpicFragment>({});
 
-  const onSubmit = (data: EpicFragmentFragment) => {
+  const onSubmit = (data: MyEpicFragment) => {
     setIsLoading(true);
 
     sdk().UpdateEpic({
@@ -740,9 +737,9 @@ export const CreateEpicForm: FC<{
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EpicFragmentFragment>();
+  } = useForm<MyEpicFragment>();
 
-  const onSubmit = (data: EpicFragmentFragment) => {
+  const onSubmit = (data: MyEpicFragment) => {
     setIsLoading(true);
 
     sdk().CreateEpic({
