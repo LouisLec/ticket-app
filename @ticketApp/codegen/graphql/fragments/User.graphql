@@ -3,12 +3,4 @@ fragment MyUser on User {
   firstname
   lastname
   email
-  organizationMemberships {
-    nodes {
-      ...MyOrganizationMembership
-      organization {
-        ...MyOrganization
-      }
-    }
-  }
 }

@@ -1,5 +1,16 @@
 query GetCurrentUser {
   currentUser {
     ...MyUser
+    personalOrganization {
+      ...MyOrganization
+    }
+    organizationMemberships {
+      nodes {
+        ...MyOrganizationMembership
+        organization {
+          ...MyOrganization
+        }
+      }
+    }
   }
 }
