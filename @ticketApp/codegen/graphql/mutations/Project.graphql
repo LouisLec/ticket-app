@@ -1,7 +1,7 @@
 mutation CreateProject($input: CreateProjectInput!) {
   createProject(input: $input) {
     project {
-      ...ProjectFragment
+      ...MyProject
     }
   }
 }
@@ -9,7 +9,7 @@ mutation CreateProject($input: CreateProjectInput!) {
 mutation UpdateProject($input: UpdateProjectInput!) {
   updateProject(input: $input) {
     project {
-      ...ProjectFragment
+      ...MyProject
     }
   }
 }
@@ -17,7 +17,7 @@ mutation UpdateProject($input: UpdateProjectInput!) {
 mutation DeleteProject($input: DeleteProjectInput!) {
   deleteProject(input: $input) {
     project {
-      ...ProjectFragment
+      ...MyProject
     }
   }
 }

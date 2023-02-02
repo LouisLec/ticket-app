@@ -1,4 +1,4 @@
-fragment PersonaFragment on Persona {
+fragment MyPersona on Persona {
   id
   name
   shortName

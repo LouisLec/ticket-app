@@ -1,4 +1,4 @@
-fragment UserStoryFragment on UserStory {
+fragment MyUserStory on UserStory {
   id
   name
   asA

@@ -4,7 +4,7 @@
 mutation CreateUserStory($input: CreateUserStoryInput!) {
   createUserStory(input: $input) {
     userStory {
-      ...UserStoryFragment
+      ...MyUserStory
     }
   }
 }
@@ -13,7 +13,7 @@ mutation CreateUserStory($input: CreateUserStoryInput!) {
 mutation DeleteUserStory($input: DeleteUserStoryInput!) {
   deleteUserStory(input: $input) {
     userStory {
-      ...UserStoryFragment
+      ...MyUserStory
     }
   }
 }
@@ -22,7 +22,7 @@ mutation DeleteUserStory($input: DeleteUserStoryInput!) {
 mutation UpdateUserStory($input: UpdateUserStoryInput!) {
   updateUserStory(input: $input) {
     userStory {
-      ...UserStoryFragment
+      ...MyUserStory
     }
   }
 }

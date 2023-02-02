@@ -1,7 +1,7 @@
 query GetAllOrganization {
   organizations {
     nodes {
-      ...OrganizationFragment
+      ...MyOrganization
       projects {
         totalCount
       }
@@ -11,11 +11,11 @@ query GetAllOrganization {
 
 query GetOrganizationById($id: UUID!) {
   organization(id: $id) {
-    ...OrganizationFragment
+    ...MyOrganization
     projects {
       totalCount
       nodes {
-        ...ProjectFragment
+        ...MyProject
       }
     }
   }

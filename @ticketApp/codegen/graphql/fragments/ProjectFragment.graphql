@@ -1,4 +1,4 @@
-fragment ProjectFragment on Project {
+fragment MyProject on Project {
   id
   name
   description

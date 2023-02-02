@@ -1,4 +1,4 @@
-fragment OrganizationFragment on Organization {
+fragment MyOrganization on Organization {
   id
   name
   description

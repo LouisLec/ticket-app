@@ -1,4 +1,4 @@
-fragment DomainFragment on Domain {
+fragment MyDomain on Domain {
   id
   name
   shortName

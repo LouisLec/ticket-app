@@ -1,4 +1,4 @@
-fragment TaskFragment on Task {
+fragment MyTask on Task {
   id
   name
   description

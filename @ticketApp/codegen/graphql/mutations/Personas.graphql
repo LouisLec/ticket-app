@@ -4,7 +4,7 @@
 mutation CreatePersona($input: CreatePersonaInput!) {
   createPersona(input: $input) {
     persona {
-      ...PersonaFragment
+      ...MyPersona
     }
   }
 }
@@ -13,7 +13,7 @@ mutation CreatePersona($input: CreatePersonaInput!) {
 mutation DeletePersona($input: DeletePersonaInput!) {
   deletePersona(input: $input) {
     persona {
-      ...PersonaFragment
+      ...MyPersona
     }
   }
 }
@@ -22,7 +22,7 @@ mutation DeletePersona($input: DeletePersonaInput!) {
 mutation UpdatePersona($input: UpdatePersonaInput!) {
   updatePersona(input: $input) {
     persona {
-      ...PersonaFragment
+      ...MyPersona
     }
   }
 }

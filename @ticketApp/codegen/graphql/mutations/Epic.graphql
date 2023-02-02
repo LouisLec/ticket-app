@@ -4,7 +4,7 @@
 mutation CreateEpic($input: CreateEpicInput!) {
   createEpic(input: $input) {
     epic {
-      ...EpicFragment
+      ...MyEpic
     }
   }
 }
@@ -13,7 +13,7 @@ mutation CreateEpic($input: CreateEpicInput!) {
 mutation DeleteEpic($input: DeleteEpicInput!) {
   deleteEpic(input: $input) {
     epic {
-      ...EpicFragment
+      ...MyEpic
     }
   }
 }
@@ -22,7 +22,7 @@ mutation DeleteEpic($input: DeleteEpicInput!) {
 mutation UpdateEpic($input: UpdateEpicInput!) {
   updateEpic(input: $input) {
     epic {
-      ...EpicFragment
+      ...MyEpic
     }
   }
 }

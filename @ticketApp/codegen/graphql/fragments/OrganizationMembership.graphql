@@ -1,0 +1,7 @@
+fragment MyOrganizationMembership on OrganizationMembership {
+  id
+  role
+  organizationId
+  createdAt
+  updatedAt
+}

@@ -3881,19 +3881,23 @@ export enum UsersOrderBy {
   UpdatedAtDesc = 'UPDATED_AT_DESC'
 }
 
-export type DomainFragmentFragment = { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any };
+export type MyDomainFragment = { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any };
 
-export type EpicFragmentFragment = { __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any };
+export type MyEpicFragment = { __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any };
 
-export type OrganizationFragmentFragment = { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any };
+export type MyOrganizationFragment = { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any };
 
-export type PersonaFragmentFragment = { __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any };
+export type MyOrganizationMembershipFragment = { __typename?: 'OrganizationMembership', id: any, role: OrganizationMembershipsRolesEnum, organizationId: any, createdAt: any, updatedAt: any };
 
-export type ProjectFragmentFragment = { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any };
+export type MyPersonaFragment = { __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any };
 
-export type TaskFragmentFragment = { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null };
+export type MyProjectFragment = { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any };
 
-export type UserStoryFragmentFragment = { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null };
+export type MyTaskFragment = { __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null };
+
+export type MyUserFragment = { __typename?: 'User', id: any, firstname: string, lastname: string, email: string, organizationMemberships: { __typename?: 'OrganizationMembershipsConnection', nodes: Array<{ __typename?: 'OrganizationMembership', id: any, role: OrganizationMembershipsRolesEnum, organizationId: any, createdAt: any, updatedAt: any, organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any } | null }> } };
+
+export type MyUserStoryFragment = { __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -4090,8 +4094,8 @@ export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: any, firstname: string } | null };
 
-export const DomainFragmentFragmentDoc = gql`
-    fragment DomainFragment on Domain {
+export const MyDomainFragmentDoc = gql`
+    fragment MyDomain on Domain {
   id
   name
   shortName
@@ -4100,8 +4104,8 @@ export const DomainFragmentFragmentDoc = gql`
   projectId
 }
     `;
-export const EpicFragmentFragmentDoc = gql`
-    fragment EpicFragment on Epic {
+export const MyEpicFragmentDoc = gql`
+    fragment MyEpic on Epic {
   id
   name
   icon
@@ -4110,18 +4114,8 @@ export const EpicFragmentFragmentDoc = gql`
   updatedAt
 }
     `;
-export const OrganizationFragmentFragmentDoc = gql`
-    fragment OrganizationFragment on Organization {
-  id
-  name
-  description
-  logoUrl
-  createdAt
-  updatedAt
-}
-    `;
-export const PersonaFragmentFragmentDoc = gql`
-    fragment PersonaFragment on Persona {
+export const MyPersonaFragmentDoc = gql`
+    fragment MyPersona on Persona {
   id
   name
   shortName
@@ -4130,8 +4124,8 @@ export const PersonaFragmentFragmentDoc = gql`
   updatedAt
 }
     `;
-export const ProjectFragmentFragmentDoc = gql`
-    fragment ProjectFragment on Project {
+export const MyProjectFragmentDoc = gql`
+    fragment MyProject on Project {
   id
   name
   description
@@ -4145,8 +4139,8 @@ export const ProjectFragmentFragmentDoc = gql`
   updatedAt
 }
     `;
-export const TaskFragmentFragmentDoc = gql`
-    fragment TaskFragment on Task {
+export const MyTaskFragmentDoc = gql`
+    fragment MyTask on Task {
   id
   name
   description
@@ -4158,8 +4152,44 @@ export const TaskFragmentFragmentDoc = gql`
   order
 }
     `;
-export const UserStoryFragmentFragmentDoc = gql`
-    fragment UserStoryFragment on UserStory {
+export const MyOrganizationMembershipFragmentDoc = gql`
+    fragment MyOrganizationMembership on OrganizationMembership {
+  id
+  role
+  organizationId
+  createdAt
+  updatedAt
+}
+    `;
+export const MyOrganizationFragmentDoc = gql`
+    fragment MyOrganization on Organization {
+  id
+  name
+  description
+  logoUrl
+  createdAt
+  updatedAt
+}
+    `;
+export const MyUserFragmentDoc = gql`
+    fragment MyUser on User {
+  id
+  firstname
+  lastname
+  email
+  organizationMemberships {
+    nodes {
+      ...MyOrganizationMembership
+      organization {
+        ...MyOrganization
+      }
+    }
+  }
+}
+    ${MyOrganizationMembershipFragmentDoc}
+${MyOrganizationFragmentDoc}`;
+export const MyUserStoryFragmentDoc = gql`
+    fragment MyUserStory on UserStory {
   id
   name
   asA
@@ -4191,56 +4221,56 @@ export const CreateDomainDocument = gql`
     mutation CreateDomain($input: CreateDomainInput!) {
   createDomain(input: $input) {
     domain {
-      ...DomainFragment
+      ...MyDomain
     }
   }
 }
-    ${DomainFragmentFragmentDoc}`;
+    ${MyDomainFragmentDoc}`;
 export const DeleteDomainDocument = gql`
     mutation DeleteDomain($input: DeleteDomainInput!) {
   deleteDomain(input: $input) {
     domain {
-      ...DomainFragment
+      ...MyDomain
     }
   }
 }
-    ${DomainFragmentFragmentDoc}`;
+    ${MyDomainFragmentDoc}`;
 export const UpdateDomainDocument = gql`
     mutation UpdateDomain($input: UpdateDomainInput!) {
   updateDomain(input: $input) {
     domain {
-      ...DomainFragment
+      ...MyDomain
     }
   }
 }
-    ${DomainFragmentFragmentDoc}`;
+    ${MyDomainFragmentDoc}`;
 export const CreateEpicDocument = gql`
     mutation CreateEpic($input: CreateEpicInput!) {
   createEpic(input: $input) {
     epic {
-      ...EpicFragment
+      ...MyEpic
     }
   }
 }
-    ${EpicFragmentFragmentDoc}`;
+    ${MyEpicFragmentDoc}`;
 export const DeleteEpicDocument = gql`
     mutation DeleteEpic($input: DeleteEpicInput!) {
   deleteEpic(input: $input) {
     epic {
-      ...EpicFragment
+      ...MyEpic
     }
   }
 }
-    ${EpicFragmentFragmentDoc}`;
+    ${MyEpicFragmentDoc}`;
 export const UpdateEpicDocument = gql`
     mutation UpdateEpic($input: UpdateEpicInput!) {
   updateEpic(input: $input) {
     epic {
-      ...EpicFragment
+      ...MyEpic
     }
   }
 }
-    ${EpicFragmentFragmentDoc}`;
+    ${MyEpicFragmentDoc}`;
 export const CreateOrganizationDocument = gql`
     mutation CreateOrganization($input: CreateOrganizationInput!) {
   createOrganization(input: $input) {
@@ -4263,145 +4293,145 @@ export const CreatePersonaDocument = gql`
     mutation CreatePersona($input: CreatePersonaInput!) {
   createPersona(input: $input) {
     persona {
-      ...PersonaFragment
+      ...MyPersona
     }
   }
 }
-    ${PersonaFragmentFragmentDoc}`;
+    ${MyPersonaFragmentDoc}`;
 export const DeletePersonaDocument = gql`
     mutation DeletePersona($input: DeletePersonaInput!) {
   deletePersona(input: $input) {
     persona {
-      ...PersonaFragment
+      ...MyPersona
     }
   }
 }
-    ${PersonaFragmentFragmentDoc}`;
+    ${MyPersonaFragmentDoc}`;
 export const UpdatePersonaDocument = gql`
     mutation UpdatePersona($input: UpdatePersonaInput!) {
   updatePersona(input: $input) {
     persona {
-      ...PersonaFragment
+      ...MyPersona
     }
   }
 }
-    ${PersonaFragmentFragmentDoc}`;
+    ${MyPersonaFragmentDoc}`;
 export const CreateProjectDocument = gql`
     mutation CreateProject($input: CreateProjectInput!) {
   createProject(input: $input) {
     project {
-      ...ProjectFragment
+      ...MyProject
     }
   }
 }
-    ${ProjectFragmentFragmentDoc}`;
+    ${MyProjectFragmentDoc}`;
 export const UpdateProjectDocument = gql`
     mutation UpdateProject($input: UpdateProjectInput!) {
   updateProject(input: $input) {
     project {
-      ...ProjectFragment
+      ...MyProject
     }
   }
 }
-    ${ProjectFragmentFragmentDoc}`;
+    ${MyProjectFragmentDoc}`;
 export const DeleteProjectDocument = gql`
     mutation DeleteProject($input: DeleteProjectInput!) {
   deleteProject(input: $input) {
     project {
-      ...ProjectFragment
+      ...MyProject
     }
   }
 }
-    ${ProjectFragmentFragmentDoc}`;
+    ${MyProjectFragmentDoc}`;
 export const CreateTaskDocument = gql`
     mutation CreateTask($input: CreateTaskInput!) {
   createTask(input: $input) {
     task {
-      ...TaskFragment
+      ...MyTask
     }
   }
 }
-    ${TaskFragmentFragmentDoc}`;
+    ${MyTaskFragmentDoc}`;
 export const DeleteTaskDocument = gql`
     mutation DeleteTask($input: DeleteTaskInput!) {
   deleteTask(input: $input) {
     task {
-      ...TaskFragment
+      ...MyTask
     }
   }
 }
-    ${TaskFragmentFragmentDoc}`;
+    ${MyTaskFragmentDoc}`;
 export const UpdateTaskDocument = gql`
     mutation UpdateTask($input: UpdateTaskInput!) {
   updateTask(input: $input) {
     task {
-      ...TaskFragment
+      ...MyTask
     }
   }
 }
-    ${TaskFragmentFragmentDoc}`;
+    ${MyTaskFragmentDoc}`;
 export const ChangeTaskOrderDocument = gql`
     mutation ChangeTaskOrder($newOrder: Int!, $taskId: UUID!) {
   updateTask(input: {id: $taskId, patch: {order: $newOrder}}) {
     task {
-      ...TaskFragment
+      ...MyTask
     }
   }
 }
-    ${TaskFragmentFragmentDoc}`;
+    ${MyTaskFragmentDoc}`;
 export const CreateUserStoryDocument = gql`
     mutation CreateUserStory($input: CreateUserStoryInput!) {
   createUserStory(input: $input) {
     userStory {
-      ...UserStoryFragment
+      ...MyUserStory
     }
   }
 }
-    ${UserStoryFragmentFragmentDoc}`;
+    ${MyUserStoryFragmentDoc}`;
 export const DeleteUserStoryDocument = gql`
     mutation DeleteUserStory($input: DeleteUserStoryInput!) {
   deleteUserStory(input: $input) {
     userStory {
-      ...UserStoryFragment
+      ...MyUserStory
     }
   }
 }
-    ${UserStoryFragmentFragmentDoc}`;
+    ${MyUserStoryFragmentDoc}`;
 export const UpdateUserStoryDocument = gql`
     mutation UpdateUserStory($input: UpdateUserStoryInput!) {
   updateUserStory(input: $input) {
     userStory {
-      ...UserStoryFragment
+      ...MyUserStory
     }
   }
 }
-    ${UserStoryFragmentFragmentDoc}`;
+    ${MyUserStoryFragmentDoc}`;
 export const GetAllOrganizationDocument = gql`
     query GetAllOrganization {
   organizations {
     nodes {
-      ...OrganizationFragment
+      ...MyOrganization
       projects {
         totalCount
       }
     }
   }
 }
-    ${OrganizationFragmentFragmentDoc}`;
+    ${MyOrganizationFragmentDoc}`;
 export const GetOrganizationByIdDocument = gql`
     query GetOrganizationById($id: UUID!) {
   organization(id: $id) {
-    ...OrganizationFragment
+    ...MyOrganization
     projects {
       totalCount
       nodes {
-        ...ProjectFragment
+        ...MyProject
       }
     }
   }
 }
-    ${OrganizationFragmentFragmentDoc}
-${ProjectFragmentFragmentDoc}`;
+    ${MyOrganizationFragmentDoc}
+${MyProjectFragmentDoc}`;
 export const GetAllProjectsByOrganizationIdDocument = gql`
     query GetAllProjectsByOrganizationId($organizationId: UUID!) {
   projects(
@@ -4409,75 +4439,75 @@ export const GetAllProjectsByOrganizationIdDocument = gql`
     condition: {organizationId: $organizationId}
   ) {
     nodes {
-      ...ProjectFragment
+      ...MyProject
     }
   }
 }
-    ${ProjectFragmentFragmentDoc}`;
+    ${MyProjectFragmentDoc}`;
 export const GetProjectByIdDocument = gql`
     query GetProjectById($projectId: UUID!) {
   project(id: $projectId) {
-    ...ProjectFragment
+    ...MyProject
     domainsList {
-      ...DomainFragment
+      ...MyDomain
     }
     personasList {
-      ...PersonaFragment
+      ...MyPersona
     }
     epicsList(orderBy: [ORDER_ASC]) {
-      ...EpicFragment
+      ...MyEpic
       userStoriesList(orderBy: [ORDER_ASC]) {
-        ...UserStoryFragment
+        ...MyUserStory
         tasksList(orderBy: [ORDER_ASC]) {
-          ...TaskFragment
+          ...MyTask
           domain {
-            ...DomainFragment
+            ...MyDomain
           }
         }
       }
     }
   }
 }
-    ${ProjectFragmentFragmentDoc}
-${DomainFragmentFragmentDoc}
-${PersonaFragmentFragmentDoc}
-${EpicFragmentFragmentDoc}
-${UserStoryFragmentFragmentDoc}
-${TaskFragmentFragmentDoc}`;
+    ${MyProjectFragmentDoc}
+${MyDomainFragmentDoc}
+${MyPersonaFragmentDoc}
+${MyEpicFragmentDoc}
+${MyUserStoryFragmentDoc}
+${MyTaskFragmentDoc}`;
 export const GetProjectBySlugDocument = gql`
     query GetProjectBySlug($projectSlug: String!, $organizationSlug: String!) {
   projectBySlug(projectSlug: $projectSlug, organizationSlug: $organizationSlug) {
     organization {
-      ...OrganizationFragment
+      ...MyOrganization
     }
-    ...ProjectFragment
+    ...MyProject
     domainsList {
-      ...DomainFragment
+      ...MyDomain
     }
     personasList {
-      ...PersonaFragment
+      ...MyPersona
     }
     epicsList(orderBy: [ORDER_ASC]) {
-      ...EpicFragment
+      ...MyEpic
       userStoriesList(orderBy: [ORDER_ASC]) {
-        ...UserStoryFragment
+        ...MyUserStory
         tasksList(orderBy: [ORDER_ASC]) {
-          ...TaskFragment
+          ...MyTask
           domain {
-            ...DomainFragment
+            ...MyDomain
           }
         }
       }
     }
   }
 }
-    ${OrganizationFragmentFragmentDoc}
-${ProjectFragmentFragmentDoc}
-${DomainFragmentFragmentDoc}
-${PersonaFragmentFragmentDoc}
-${EpicFragmentFragmentDoc}
-${UserStoryFragmentFragmentDoc}
-${TaskFragmentFragmentDoc}`;
+    ${MyOrganizationFragmentDoc}
+${MyProjectFragmentDoc}
+${MyDomainFragmentDoc}
+${MyPersonaFragmentDoc}
+${MyEpicFragmentDoc}
+${MyUserStoryFragmentDoc}
+${MyTaskFragmentDoc}`;
 export const GetCurrentUserDocument = gql`
     query GetCurrentUser {
   currentUser {

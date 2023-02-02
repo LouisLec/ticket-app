@@ -4,28 +4,28 @@ query GetAllProjectsByOrganizationId($organizationId: UUID!) {
     condition: { organizationId: $organizationId }
   ) {
     nodes {
-      ...ProjectFragment
+      ...MyProject
     }
   }
 }
 
 query GetProjectById($projectId: UUID!) {
   project(id: $projectId) {
-    ...ProjectFragment
+    ...MyProject
     domainsList {
-      ...DomainFragment
+      ...MyDomain
     }
     personasList {
-      ...PersonaFragment
+      ...MyPersona
     }
     epicsList(orderBy: [ORDER_ASC]) {
-      ...EpicFragment
+      ...MyEpic
       userStoriesList(orderBy: [ORDER_ASC]) {
-        ...UserStoryFragment
+        ...MyUserStory
         tasksList(orderBy: [ORDER_ASC]) {
-          ...TaskFragment
+          ...MyTask
           domain {
-            ...DomainFragment
+            ...MyDomain
           }
         }
       }
@@ -39,23 +39,23 @@ query GetProjectBySlug($projectSlug: String!, $organizationSlug: String!) {
     organizationSlug: $organizationSlug
   ) {
     organization {
-      ...OrganizationFragment
+      ...MyOrganization
     }
-    ...ProjectFragment
+    ...MyProject
     domainsList {
-      ...DomainFragment
+      ...MyDomain
     }
     personasList {
-      ...PersonaFragment
+      ...MyPersona
     }
     epicsList(orderBy: [ORDER_ASC]) {
-      ...EpicFragment
+      ...MyEpic
       userStoriesList(orderBy: [ORDER_ASC]) {
-        ...UserStoryFragment
+        ...MyUserStory
         tasksList(orderBy: [ORDER_ASC]) {
-          ...TaskFragment
+          ...MyTask
           domain {
-            ...DomainFragment
+            ...MyDomain
           }
         }
       }

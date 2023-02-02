@@ -1,0 +1,14 @@
+fragment MyUser on User {
+  id
+  firstname
+  lastname
+  email
+  organizationMemberships {
+    nodes {
+      ...MyOrganizationMembership
+      organization {
+        ...MyOrganization
+      }
+    }
+  }
+}

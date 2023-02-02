@@ -1,4 +1,4 @@
-fragment EpicFragment on Epic {
+fragment MyEpic on Epic {
   id
   name
   icon
