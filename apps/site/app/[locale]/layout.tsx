@@ -1,8 +1,6 @@
 import "@/styles/globals.css";
 import localFont from "@next/font/local";
 import { Inter, Cormorant } from "@next/font/google";
-import { cookies } from "next/headers";
-import { sdk } from "@/utils/sdk";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { cn } from "@/utils/classes";
