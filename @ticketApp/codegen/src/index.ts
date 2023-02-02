@@ -4092,7 +4092,7 @@ export type GetProjectBySlugQuery = { __typename?: 'Query', projectBySlug?: { __
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: any, firstname: string } | null };
+export type GetCurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: any, firstname: string, lastname: string, email: string, organizationMemberships: { __typename?: 'OrganizationMembershipsConnection', nodes: Array<{ __typename?: 'OrganizationMembership', id: any, role: OrganizationMembershipsRolesEnum, organizationId: any, createdAt: any, updatedAt: any, organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any } | null }> } } | null };
 
 export const MyDomainFragmentDoc = gql`
     fragment MyDomain on Domain {
@@ -4511,11 +4511,10 @@ ${MyTaskFragmentDoc}`;
 export const GetCurrentUserDocument = gql`
     query GetCurrentUser {
   currentUser {
-    id
-    firstname
+    ...MyUser
   }
 }
-    `;
+    ${MyUserFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
