@@ -176,6 +176,8 @@ export type CreateOrganizationPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** Reads a single `User` that is related to this `Organization`. */
+  createdByUser?: Maybe<User>;
   /** The `Organization` that was created by this mutation. */
   organization?: Maybe<Organization>;
   /** An edge for our `Organization`. May be used by Relay 1. */
@@ -590,6 +592,8 @@ export type DeleteOrganizationPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** Reads a single `User` that is related to this `Organization`. */
+  createdByUser?: Maybe<User>;
   deletedOrganizationNodeId?: Maybe<Scalars['ID']>;
   /** The `Organization` that was deleted by this mutation. */
   organization?: Maybe<Organization>;
@@ -1699,10 +1703,14 @@ export type Node = {
 export type Organization = Node & {
   __typename?: 'Organization';
   createdAt: Scalars['Datetime'];
+  /** Reads a single `User` that is related to this `Organization`. */
+  createdByUser?: Maybe<User>;
+  createdByUserId?: Maybe<Scalars['UUID']>;
   description: Scalars['String'];
   id: Scalars['UUID'];
+  isPersonalOrganization?: Maybe<Scalars['Boolean']>;
   /** The URL of the organization's logo. */
-  logoUrl: Scalars['String'];
+  logoUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
@@ -1747,8 +1755,12 @@ export type OrganizationProjectsArgs = {
 export type OrganizationCondition = {
   /** Checks for equality with the object’s `createdAt` field. */
   createdAt?: InputMaybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `createdByUserId` field. */
+  createdByUserId?: InputMaybe<Scalars['UUID']>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['UUID']>;
+  /** Checks for equality with the object’s `isPersonalOrganization` field. */
+  isPersonalOrganization?: InputMaybe<Scalars['Boolean']>;
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `slug` field. */
@@ -1763,8 +1775,12 @@ export type OrganizationFilter = {
   and?: InputMaybe<Array<OrganizationFilter>>;
   /** Filter by the object’s `createdAt` field. */
   createdAt?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `createdByUserId` field. */
+  createdByUserId?: InputMaybe<UuidFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `isPersonalOrganization` field. */
+  isPersonalOrganization?: InputMaybe<BooleanFilter>;
   /** Filter by the object’s `name` field. */
   name?: InputMaybe<StringFilter>;
   /** Negates the expression. */
@@ -1780,10 +1796,12 @@ export type OrganizationFilter = {
 /** An input for mutations affecting `Organization` */
 export type OrganizationInput = {
   createdAt?: InputMaybe<Scalars['Datetime']>;
+  createdByUserId?: InputMaybe<Scalars['UUID']>;
   description: Scalars['String'];
   id?: InputMaybe<Scalars['UUID']>;
+  isPersonalOrganization?: InputMaybe<Scalars['Boolean']>;
   /** The URL of the organization's logo. */
-  logoUrl: Scalars['String'];
+  logoUrl?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   slug: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['Datetime']>;
@@ -1951,8 +1969,10 @@ export type OrganizationMembershipsRolesEnumFilter = {
 /** Represents an update to a `Organization`. Fields that are set will be updated. */
 export type OrganizationPatch = {
   createdAt?: InputMaybe<Scalars['Datetime']>;
+  createdByUserId?: InputMaybe<Scalars['UUID']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['UUID']>;
+  isPersonalOrganization?: InputMaybe<Scalars['Boolean']>;
   /** The URL of the organization's logo. */
   logoUrl?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -1986,8 +2006,12 @@ export type OrganizationsEdge = {
 export enum OrganizationsOrderBy {
   CreatedAtAsc = 'CREATED_AT_ASC',
   CreatedAtDesc = 'CREATED_AT_DESC',
+  CreatedByUserIdAsc = 'CREATED_BY_USER_ID_ASC',
+  CreatedByUserIdDesc = 'CREATED_BY_USER_ID_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  IsPersonalOrganizationAsc = 'IS_PERSONAL_ORGANIZATION_ASC',
+  IsPersonalOrganizationDesc = 'IS_PERSONAL_ORGANIZATION_DESC',
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
@@ -3259,6 +3283,8 @@ export type UpdateOrganizationPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** Reads a single `User` that is related to this `Organization`. */
+  createdByUser?: Maybe<User>;
   /** The `Organization` that was updated by this mutation. */
   organization?: Maybe<Organization>;
   /** An edge for our `Organization`. May be used by Relay 1. */
@@ -3568,6 +3594,9 @@ export type User = Node & {
   nodeId: Scalars['ID'];
   /** Reads and enables pagination through a set of `OrganizationMembership`. */
   organizationMemberships: OrganizationMembershipsConnection;
+  /** Reads and enables pagination through a set of `Organization`. */
+  organizationsByCreatedByUserId: OrganizationsConnection;
+  personalOrganization?: Maybe<Organization>;
   updatedAt: Scalars['Datetime'];
 };
 
@@ -3581,6 +3610,18 @@ export type UserOrganizationMembershipsArgs = {
   last?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<OrganizationMembershipsOrderBy>>;
+};
+
+
+export type UserOrganizationsByCreatedByUserIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']>;
+  before?: InputMaybe<Scalars['Cursor']>;
+  condition?: InputMaybe<OrganizationCondition>;
+  filter?: InputMaybe<OrganizationFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<OrganizationsOrderBy>>;
 };
 
 /** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -3885,7 +3926,7 @@ export type DomainFragmentFragment = { __typename?: 'Domain', id: any, name: str
 
 export type EpicFragmentFragment = { __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any };
 
-export type OrganizationFragmentFragment = { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any };
+export type OrganizationFragmentFragment = { __typename?: 'Organization', id: any, name: string, description: string, logoUrl?: string | null, createdAt: any, updatedAt: any };
 
 export type PersonaFragmentFragment = { __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any };
 
@@ -4054,14 +4095,14 @@ export type UpdateUserStoryMutation = { __typename?: 'Mutation', updateUserStory
 export type GetAllOrganizationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllOrganizationQuery = { __typename?: 'Query', organizations?: { __typename?: 'OrganizationsConnection', nodes: Array<{ __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any, projects: { __typename?: 'ProjectsConnection', totalCount: number } }> } | null };
+export type GetAllOrganizationQuery = { __typename?: 'Query', organizations?: { __typename?: 'OrganizationsConnection', nodes: Array<{ __typename?: 'Organization', id: any, name: string, description: string, logoUrl?: string | null, createdAt: any, updatedAt: any, projects: { __typename?: 'ProjectsConnection', totalCount: number } }> } | null };
 
 export type GetOrganizationByIdQueryVariables = Exact<{
   id: Scalars['UUID'];
 }>;
 
 
-export type GetOrganizationByIdQuery = { __typename?: 'Query', organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any, projects: { __typename?: 'ProjectsConnection', totalCount: number, nodes: Array<{ __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any }> } } | null };
+export type GetOrganizationByIdQuery = { __typename?: 'Query', organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl?: string | null, createdAt: any, updatedAt: any, projects: { __typename?: 'ProjectsConnection', totalCount: number, nodes: Array<{ __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any }> } } | null };
 
 export type GetAllProjectsByOrganizationIdQueryVariables = Exact<{
   organizationId: Scalars['UUID'];
@@ -4083,7 +4124,7 @@ export type GetProjectBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectBySlugQuery = { __typename?: 'Query', projectBySlug?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any, organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl: string, createdAt: any, updatedAt: any } | null, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
+export type GetProjectBySlugQuery = { __typename?: 'Query', projectBySlug?: { __typename?: 'Project', id: any, name: string, description: string, slug: string, initialContext?: string | null, coeffLuidgy?: number | null, pointsPerDay?: number | null, isNgo?: boolean | null, dailyRate?: number | null, createdAt: any, updatedAt: any, organization?: { __typename?: 'Organization', id: any, name: string, description: string, logoUrl?: string | null, createdAt: any, updatedAt: any } | null, domainsList: Array<{ __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any }>, personasList: Array<{ __typename?: 'Persona', id: any, name: string, shortName: string, description: string, createdAt: any, updatedAt: any }>, epicsList: Array<{ __typename?: 'Epic', id: any, name: string, icon?: string | null, description: string, createdAt: any, updatedAt: any, userStoriesList: Array<{ __typename?: 'UserStory', id: any, name?: string | null, asA?: any | null, iWant: string, soThat?: string | null, roughEstimate?: number | null, validationCriteria?: string | null, variables?: string | null, comments?: string | null, order?: number | null, epicId?: any | null, parentId?: any | null, createdAt: any, updatedAt: any, tasksList: Array<{ __typename?: 'Task', id: any, name: string, description: string, userStoryId: any, estimate: number, uncertainty: number, parentId?: any | null, status?: TaskStatus | null, order?: number | null, domain?: { __typename?: 'Domain', id: any, name: string, shortName: string, color: string, description?: string | null, projectId: any } | null }>, personaByAsA?: { __typename?: 'Persona', id: any, name: string } | null }> }> } | null };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 

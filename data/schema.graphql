@@ -679,9 +679,14 @@ type Organization implements Node {
   description: String!
 
   """The URL of the organization's logo."""
-  logoUrl: String!
+  logoUrl: String
   createdAt: Datetime!
   updatedAt: Datetime!
+  isPersonalOrganization: Boolean
+  createdByUserId: UUID
+
+  """Reads a single `User` that is related to this `Organization`."""
+  createdByUser: User
 
   """
   Reads and enables pagination through a set of `OrganizationMembership`.
@@ -754,68 +759,6 @@ type Organization implements Node {
   ): ProjectsConnection!
 }
 
-"""A connection to a list of `OrganizationMembership` values."""
-type OrganizationMembershipsConnection {
-  """A list of `OrganizationMembership` objects."""
-  nodes: [OrganizationMembership!]!
-
-  """
-  A list of edges which contains the `OrganizationMembership` and cursor to aid in pagination.
-  """
-  edges: [OrganizationMembershipsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """
-  The count of *all* `OrganizationMembership` you could get from the connection.
-  """
-  totalCount: Int!
-}
-
-type OrganizationMembership implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  nodeId: ID!
-  id: UUID!
-  organizationId: UUID!
-  userId: UUID!
-  role: OrganizationMembershipsRolesEnum!
-  createdAt: Datetime!
-  updatedAt: Datetime!
-
-  """
-  Reads a single `Organization` that is related to this `OrganizationMembership`.
-  """
-  organization: Organization
-
-  """
-  Reads a single `User` that is related to this `OrganizationMembership`.
-  """
-  user: User
-}
-
-enum OrganizationMembershipsRolesEnum {
-  """Owner of the organization"""
-  OWNER
-
-  """Admin of the organization"""
-  ADMIN
-
-  """Member of the organization"""
-  DEVELOPER
-
-  """Manager of the organization"""
-  MANAGER
-
-  """Client of the organization"""
-  CLIENT
-
-  """Guest of the organization"""
-  GUEST
-}
-
 type User implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -829,6 +772,40 @@ type User implements Node {
   email: String!
   createdAt: Datetime!
   updatedAt: Datetime!
+
+  """Reads and enables pagination through a set of `Organization`."""
+  organizationsByCreatedByUserId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Organization`."""
+    orderBy: [OrganizationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OrganizationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: OrganizationFilter
+  ): OrganizationsConnection!
 
   """
   Reads and enables pagination through a set of `OrganizationMembership`.
@@ -866,69 +843,113 @@ type User implements Node {
     filter: OrganizationMembershipFilter
   ): OrganizationMembershipsConnection!
   hasPassword: Boolean
+  personalOrganization: Organization
+}
+
+"""A connection to a list of `Organization` values."""
+type OrganizationsConnection {
+  """A list of `Organization` objects."""
+  nodes: [Organization!]!
+
+  """
+  A list of edges which contains the `Organization` and cursor to aid in pagination.
+  """
+  edges: [OrganizationsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Organization` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Organization` edge in the connection."""
+type OrganizationsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Organization` at the end of the edge."""
+  node: Organization!
 }
 
 """A location in a connection that can be used for resuming pagination."""
 scalar Cursor
 
-"""Methods to use when ordering `OrganizationMembership`."""
-enum OrganizationMembershipsOrderBy {
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+"""Methods to use when ordering `Organization`."""
+enum OrganizationsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  ORGANIZATION_ID_ASC
-  ORGANIZATION_ID_DESC
-  USER_ID_ASC
-  USER_ID_DESC
-  ROLE_ASC
-  ROLE_DESC
+  NAME_ASC
+  NAME_DESC
+  SLUG_ASC
+  SLUG_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+  IS_PERSONAL_ORGANIZATION_ASC
+  IS_PERSONAL_ORGANIZATION_DESC
+  CREATED_BY_USER_ID_ASC
+  CREATED_BY_USER_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
 
 """
-A condition to be used against `OrganizationMembership` object types. All fields
-are tested for equality and combined with a logical ‘and.’
+A condition to be used against `Organization` object types. All fields are
+tested for equality and combined with a logical ‘and.’
 """
-input OrganizationMembershipCondition {
+input OrganizationCondition {
   """Checks for equality with the object’s `id` field."""
   id: UUID
 
-  """Checks for equality with the object’s `organizationId` field."""
-  organizationId: UUID
+  """Checks for equality with the object’s `name` field."""
+  name: String
 
-  """Checks for equality with the object’s `userId` field."""
-  userId: UUID
-
-  """Checks for equality with the object’s `role` field."""
-  role: OrganizationMembershipsRolesEnum
+  """Checks for equality with the object’s `slug` field."""
+  slug: String
 
   """Checks for equality with the object’s `createdAt` field."""
   createdAt: Datetime
 
   """Checks for equality with the object’s `updatedAt` field."""
   updatedAt: Datetime
+
+  """Checks for equality with the object’s `isPersonalOrganization` field."""
+  isPersonalOrganization: Boolean
+
+  """Checks for equality with the object’s `createdByUserId` field."""
+  createdByUserId: UUID
 }
 
 """
-A filter to be used against `OrganizationMembership` object types. All fields are combined with a logical ‘and.’
+A filter to be used against `Organization` object types. All fields are combined with a logical ‘and.’
 """
-input OrganizationMembershipFilter {
+input OrganizationFilter {
   """Filter by the object’s `id` field."""
   id: UUIDFilter
 
-  """Filter by the object’s `organizationId` field."""
-  organizationId: UUIDFilter
+  """Filter by the object’s `name` field."""
+  name: StringFilter
 
-  """Filter by the object’s `userId` field."""
-  userId: UUIDFilter
-
-  """Filter by the object’s `role` field."""
-  role: OrganizationMembershipsRolesEnumFilter
+  """Filter by the object’s `slug` field."""
+  slug: StringFilter
 
   """Filter by the object’s `createdAt` field."""
   createdAt: DatetimeFilter
@@ -936,14 +957,20 @@ input OrganizationMembershipFilter {
   """Filter by the object’s `updatedAt` field."""
   updatedAt: DatetimeFilter
 
+  """Filter by the object’s `isPersonalOrganization` field."""
+  isPersonalOrganization: BooleanFilter
+
+  """Filter by the object’s `createdByUserId` field."""
+  createdByUserId: UUIDFilter
+
   """Checks for all expressions in this list."""
-  and: [OrganizationMembershipFilter!]
+  and: [OrganizationFilter!]
 
   """Checks for any expressions in this list."""
-  or: [OrganizationMembershipFilter!]
+  or: [OrganizationFilter!]
 
   """Negates the expression."""
-  not: OrganizationMembershipFilter
+  not: OrganizationFilter
 }
 
 """
@@ -986,214 +1013,6 @@ input UUIDFilter {
 
   """Greater than or equal to the specified value."""
   greaterThanOrEqualTo: UUID
-}
-
-"""
-A filter to be used against OrganizationMembershipsRolesEnum fields. All fields are combined with a logical ‘and.’
-"""
-input OrganizationMembershipsRolesEnumFilter {
-  """
-  Is null (if `true` is specified) or is not null (if `false` is specified).
-  """
-  isNull: Boolean
-
-  """Equal to the specified value."""
-  equalTo: OrganizationMembershipsRolesEnum
-
-  """Not equal to the specified value."""
-  notEqualTo: OrganizationMembershipsRolesEnum
-
-  """
-  Not equal to the specified value, treating null like an ordinary value.
-  """
-  distinctFrom: OrganizationMembershipsRolesEnum
-
-  """Equal to the specified value, treating null like an ordinary value."""
-  notDistinctFrom: OrganizationMembershipsRolesEnum
-
-  """Included in the specified list."""
-  in: [OrganizationMembershipsRolesEnum!]
-
-  """Not included in the specified list."""
-  notIn: [OrganizationMembershipsRolesEnum!]
-
-  """Less than the specified value."""
-  lessThan: OrganizationMembershipsRolesEnum
-
-  """Less than or equal to the specified value."""
-  lessThanOrEqualTo: OrganizationMembershipsRolesEnum
-
-  """Greater than the specified value."""
-  greaterThan: OrganizationMembershipsRolesEnum
-
-  """Greater than or equal to the specified value."""
-  greaterThanOrEqualTo: OrganizationMembershipsRolesEnum
-}
-
-"""
-A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’
-"""
-input DatetimeFilter {
-  """
-  Is null (if `true` is specified) or is not null (if `false` is specified).
-  """
-  isNull: Boolean
-
-  """Equal to the specified value."""
-  equalTo: Datetime
-
-  """Not equal to the specified value."""
-  notEqualTo: Datetime
-
-  """
-  Not equal to the specified value, treating null like an ordinary value.
-  """
-  distinctFrom: Datetime
-
-  """Equal to the specified value, treating null like an ordinary value."""
-  notDistinctFrom: Datetime
-
-  """Included in the specified list."""
-  in: [Datetime!]
-
-  """Not included in the specified list."""
-  notIn: [Datetime!]
-
-  """Less than the specified value."""
-  lessThan: Datetime
-
-  """Less than or equal to the specified value."""
-  lessThanOrEqualTo: Datetime
-
-  """Greater than the specified value."""
-  greaterThan: Datetime
-
-  """Greater than or equal to the specified value."""
-  greaterThanOrEqualTo: Datetime
-}
-
-"""A `OrganizationMembership` edge in the connection."""
-type OrganizationMembershipsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `OrganizationMembership` at the end of the edge."""
-  node: OrganizationMembership!
-}
-
-"""Information about pagination in a connection."""
-type PageInfo {
-  """When paginating forwards, are there more items?"""
-  hasNextPage: Boolean!
-
-  """When paginating backwards, are there more items?"""
-  hasPreviousPage: Boolean!
-
-  """When paginating backwards, the cursor to continue."""
-  startCursor: Cursor
-
-  """When paginating forwards, the cursor to continue."""
-  endCursor: Cursor
-}
-
-"""A connection to a list of `Project` values."""
-type ProjectsConnection {
-  """A list of `Project` objects."""
-  nodes: [Project!]!
-
-  """
-  A list of edges which contains the `Project` and cursor to aid in pagination.
-  """
-  edges: [ProjectsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Project` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Project` edge in the connection."""
-type ProjectsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Project` at the end of the edge."""
-  node: Project!
-}
-
-"""Methods to use when ordering `Project`."""
-enum ProjectsOrderBy {
-  NATURAL
-  ID_ASC
-  ID_DESC
-  NAME_ASC
-  NAME_DESC
-  SLUG_ASC
-  SLUG_DESC
-  ORGANIZATION_ID_ASC
-  ORGANIZATION_ID_DESC
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Project` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input ProjectCondition {
-  """Checks for equality with the object’s `id` field."""
-  id: UUID
-
-  """Checks for equality with the object’s `name` field."""
-  name: String
-
-  """Checks for equality with the object’s `slug` field."""
-  slug: String
-
-  """Checks for equality with the object’s `organizationId` field."""
-  organizationId: UUID
-
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-}
-
-"""
-A filter to be used against `Project` object types. All fields are combined with a logical ‘and.’
-"""
-input ProjectFilter {
-  """Filter by the object’s `id` field."""
-  id: UUIDFilter
-
-  """Filter by the object’s `name` field."""
-  name: StringFilter
-
-  """Filter by the object’s `slug` field."""
-  slug: StringFilter
-
-  """Filter by the object’s `organizationId` field."""
-  organizationId: UUIDFilter
-
-  """Filter by the object’s `createdAt` field."""
-  createdAt: DatetimeFilter
-
-  """Filter by the object’s `updatedAt` field."""
-  updatedAt: DatetimeFilter
-
-  """Checks for all expressions in this list."""
-  and: [ProjectFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [ProjectFilter!]
-
-  """Negates the expression."""
-  not: ProjectFilter
 }
 
 """
@@ -1326,6 +1145,378 @@ input StringFilter {
 
   """Greater than or equal to the specified value (case-insensitive)."""
   greaterThanOrEqualToInsensitive: String
+}
+
+"""
+A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’
+"""
+input DatetimeFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Datetime
+
+  """Not equal to the specified value."""
+  notEqualTo: Datetime
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Datetime
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Datetime
+
+  """Included in the specified list."""
+  in: [Datetime!]
+
+  """Not included in the specified list."""
+  notIn: [Datetime!]
+
+  """Less than the specified value."""
+  lessThan: Datetime
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Datetime
+
+  """Greater than the specified value."""
+  greaterThan: Datetime
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Datetime
+}
+
+"""
+A filter to be used against Boolean fields. All fields are combined with a logical ‘and.’
+"""
+input BooleanFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Boolean
+
+  """Not equal to the specified value."""
+  notEqualTo: Boolean
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Boolean
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Boolean
+
+  """Included in the specified list."""
+  in: [Boolean!]
+
+  """Not included in the specified list."""
+  notIn: [Boolean!]
+
+  """Less than the specified value."""
+  lessThan: Boolean
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Boolean
+
+  """Greater than the specified value."""
+  greaterThan: Boolean
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Boolean
+}
+
+"""A connection to a list of `OrganizationMembership` values."""
+type OrganizationMembershipsConnection {
+  """A list of `OrganizationMembership` objects."""
+  nodes: [OrganizationMembership!]!
+
+  """
+  A list of edges which contains the `OrganizationMembership` and cursor to aid in pagination.
+  """
+  edges: [OrganizationMembershipsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `OrganizationMembership` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type OrganizationMembership implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  organizationId: UUID!
+  userId: UUID!
+  role: OrganizationMembershipsRolesEnum!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  """
+  Reads a single `Organization` that is related to this `OrganizationMembership`.
+  """
+  organization: Organization
+
+  """
+  Reads a single `User` that is related to this `OrganizationMembership`.
+  """
+  user: User
+}
+
+enum OrganizationMembershipsRolesEnum {
+  """Owner of the organization"""
+  OWNER
+
+  """Admin of the organization"""
+  ADMIN
+
+  """Member of the organization"""
+  DEVELOPER
+
+  """Manager of the organization"""
+  MANAGER
+
+  """Client of the organization"""
+  CLIENT
+
+  """Guest of the organization"""
+  GUEST
+}
+
+"""A `OrganizationMembership` edge in the connection."""
+type OrganizationMembershipsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `OrganizationMembership` at the end of the edge."""
+  node: OrganizationMembership!
+}
+
+"""Methods to use when ordering `OrganizationMembership`."""
+enum OrganizationMembershipsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  ORGANIZATION_ID_ASC
+  ORGANIZATION_ID_DESC
+  USER_ID_ASC
+  USER_ID_DESC
+  ROLE_ASC
+  ROLE_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `OrganizationMembership` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input OrganizationMembershipCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `organizationId` field."""
+  organizationId: UUID
+
+  """Checks for equality with the object’s `userId` field."""
+  userId: UUID
+
+  """Checks for equality with the object’s `role` field."""
+  role: OrganizationMembershipsRolesEnum
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""
+A filter to be used against `OrganizationMembership` object types. All fields are combined with a logical ‘and.’
+"""
+input OrganizationMembershipFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `organizationId` field."""
+  organizationId: UUIDFilter
+
+  """Filter by the object’s `userId` field."""
+  userId: UUIDFilter
+
+  """Filter by the object’s `role` field."""
+  role: OrganizationMembershipsRolesEnumFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [OrganizationMembershipFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [OrganizationMembershipFilter!]
+
+  """Negates the expression."""
+  not: OrganizationMembershipFilter
+}
+
+"""
+A filter to be used against OrganizationMembershipsRolesEnum fields. All fields are combined with a logical ‘and.’
+"""
+input OrganizationMembershipsRolesEnumFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: OrganizationMembershipsRolesEnum
+
+  """Not equal to the specified value."""
+  notEqualTo: OrganizationMembershipsRolesEnum
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: OrganizationMembershipsRolesEnum
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: OrganizationMembershipsRolesEnum
+
+  """Included in the specified list."""
+  in: [OrganizationMembershipsRolesEnum!]
+
+  """Not included in the specified list."""
+  notIn: [OrganizationMembershipsRolesEnum!]
+
+  """Less than the specified value."""
+  lessThan: OrganizationMembershipsRolesEnum
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: OrganizationMembershipsRolesEnum
+
+  """Greater than the specified value."""
+  greaterThan: OrganizationMembershipsRolesEnum
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: OrganizationMembershipsRolesEnum
+}
+
+"""A connection to a list of `Project` values."""
+type ProjectsConnection {
+  """A list of `Project` objects."""
+  nodes: [Project!]!
+
+  """
+  A list of edges which contains the `Project` and cursor to aid in pagination.
+  """
+  edges: [ProjectsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Project` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Project` edge in the connection."""
+type ProjectsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Project` at the end of the edge."""
+  node: Project!
+}
+
+"""Methods to use when ordering `Project`."""
+enum ProjectsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  SLUG_ASC
+  SLUG_DESC
+  ORGANIZATION_ID_ASC
+  ORGANIZATION_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Project` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ProjectCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `slug` field."""
+  slug: String
+
+  """Checks for equality with the object’s `organizationId` field."""
+  organizationId: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+}
+
+"""
+A filter to be used against `Project` object types. All fields are combined with a logical ‘and.’
+"""
+input ProjectFilter {
+  """Filter by the object’s `id` field."""
+  id: UUIDFilter
+
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Filter by the object’s `slug` field."""
+  slug: StringFilter
+
+  """Filter by the object’s `organizationId` field."""
+  organizationId: UUIDFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [ProjectFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ProjectFilter!]
+
+  """Negates the expression."""
+  not: ProjectFilter
 }
 
 """
@@ -2300,99 +2491,6 @@ input EpicFilter {
   not: EpicFilter
 }
 
-"""A connection to a list of `Organization` values."""
-type OrganizationsConnection {
-  """A list of `Organization` objects."""
-  nodes: [Organization!]!
-
-  """
-  A list of edges which contains the `Organization` and cursor to aid in pagination.
-  """
-  edges: [OrganizationsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Organization` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Organization` edge in the connection."""
-type OrganizationsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Organization` at the end of the edge."""
-  node: Organization!
-}
-
-"""Methods to use when ordering `Organization`."""
-enum OrganizationsOrderBy {
-  NATURAL
-  ID_ASC
-  ID_DESC
-  NAME_ASC
-  NAME_DESC
-  SLUG_ASC
-  SLUG_DESC
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Organization` object types. All fields are
-tested for equality and combined with a logical ‘and.’
-"""
-input OrganizationCondition {
-  """Checks for equality with the object’s `id` field."""
-  id: UUID
-
-  """Checks for equality with the object’s `name` field."""
-  name: String
-
-  """Checks for equality with the object’s `slug` field."""
-  slug: String
-
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-}
-
-"""
-A filter to be used against `Organization` object types. All fields are combined with a logical ‘and.’
-"""
-input OrganizationFilter {
-  """Filter by the object’s `id` field."""
-  id: UUIDFilter
-
-  """Filter by the object’s `name` field."""
-  name: StringFilter
-
-  """Filter by the object’s `slug` field."""
-  slug: StringFilter
-
-  """Filter by the object’s `createdAt` field."""
-  createdAt: DatetimeFilter
-
-  """Filter by the object’s `updatedAt` field."""
-  updatedAt: DatetimeFilter
-
-  """Checks for all expressions in this list."""
-  and: [OrganizationFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [OrganizationFilter!]
-
-  """Negates the expression."""
-  not: OrganizationFilter
-}
-
 """A connection to a list of `User` values."""
 type UsersConnection {
   """A list of `User` objects."""
@@ -2478,48 +2576,6 @@ input UserFilter {
 
   """Negates the expression."""
   not: UserFilter
-}
-
-"""
-A filter to be used against Boolean fields. All fields are combined with a logical ‘and.’
-"""
-input BooleanFilter {
-  """
-  Is null (if `true` is specified) or is not null (if `false` is specified).
-  """
-  isNull: Boolean
-
-  """Equal to the specified value."""
-  equalTo: Boolean
-
-  """Not equal to the specified value."""
-  notEqualTo: Boolean
-
-  """
-  Not equal to the specified value, treating null like an ordinary value.
-  """
-  distinctFrom: Boolean
-
-  """Equal to the specified value, treating null like an ordinary value."""
-  notDistinctFrom: Boolean
-
-  """Included in the specified list."""
-  in: [Boolean!]
-
-  """Not included in the specified list."""
-  notIn: [Boolean!]
-
-  """Less than the specified value."""
-  lessThan: Boolean
-
-  """Less than or equal to the specified value."""
-  lessThanOrEqualTo: Boolean
-
-  """Greater than the specified value."""
-  greaterThan: Boolean
-
-  """Greater than or equal to the specified value."""
-  greaterThanOrEqualTo: Boolean
 }
 
 """
@@ -3183,6 +3239,9 @@ type CreateOrganizationPayload {
   """
   query: Query
 
+  """Reads a single `User` that is related to this `Organization`."""
+  createdByUser: User
+
   """An edge for our `Organization`. May be used by Relay 1."""
   organizationEdge(
     """The method to use when ordering `Organization`."""
@@ -3210,9 +3269,11 @@ input OrganizationInput {
   description: String!
 
   """The URL of the organization's logo."""
-  logoUrl: String!
+  logoUrl: String
   createdAt: Datetime
   updatedAt: Datetime
+  isPersonalOrganization: Boolean
+  createdByUserId: UUID
 }
 
 """The output of our create `Persona` mutation."""
@@ -3735,6 +3796,9 @@ type UpdateOrganizationPayload {
   """
   query: Query
 
+  """Reads a single `User` that is related to this `Organization`."""
+  createdByUser: User
+
   """An edge for our `Organization`. May be used by Relay 1."""
   organizationEdge(
     """The method to use when ordering `Organization`."""
@@ -3774,6 +3838,8 @@ input OrganizationPatch {
   logoUrl: String
   createdAt: Datetime
   updatedAt: Datetime
+  isPersonalOrganization: Boolean
+  createdByUserId: UUID
 }
 
 """All input for the `updateOrganization` mutation."""
@@ -4433,6 +4499,9 @@ type DeleteOrganizationPayload {
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
+
+  """Reads a single `User` that is related to this `Organization`."""
+  createdByUser: User
 
   """An edge for our `Organization`. May be used by Relay 1."""
   organizationEdge(

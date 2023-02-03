@@ -170,9 +170,8 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
           <thead>
             <tr>
               <th>US</th>
-              <th>Estimation</th>
-              <th>Prix bas</th>
-              <th>Prix haut</th>
+              <th>Prix HT</th>
+              <th>Prix TTC</th>
             </tr>
           </thead>
           <tbody>
@@ -184,21 +183,15 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                       <td>
                         {epic.name} - {us.name}
                       </td>
-                      <td>
-                        {(us.tasksList.length > 0 ? 0 : us.roughEstimate) +
-                          us.tasksList.reduce(
-                            (acc, task) => acc + task.estimate,
-                            0
-                          )}{" "}
-                        points
-                      </td>
+
                       <td>
                         {(
                           (((us.tasksList.length > 0
                             ? 0
-                            : us.roughEstimate * 0.8) +
+                            : us.roughEstimate * 1.1) +
                             us.tasksList.reduce(
-                              (acc, task) => acc + task.estimate,
+                              (acc, task) =>
+                                acc + task.estimate + task.uncertainty / 2,
                               0
                             )) *
                             data.projectBySlug?.coeffLuidgy *
@@ -213,12 +206,13 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                         {(
                           (((us.tasksList.length > 0
                             ? 0
-                            : us.roughEstimate * 1.2) +
+                            : us.roughEstimate * 1.1) +
                             us.tasksList.reduce(
                               (acc, task) =>
-                                acc + task.uncertainty + task.estimate,
+                                acc + task.estimate + task.uncertainty / 2,
                               0
                             )) *
+                            1.2 *
                             data.projectBySlug?.coeffLuidgy *
                             data.projectBySlug?.dailyRate) /
                           data.projectBySlug?.pointsPerDay
