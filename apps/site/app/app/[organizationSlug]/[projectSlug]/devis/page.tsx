@@ -32,7 +32,18 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
           Devis <strong>{data.projectBySlug?.name}</strong>
         </h1>
 
-        <p>{data.projectBySlug?.description}</p>
+        <p
+          dangerouslySetInnerHTML={
+            data.projectBySlug?.description
+              ? {
+                  __html: data.projectBySlug?.description.replace(
+                    /\n/g,
+                    "<br />"
+                  ),
+                }
+              : { __html: "" }
+          }
+        />
 
         <h2>Présentation du projet</h2>
         <p>{data.projectBySlug?.initialContext}</p>
@@ -46,7 +57,15 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
           {data.projectBySlug?.personasList.map(persona => (
             <li key={persona.id}>
               <h4>{persona.name}</h4>
-              <p>{persona.description}</p>
+              <p
+                dangerouslySetInnerHTML={
+                  persona?.description
+                    ? {
+                        __html: persona?.description.replace(/\n/g, "<br />"),
+                      }
+                    : { __html: "" }
+                }
+              />
             </li>
           ))}
         </ul>
@@ -58,7 +77,15 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
           {data.projectBySlug?.epicsList.map(epic => (
             <li key={epic.id}>
               <h4>{epic.name}</h4>
-              <p>{epic.description}</p>
+              <p
+                dangerouslySetInnerHTML={
+                  epic?.description
+                    ? {
+                        __html: epic?.description.replace(/\n/g, "<br />"),
+                      }
+                    : { __html: "" }
+                }
+              />
             </li>
           ))}
         </ul>
@@ -67,7 +94,15 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
         {data.projectBySlug?.epicsList.map(epic => (
           <div key={epic.id}>
             <h2>{epic.name}</h2>
-            <p>{epic.description}</p>
+            <p
+              dangerouslySetInnerHTML={
+                epic?.description
+                  ? {
+                      __html: epic?.description.replace(/\n/g, "<br />"),
+                    }
+                  : { __html: "" }
+              }
+            />
             <>
               {epic.userStoriesList.map(us => (
                 <Fragment key={us.id}>
@@ -103,7 +138,18 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                             <tr key={task.id}>
                               <td className="px-4 py-2 border">{task.name}</td>
                               <td className="px-4 py-2 border">
-                                {task.description}
+                                <p
+                                  dangerouslySetInnerHTML={
+                                    task?.description
+                                      ? {
+                                          __html: task?.description.replace(
+                                            /\n/g,
+                                            "<br />"
+                                          ),
+                                        }
+                                      : { __html: "" }
+                                  }
+                                />
                               </td>
                               <td className="px-4 py-2 border">
                                 {task.estimate} points
@@ -132,14 +178,13 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                             })}
                           </small>
                         </blockquote>
-                        <p
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              us?.comments?.replace(/\n/g, "<br />") || "",
-                          }}
-                        />
                       </>
-                    )}
+                    )}{" "}
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: us?.comments?.replace(/\n/g, "<br />") || "",
+                      }}
+                    />
                   </div>
                 </Fragment>
               ))}
@@ -157,7 +202,11 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
           {data.projectBySlug?.domainsList.map(domain => (
             <li key={domain.id}>
               <h4>{domain.name}</h4>
-              <p>{domain.description}</p>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: domain?.description?.replace(/\n/g, "<br />") || "",
+                }}
+              />
             </li>
           ))}
         </ul>
