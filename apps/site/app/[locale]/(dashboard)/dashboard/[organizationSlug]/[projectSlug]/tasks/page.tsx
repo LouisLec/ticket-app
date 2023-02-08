@@ -1,6 +1,6 @@
 import { sdk } from "@/utils/sdk/sdk";
 import { cookies } from "next/headers";
-import { EpicSection } from "./epicSection";
+import { EpicSection } from "./EpicSection";
 
 const Tasks = async ({ params: { organizationSlug, projectSlug } }) => {
   const nextCookies = cookies();
