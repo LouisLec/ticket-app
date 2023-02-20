@@ -39,7 +39,7 @@ const RootLayout = async ({ children, params }: Props) => {
     <html
       lang={locale}
       suppressHydrationWarning
-      className={cn(fontSans.variable, localFontSans.variable)}
+      className={cn(fontSans.variable, localFontSans.variable, "h-full")}
     >
       <head>
         <meta charSet="UTF-8" />
@@ -74,13 +74,13 @@ const RootLayout = async ({ children, params }: Props) => {
       </head>
       <body
         className={cn(
-          "min-h-screen bg-slate-50 font-sans text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-50"
+          "h-full bg-slate-50 font-sans text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-50"
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col h-full">
             {/* header */}
-            <div className="container flex-1 mx-auto">{children}</div>
+            <div className="h-full">{children}</div>
             {/* footer */}
           </div>
           <TailwindIndicator />

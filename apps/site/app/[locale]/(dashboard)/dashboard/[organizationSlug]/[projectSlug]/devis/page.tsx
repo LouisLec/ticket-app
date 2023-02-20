@@ -251,9 +251,7 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                       </td>
                       <td>
                         {(
-                          (((us.tasksList.length > 0
-                            ? 0
-                            : us.roughEstimate * 1.1) +
+                          (((us.tasksList.length > 0 ? 0 : us.roughEstimate) +
                             us.tasksList.reduce(
                               (acc, task) =>
                                 acc + task.estimate + task.uncertainty / 2,
@@ -292,9 +290,7 @@ const Devis = async ({ params: { organizationSlug, projectSlug } }) => {
                         epic.userStoriesList.reduce(
                           (acc, us) =>
                             acc +
-                            (us.tasksList.length > 0
-                              ? 0
-                              : us.roughEstimate * 1.1) +
+                            (us.tasksList.length > 0 ? 0 : us.roughEstimate) +
                             us.tasksList.reduce(
                               (acc, task) =>
                                 acc + task.estimate + task.uncertainty / 2,

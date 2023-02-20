@@ -65,7 +65,6 @@ grant execute on function publ.users_personal_organization to :DATABASE_VISITOR;
 
 
 insert into publ.organization_memberships (organization_id, user_id, role) values (
-    
     (select id from publ.organizations where name='The Organisation'),
     (select id from publ.users where email='admin@localhost') , 'ADMIN')
     on conflict do nothing;

@@ -26,6 +26,7 @@ import {
   Twitter,
   User,
   AtSign,
+  Droplets,
   X,
   type Icon as LucideIcon,
 } from "lucide-react";
@@ -52,6 +53,7 @@ export const Icons = {
   chevronRight: ChevronRight,
   trash: Trash,
   post: FileText,
+  droplets: Droplets,
   page: File,
   sign: AtSign,
   media: Image,
