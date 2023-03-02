@@ -6,17 +6,17 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FC } from "react";
 const tabs = (slug: string) => [
-  { name: "présentation", href: slug + "" },
+  // { name: "présentation", href: slug + "" },
   { name: "configuration", href: slug + "/config" },
   { name: "Taches", href: slug + "/tasks" },
-  { name: "Architecture", href: slug + "/archi" },
-  { name: "Hebergement", href: slug + "/hosting" },
+  // { name: "Architecture", href: slug + "/archi" },
+  // { name: "Hebergement", href: slug + "/hosting" },
   { name: "devis", href: slug + "/devis" },
-  {
-    name: "documents",
-    href: slug + "/documents",
-  },
-  { name: "pilote auto", href: slug + "/pilote-auto" },
+  // {
+  //   name: "documents",
+  //   href: slug + "/documents",
+  // },
+  // { name: "pilote auto", href: slug + "/pilote-auto" },
 ];
 export const Tabs: FC<{ slug: string }> = ({ slug }) => {
   const router = useRouter();

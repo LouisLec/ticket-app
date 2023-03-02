@@ -41,7 +41,7 @@ export const ProjectLayout = async ({
             <Typography as="p">{data.projectBySlug?.description}</Typography>
           </div>
 
-          <Tabs slug={`/${organizationSlug}/${projectSlug}`} />
+          <Tabs slug={`fr/organizations/${organizationSlug}/${projectSlug}`} />
         </div>
 
         <div className="h-10" />
