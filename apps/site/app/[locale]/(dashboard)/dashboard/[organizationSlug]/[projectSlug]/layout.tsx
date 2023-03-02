@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { ProjectUpdater } from "./ProjectUpdater";
 import { Tabs } from "./tabs";
 
-export const ProjectLayout = async ({
+const ProjectLayout = async ({
   children,
   params: { organizationSlug, projectSlug },
 }) => {
