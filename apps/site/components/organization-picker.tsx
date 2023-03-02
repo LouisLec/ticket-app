@@ -21,7 +21,7 @@ export const OrganizationPicker: FC<{ organizations: any[] }> = ({
         <DropdownMenuItem>
           <Link href={`/dashboard/`}>{} jo</Link>
         </DropdownMenuItem>
-        {organizations.map(organization => (
+        {organizations?.map(organization => (
           <DropdownMenuItem>
             <Link href={`/dashboard/${organization?.slug}`}>
               {organization?.name}
